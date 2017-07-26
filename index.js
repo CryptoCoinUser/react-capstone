@@ -4,6 +4,11 @@ const proxy = require('http-proxy-middleware');
 const app = express();
 const runServer = require('./server').runServer;
 
+
+if (process.env.NODE_ENV === 'development') {
+    console.log('in dev')
+}
+
 if (process.env.NODE_ENV === 'production') {
     // Just run the server
     runServer(process.env.PORT || 8080);
