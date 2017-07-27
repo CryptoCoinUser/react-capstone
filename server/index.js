@@ -1,6 +1,6 @@
 const path = require('path');
 const express = require('express');
-const passport = require('passport');
+const passport = require('passport-google-oauth20ssport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const BearerStrategy = require('passport-http-bearer').Strategy;
 const BodyParser = require('body-parser');
