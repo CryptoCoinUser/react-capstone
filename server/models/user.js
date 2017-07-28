@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 var userSchema = mongoose.Schema({
 
     auth : {
-        googleID: {
+        googleId: {
         	type: String,
         	required: 'You must supply a Google Id'
         },

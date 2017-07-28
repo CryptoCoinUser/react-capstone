@@ -18,9 +18,6 @@ const app = express();
 app.use(BodyParser.json());
 
 
-const database = {
-};
-
 app.use(passport.initialize());
 
 passport.use(
@@ -30,29 +27,55 @@ passport.use(
         callbackURL: `/api/auth/google/callback`
     },
     (accessToken, refreshToken, profile, cb) => {
+        console.log('passport.use');
         // Job 1: Set up Mongo/Mongoose, create a User model which store the
         // google id, and the access token
         // Job 2: Update this callback to either update or create the user
         // so it contains the correct access token
-        console.log("Profile", profile)
-        const user = database[accessToken] = {
-            googleId: profile.id,
-            accessToken: accessToken
-        };
-        return cb(null, user);
+   
+        // create user
+        User.findOne({'auth.googleId': profile.id}, (err, user) => {
+            if (err) return cb(err);
+
+            if (user) {
+                console.log('if user');
+                console.log(user);
+                return cb(null, user);
+            } else {
+                const newUser = new User();
+                newUser.auth.googleId = profile.id;
+                newUser.auth.googleAccessToken = accessToken;
+                newUser.addresses = [];
+
+                console.log(newUser);
+                //save newUser
+                newUser.save(err => {
+                    if(err){
+                        throw err;
+                    }
+                    return cb(null, newUser);
+                })
+
+            }
+        })
     }
 ));
 
 passport.use(
     new BearerStrategy(
-        (token, done) => {
+        (token, cb) => {
             // Job 3: Update this callback to try to find a user with a 
             // matching access token.  If they exist, let em in, if not,
             // don't.
-            if (!(token in database)) {
-                return done(null, false);
-            }
-            return done(null, database[token]);
+
+            console.log('Bearer token is ' + token)
+
+            // look up token in user model
+            User.findOne({'auth.googleAccessToken': token}, (err, user) => {
+                console.log('found user ' + user)
+                if(err) return cb(null, false);
+                return cb(null, user);
+            })
         }
     )
 );
@@ -66,31 +89,41 @@ app.get('/api/auth/google/callback',
         session: false
     }),
     (req, res) => {
-        res.cookie('accessToken', req.user.accessToken, {expires: 0});
+        res.cookie('accessToken', req.user.auth.googleAccessToken, {expires: 0});
         res.redirect('/');
     }
 );
 
-app.get('/api/auth/logout', (req, res) => {
-    req.logout();
-    res.clearCookie('accessToken');
-    res.redirect('/');
+app.get('/api/auth/logout',
+    passport.authenticate('bearer', {session: false}),
+    (req, res) => {
+    console.log('/api/auth/logout req.user');
+    console.log(req.user);
+    // remove access token from db
+    User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken}, 
+                            {$set: {'auth.googleAccessToken': ""}},
+                            (err, user) => {
+                                if (err) throw err;
+                                req.logout();
+                                res.clearCookie('accessToken');
+                                res.redirect('/');
+                        })
 });
 
 app.get('/api/isuserloggedin',
     passport.authenticate('bearer', {session: false}),
     (req, res) => res.json({
-        googleId: req.user.googleId
+        googleId: req.user.auth.googleId
     })
 );
 
-app.get('/api/questions',
+app.get('/api/addresses',
     passport.authenticate('bearer', {session: false}),
     
     (req, res) => {
         // go to db and get all addresses
         User.find();
-        res.json(['Question 1', 'Question 2'])
+        res.json(['1Address 1', '1Address 2'])
 });
 
 

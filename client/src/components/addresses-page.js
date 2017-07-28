@@ -7,13 +7,13 @@ export default class AddressesPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            questions: []
+            addresses: []
         };
     }
 
     componentDidMount() {
         const accessToken = Cookies.get('accessToken');
-        fetch('/api/questions', {
+        fetch('/api/addresses', {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`
                 }
@@ -22,23 +22,23 @@ export default class AddressesPage extends React.Component {
                 throw new Error(res.statusText);
             }
             return res.json();
-        }).then(questions =>
+        }).then(addresses =>
             this.setState({
-                questions
+                addresses
             })
         );
     }
 
     render() {
-        const questions = this.state.questions.map((question, index) =>
+        const addresses = this.state.addresses.map((question, index) =>
             <li key={index}>{question}</li>
         );
 
         return (
-            <div className="question">
+            <div className="addresses">
                 <h3>client / src / components / question-page.js</h3>
-                <ul className="question-list">
-                    {questions}
+                <ul className="address-list">
+                    {addresses}
                 </ul>
             </div>
         );
