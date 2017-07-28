@@ -1,10 +1,17 @@
+require('dotenv').config();
 const path = require('path');
 const express = require('express');
-const passport = require('passport-google-oauth20ssport');
+const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const BearerStrategy = require('passport-http-bearer').Strategy;
 const BodyParser = require('body-parser');
 const request = require('request');
+const mongoose = require('mongoose');
+const User = require('./models/user');
+
+mongoose.Promise = global.Promise;
+const DATABASE_URL = 'mongodb://localhost/reactCapstone';
+
 //const secret = require('./secret');
 
 const app = express();
@@ -27,6 +34,7 @@ passport.use(
         // google id, and the access token
         // Job 2: Update this callback to either update or create the user
         // so it contains the correct access token
+        console.log("Profile", profile)
         const user = database[accessToken] = {
             googleId: profile.id,
             accessToken: accessToken
@@ -69,7 +77,7 @@ app.get('/api/auth/logout', (req, res) => {
     res.redirect('/');
 });
 
-app.get('/api/me',
+app.get('/api/isuserloggedin',
     passport.authenticate('bearer', {session: false}),
     (req, res) => res.json({
         googleId: req.user.googleId
@@ -78,8 +86,12 @@ app.get('/api/me',
 
 app.get('/api/questions',
     passport.authenticate('bearer', {session: false}),
-    (req, res) => res.json(['Question 1', 'Question 2'])
-);
+    
+    (req, res) => {
+        // go to db and get all addresses
+        User.find();
+        res.json(['Question 1', 'Question 2'])
+});
 
 
 
@@ -97,9 +109,16 @@ app.get(/^(?!\/api(\/|$))/, (req, res) => {
 let server;
 function runServer(port=3001) {
     return new Promise((resolve, reject) => {
-        server = app.listen(port, () => {
-            resolve();
-        }).on('error', reject);
+        mongoose.connect(DATABASE_URL, error => {
+            if(error) reject();
+            server = app.listen(port, () => {
+                resolve();
+            }).on('error', () => {
+                mongoose.disconnect();
+                reject();
+            });  
+        })
+        
     });
 }
 
@@ -109,6 +128,7 @@ function closeServer() {
             if (err) {
                 return reject(err);
             }
+            mongoose.disconnect();
             resolve();
         });
     });

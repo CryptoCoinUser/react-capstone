@@ -1,8 +1,9 @@
 import React from 'react';
-import axios from 'axios'
+import * as Cookies from 'js-cookie';
+import axios from 'axios';
 
 
-export default class QuestionPage extends React.Component {
+export default class AddressesPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -34,9 +35,12 @@ export default class QuestionPage extends React.Component {
         );
 
         return (
-            <ul className="question-list">
-                {questions}
-            </ul>
+            <div className="question">
+                <h3>client / src / components / question-page.js</h3>
+                <ul className="question-list">
+                    {questions}
+                </ul>
+            </div>
         );
     }
 }
