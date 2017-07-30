@@ -33,8 +33,7 @@ class App extends React.Component {
     }
 
     logout(e) {
-        e.preventDefault()
-        // hit /api/isuserloggedin
+        e.preventDefault();
         const accessToken = Cookies.get('accessToken');
         if(accessToken) {
             axios.get('/api/auth/logout', {

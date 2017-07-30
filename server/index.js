@@ -22,7 +22,7 @@ app.use(passport.initialize());
 
 passport.use(
     new GoogleStrategy({
-        clientID:  '956789487424-3r8nv9dbud8o3qrip6fu39pur5g3aaqe.apps.googleusercontent.com',
+        clientID:  '956789487424-b1hntk8in8rj8j3tn36ji41m919i21oc.apps.googleusercontent.com',
         clientSecret: process.env.secret,
         callbackURL: `/api/auth/google/callback`
     },
@@ -38,9 +38,8 @@ passport.use(
             if (err) return cb(err);
 
             if (user) {
-                console.log('if user');
-                console.log(user);
-                return cb(null, user);
+                user.auth.googleAccessToken = accessToken;
+                user.save(err => cb(null, user));
             } else {
                 const newUser = new User();
                 newUser.auth.googleId = profile.id;
