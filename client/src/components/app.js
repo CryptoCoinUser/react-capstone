@@ -5,7 +5,8 @@ import AddressesPage from './addresses-page';
 import axios from 'axios';
 
 import {connect} from 'react-redux';
-import * as actions from '../../../actions/index';
+import * as actions from '../actions/index';
+
 
 
 class App extends React.Component {
@@ -21,54 +22,48 @@ class App extends React.Component {
         // hit /api/isuserloggedin
         const accessToken = Cookies.get('accessToken');
         if(accessToken) {
-            axios.get('/api/isuserloggedin', {
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`
-                }
-            })
-            .then(res => {
-                console.log(res.data);
-                this.setState({
-                    currentUser: res.data
-                })
-            })
+            this.props.dispatch(
+                actions.isUserLoggedIn(accessToken)
+            )
         }
+        this.props.dispatch(
+            actions.fetchLatestBlock()
+        )
+        
     }
 
     logout(e) {
         e.preventDefault();
+        console.log('logout')
         const accessToken = Cookies.get('accessToken');
         if(accessToken) {
-            axios.get('/api/auth/logout', {
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`
-                }
-            })
-            .then(res => {
-                console.log(res.data);
-                this.setState({
-                    currentUser: null
-                })
-                return <LoginPage />;
-            })
+            this.props.dispatch(
+                actions.logoutCurrentUser(accessToken)
+            )
         }
     }
 
  
 
     render() {
-        if(!this.state.currentUser){
+        if(!this.props.currentUser){
             return <LoginPage />;
         }
         return (
             <div className="app">
-                <h2>client / src / components / app.js </h2>
-                <p>Fetch http://api.blockcypher.com/v1/btc/main </p>
-                <AddressesPage />
                 <p><a href="#" onClick={(e => this.logout(e))}>logout</a></p>
+                <h2>client / src / components / app.js </h2>
+                <AddressesPage />
+                <p>Block height from http://api.blockcypher.com/v1/btc/main </p>
+                {this.props.latestBlock ? this.props.latestBlock.height : ''}
             </div>
         )
     }
 }
 
-export default App;
+const mapStateToProps = (state, props) => ({
+    latestBlock: state.latestBlock,
+    currentUser: state.currentUser
+})
+
+export default connect(mapStateToProps)(App);

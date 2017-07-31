@@ -3,14 +3,17 @@ require('babel-polyfill');
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
+import store from './store';
 
 import App from './components/app';
 import './index.css';
 
 ReactDOM.render(
-  <div className="index">
+<Provider store={store}>
+	<div className="index">
 	  <h1> client / src / components / index.js</h1>
-	  <App />
-  </div>,
+	  	<App />
+  	</div>
+ </Provider>,
   document.getElementById('root')
 );

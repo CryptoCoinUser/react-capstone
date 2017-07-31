@@ -47,7 +47,7 @@ passport.use(
                 newUser.auth.googleAccessToken = accessToken;
                 newUser.addresses = [];
 
-                console.log(newUser);
+                //console.log(newUser);
                 //save newUser
                 newUser.save(err => {
                     if(err){
@@ -68,11 +68,11 @@ passport.use(
             // matching access token.  If they exist, let em in, if not,
             // don't.
 
-            console.log('Bearer token is ' + token)
+            //console.log('Bearer token is ' + token)
 
             // look up token in user model
             User.findOne({'auth.googleAccessToken': token}, (err, user) => {
-                console.log('found user ' + user)
+                //console.log('found user ' + user)
                 if(err) return cb(null, false);
                 return cb(null, user);
             })
@@ -97,8 +97,6 @@ app.get('/api/auth/google/callback',
 app.get('/api/auth/logout',
     passport.authenticate('bearer', {session: false}),
     (req, res) => {
-    console.log('/api/auth/logout req.user');
-    console.log(req.user);
     // remove access token from db
     User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken}, 
                             {$set: {'auth.googleAccessToken': ""}},
