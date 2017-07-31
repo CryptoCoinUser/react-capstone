@@ -4,6 +4,9 @@ import LoginPage from './login-page';
 import AddressesPage from './addresses-page';
 import axios from 'axios';
 
+import {connect} from 'react-redux';
+import * as actions from '../../../actions/index';
+
 
 class App extends React.Component {
     constructor(props) {
@@ -60,6 +63,7 @@ class App extends React.Component {
         return (
             <div className="app">
                 <h2>client / src / components / app.js </h2>
+                <p>Fetch http://api.blockcypher.com/v1/btc/main </p>
                 <AddressesPage />
                 <p><a href="#" onClick={(e => this.logout(e))}>logout</a></p>
             </div>
