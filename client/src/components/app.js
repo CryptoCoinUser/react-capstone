@@ -43,10 +43,10 @@ class App extends React.Component {
             })
             .then(res => {
                 console.log(res.data);
+                this.setState({
+                    currentUser: null
+                })
                 return <LoginPage />;
-                // this.setState({
-                //     currentUser: res.data
-                // })
             })
         }
     }
