@@ -54,8 +54,13 @@ class App extends React.Component {
                 <p><a href="#" onClick={(e => this.logout(e))}>logout</a></p>
                 <h2>client / src / components / app.js </h2>
                 <AddressesPage />
-                <p>Block height from http://api.blockcypher.com/v1/btc/main </p>
-                {this.props.latestBlock ? this.props.latestBlock.height : ''}
+                <p><strong>{this.props.latestBlock ? this.props.latestBlock.height : ''}:</strong> Block height from http://api.blockcypher.com/v1/btc/main</p>
+                
+                <p> 
+                    <a href={this.props.latestBlock ? this.props.latestBlock.latest_url : ''} target="_blank">
+                        Latest block url from http://api.blockcypher.com/v1/btc/main
+                    </a>
+                </p>
             </div>
         )
     }
