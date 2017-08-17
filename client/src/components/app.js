@@ -13,7 +13,8 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentUser: null
+            currentUser: null,
+            latestBlockHeight: 0
         };
         this.logout = this.logout.bind(this)
     }
@@ -61,14 +62,22 @@ class App extends React.Component {
                         Latest block url from http://api.blockcypher.com/v1/btc/main
                     </a>
                 </p>
+                <p>
+                    
+                    <button id="getLatestBlockHeight">Get Latest Block Height</button>
+                    {this.props.latestBlock.height}
+
+                </p>
             </div>
         )
     }
 }
 
 const mapStateToProps = (state, props) => ({
+    currentUser: state.currentUser,
     latestBlock: state.latestBlock,
-    currentUser: state.currentUser
+    latestBlockHeight: state.latestBlockHeight
+    
 })
 
 export default connect(mapStateToProps)(App);
