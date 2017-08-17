@@ -53,21 +53,32 @@ class App extends React.Component {
         return (
             <div className="app">
                 <p><a href="#" onClick={(e => this.logout(e))}>logout</a></p>
-                <h2>client / src / components / app.js </h2>
-                <AddressesPage />
+                <h2>Welcome</h2>
+                <h4>Bitcoin network status:</h4>
                 <p><strong>{this.props.latestBlock ? this.props.latestBlock.height : ''}:</strong> Block height from http://api.blockcypher.com/v1/btc/main</p>
-                
                 <p> 
                     <a href={this.props.latestBlock ? this.props.latestBlock.latest_url : ''} target="_blank">
                         Latest block url from http://api.blockcypher.com/v1/btc/main
                     </a>
                 </p>
+             
+                <h2>Txns you are watching</h2>
+                <AddressesPage />
+          
+                <h2>Add txn</h2>
+                <form id="itemToWatch">
+                <h4>Add specific txn to watch list</h4>
+                    <input type="text" placeholder="paste txn id or receiving address" size="60" />
+                    <button id="submitItemToWatch">Watch this Txn or Address   </button>
+                </form>
+                <h4>Add a random Uncofirmed txn to watch list</h4>
                 <p>
                     
-                    <button id="getLatestBlockHeight">Get Latest Block Height</button>
-                    {this.props.latestBlock.height}
+                    <button id="getLatestBlockHeight">Add a Random Uncofirmed Txn</button><br />
+                    https://www.blockcypher.com/dev/bitcoin/#using-websockets
 
                 </p>
+
             </div>
         )
     }

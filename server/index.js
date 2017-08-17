@@ -121,7 +121,7 @@ app.get('/api/addresses',
     (req, res) => {
         // go to db and get all addresses
         User.find();
-        res.json(['1Address 1', '1Address 2'])
+        res.json(['1Address1FromServerIndex.js', '1Address2FromServerIndex.js'])
 });
 
 
