@@ -25,7 +25,16 @@ export const logoutCurrentUserSuccess = user => ({
     user
 });
 
+export const GET_UNCONFIRMED_ADDRESS_SUCCESS = 'GET_UNCONFIRMED_ADDRESS_SUCCESS';
+export const getUnconfirmedAddressSuccess = data => ({
+    type: GET_UNCONFIRMED_ADDRESS_SUCCESS,
+    data
+})
 
+export const GET_UNCONFIRMED_ADDRESS_ERROR = 'GET_UNCONFIRMED_ADDRESS_ERROR';
+export const getUnconfirmedAddressError = () => ({
+    type: GET_UNCONFIRMED_ADDRESS_ERROR
+})
 
 export const fetchLatestBlock = () => dispatch => {
     const url = `https:\//api.blockcypher.com/v1/btc/main`;
@@ -39,6 +48,19 @@ export const fetchLatestBlock = () => dispatch => {
             return dispatch(fetchLatestBlockError(error))
         }
     );
+};
+
+
+export const getUnconfirmedAddress = () => dispatch => {
+    console.log('getUnconfirmedAddress action');
+    const url = 'https://api.blockcypher.com/v1/btc/main/txs';
+    axios(url)
+    .then(res => {
+        return dispatch(getUnconfirmedAddressSuccess(res.data))
+    })
+    .catch(error => {
+        return dispatch(getUnconfirmedAddressError())
+    })
 };
 
 

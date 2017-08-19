@@ -2,7 +2,9 @@ import * as actions from '../actions/index';
 
 const initialState = {
 	currentUser: null,
-	latestBlock: null
+	latestBlock: null,
+	randomAddress: null,
+	randomAddressError: null,
 };
 
 export const blockReducer = (state=initialState, action) => {
@@ -22,6 +24,16 @@ export const blockReducer = (state=initialState, action) => {
 		return {
 			...state,
 			currentUser:null
+		}
+	} else if(action.type === actions.GET_UNCONFIRMED_ADDRESS_SUCCESS){
+		return {
+			...state,
+			randomAddress: action.data[0].outputs[0].addresses[0]
+		}
+	} else if(action.type === actions.GET_UNCONFIRMED_ADDRESS_ERROR) {
+		return {
+			...state,
+			randomAddressError: 'error getting random address, probably 429, too many requests'
 		}
 	}
 
