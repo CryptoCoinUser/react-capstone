@@ -36,6 +36,12 @@ export const getUnconfirmedAddressError = () => ({
     type: GET_UNCONFIRMED_ADDRESS_ERROR
 })
 
+export const SEND_ADDRESSES_TO_REDUCER = 'SEND_ADDRESSES_TO_REDUCER';
+export const sendAddressesToReducer = addresses => ({
+    type: SEND_ADDRESSES_TO_REDUCER,
+    addresses
+})
+
 export const fetchLatestBlock = () => dispatch => {
     const url = `https:\//api.blockcypher.com/v1/btc/main`;
     axios(url)
@@ -62,6 +68,31 @@ export const getUnconfirmedAddress = () => dispatch => {
         return dispatch(getUnconfirmedAddressError())
     })
 };
+
+
+export const getWatchedAddresses = accessToken => dispatch => {
+    axios('/api/addresses', {
+        headers: {
+            'Authorization': `Bearer ${accessToken}`
+        }
+    })
+    .then(res => {
+        return dispatch(sendAddressesToReducer(res.data));
+    })
+}
+
+export const saveAddress = (address, accessToken) => dispatch => {
+    console.log('access', accessToken)
+    axios.post(`/api/saveaddress/${address}`, {
+        headers: {
+            'Authorization': `Bearer ${accessToken}`
+        }
+    })
+    .then(res => {
+        console.log("SAVE ADDRESS", res.data)
+    })
+    .catch(err => console.log(err))
+}
 
 
 

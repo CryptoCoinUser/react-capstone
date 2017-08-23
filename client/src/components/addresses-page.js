@@ -1,38 +1,29 @@
 import React from 'react';
 import * as Cookies from 'js-cookie';
 import axios from 'axios';
+import {connect} from 'react-redux';
+import * as actions from '../actions/index';
 
 
-export default class AddressesPage extends React.Component {
+class AddressesPage extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            addresses: []
-        };
     }
 
-    componentDidMount() {
+    componentWillMount() {
         const accessToken = Cookies.get('accessToken');
-        fetch('/api/addresses', {
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`
-                }
-            }).then(res => {
-            if (!res.ok) {
-                throw new Error(res.statusText);
-            }
-            return res.json();
-        }).then(addresses =>
-            this.setState({
-                addresses
-            })
-        );
+        if(accessToken) {
+            this.props.dispatch(
+                actions.getWatchedAddresses(accessToken)
+            )
+        }
     }
 
     render() {
-        const addresses = this.state.addresses.map((question, index) =>
-            <li key={index}>{question}</li>
+        const addresses = this.props.addresses.map((address, index) =>
+            <li key={index}>{address}</li>
         );
+        
 
         return (
             <div className="addresses">
@@ -73,9 +64,12 @@ export default class AddressesPage extends React.Component {
     }
 }
 
+// connect this component to the store
+const mapStateToProps = state => ({
+   addresses: state.addresses 
+})
 
-
-
+export default connect(mapStateToProps)(AddressesPage)
 
 
 

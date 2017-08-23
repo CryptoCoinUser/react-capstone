@@ -5,12 +5,11 @@ const initialState = {
 	latestBlock: null,
 	randomAddress: null,
 	randomAddressError: null,
+	addresses: []
 };
 
 export const blockReducer = (state=initialState, action) => {
 	if(action.type === actions.FETCH_LATEST_BLOCK_SUCCESS){
-		console.log('reducer FETCH_LATEST_BLOCK_SUCCESS');
-		console.log(action.response);
 		return {
 			...state,
 			latestBlock: action.response
@@ -34,6 +33,11 @@ export const blockReducer = (state=initialState, action) => {
 		return {
 			...state,
 			randomAddressError: 'error getting random address, probably 429, too many requests'
+		}
+	} else if(action.type === actions.SEND_ADDRESSES_TO_REDUCER) {
+		return {
+			...state,
+			addresses: action.addresses
 		}
 	}
 

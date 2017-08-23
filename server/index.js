@@ -68,7 +68,7 @@ passport.use(
             // matching access token.  If they exist, let em in, if not,
             // don't.
 
-            //console.log('Bearer token is ' + token)
+            console.log('Bearer token is ' + token)
 
             // look up token in user model
             User.findOne({'auth.googleAccessToken': token}, (err, user) => {
@@ -119,10 +119,25 @@ app.get('/api/addresses',
     passport.authenticate('bearer', {session: false}),
     
     (req, res) => {
+        console.log("ADDREESS USER", req.user)
         // go to db and get all addresses
-        User.find();
+        // User.find();
         res.json(['1Address1FromServerIndex.js', '1Address2FromServerIndex.js'])
 });
+
+app.post('/api/saveaddress/:address',
+    // passport.authenticate('bearer', {session: false}),
+      (req, res) => {
+        console.log("req.user", req.user)
+        User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken}, 
+                {$push: {'addresses': req.params.address}}, 
+                {new: true},
+                (err, user) => {
+                    if (err) throw err;
+                    console.log("user.addresses", user.addresses)
+            })
+      }  
+    )
 
 
 

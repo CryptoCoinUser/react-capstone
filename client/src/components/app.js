@@ -12,17 +12,10 @@ import * as actions from '../actions/index';
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            currentUser: null,
-            latestBlockHeight: 0
-        };
         this.logout = this.logout.bind(this)
     }
 
     componentDidMount() {
-        // hit /api/isuserloggedin
-
-        console.log('componentDidMount!');
 
         const accessToken = Cookies.get('accessToken');
         if(accessToken) {
@@ -54,6 +47,17 @@ class App extends React.Component {
         )
     }
 
+    saveAddress(e){
+        e.preventDefault();
+        const accessToken = Cookies.get('accessToken');
+        if(accessToken) {
+            this.props.dispatch(
+                actions.saveAddress(this.props.randomAddress, accessToken)
+            )
+        }
+        // error handling if no access token
+    }
+
  
 
 
@@ -68,24 +72,28 @@ class App extends React.Component {
                 <p><a href="#" onClick={(e => this.logout(e))}>logout</a></p>
 
 
-                <h2>Add txn</h2>
+                <h2>Add Address</h2>
 
 
 
-                <h4>Add a random Uncofirmed txn to watch list</h4>
+                <h4>Add a random address from a not-yet-confirmed txn to watch list</h4>
                 <p>
                     
                     <button
                         onClick={(e => this.getUnconfirmedAddress(e))}
                     >
-                        Add a Random Uncofirmed Txn
+                        Add Random Address
                     </button>
                     <br />
 
                     https:\//api.blockcypher.com/v1/btc/main/txs
                     <br />
 
-                    {this.props.randomAddress} <br />
+                    {this.props.randomAddress} 
+                    <button
+                        onClick = {(e => this.saveAddress(e))} 
+                    > Watch This Address
+                    </button><br />
                     {this.props.randomAddressError}
                 </p>
 
@@ -93,7 +101,7 @@ class App extends React.Component {
                 <form id="itemToWatch">
                 <h4>Add specific txn to watch list</h4>
                     <input type="text" placeholder="paste txn id or receiving address" size="60" />
-                    <button id="submitItemToWatch">Watch this Txn or Address   </button>
+                    <button id="submitItemToWatch">Watch this Address   </button>
                 </form>
 
 
@@ -108,7 +116,7 @@ class App extends React.Component {
                     </a>
                 </p>
              
-                <h2>Txns you are watching</h2>
+                <h2>Addresses you are watching</h2>
                 <AddressesPage />
           
                 
@@ -123,8 +131,7 @@ const mapStateToProps = (state, props) => ({
     latestBlock: state.latestBlock,
     latestBlockHeight: state.latestBlockHeight,
     randomAddress: state.randomAddress,
-    randomAddressError: state.randomAddressError
-    
+    randomAddressError: state.randomAddressError 
 })
 
 export default connect(mapStateToProps)(App);
