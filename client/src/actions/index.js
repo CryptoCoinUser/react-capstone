@@ -58,7 +58,6 @@ export const fetchLatestBlock = () => dispatch => {
 
 
 export const getUnconfirmedAddress = () => dispatch => {
-    console.log('getUnconfirmedAddress action');
     const url = 'https://api.blockcypher.com/v1/btc/main/txs';
     axios(url)
     .then(res => {
@@ -82,7 +81,7 @@ export const getWatchedAddresses = accessToken => dispatch => {
 }
 
 export const saveAddress = (address, accessToken) => dispatch => {
-    console.log('access', accessToken)
+    console.log('actions / saveAddress accessToken:', accessToken)
     axios.post(`/api/saveaddress/${address}`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`

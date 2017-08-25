@@ -108,6 +108,19 @@ app.get('/api/auth/logout',
                         })
 });
 
+app.post('/api/saveaddress/:address',
+    // passport.authenticate('bearer', {session: false}),
+      (req, res) => {
+        console.log("req.user.auth", req.user.auth)
+        User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken}, 
+                {$push: {'addresses': req.params.address}}, 
+                {new: true},
+                (err, user) => {
+                    if (err) throw err;
+                    console.log("user.addresses", user.addresses)
+            })
+});
+
 app.get('/api/isuserloggedin',
     passport.authenticate('bearer', {session: false}),
     (req, res) => res.json({
@@ -124,22 +137,6 @@ app.get('/api/addresses',
         // User.find();
         res.json(['1Address1FromServerIndex.js', '1Address2FromServerIndex.js'])
 });
-
-app.post('/api/saveaddress/:address',
-    // passport.authenticate('bearer', {session: false}),
-      (req, res) => {
-        console.log("req.user", req.user)
-        User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken}, 
-                {$push: {'addresses': req.params.address}}, 
-                {new: true},
-                (err, user) => {
-                    if (err) throw err;
-                    console.log("user.addresses", user.addresses)
-            })
-      }  
-    )
-
-
 
 
 // Serve the built client
