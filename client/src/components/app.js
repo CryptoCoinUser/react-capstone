@@ -99,12 +99,13 @@ class App extends React.Component {
 
 
                 <form id="itemToWatch">
-                <h4>Add specific txn to watch list</h4>
+                <h4>Add specific address to watch list</h4>
                     <input type="text" placeholder="paste txn id or receiving address" size="60" />
                     <button id="submitItemToWatch">Watch this Address   </button>
                 </form>
 
-
+                <h2>Addresses you are watching</h2>
+                <AddressesPage />
 
 
                 <h2>Welcome</h2>
@@ -116,8 +117,7 @@ class App extends React.Component {
                     </a>
                 </p>
              
-                <h2>Addresses you are watching</h2>
-                <AddressesPage />
+
           
                 
 

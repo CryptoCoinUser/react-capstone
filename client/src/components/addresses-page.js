@@ -33,26 +33,19 @@ class AddressesPage extends React.Component {
                 </ul>
                 <table>
                     <thead>
-                        <th>
-                            Txn
-                        </th>
-                        <th>
-                            Receiving Address
-                        </th>
-                        <th>Status</th>
+                        <tr>
+                            <th>
+                                Receiving Address
+                            </th>
+                            <th>Status</th>
+                        </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>
-                                9HANDCODEDf5beefecbc9fdcf00b5cb012a2705dddadfad64ac73722b36e0e83 
-                            </td>
                             <td>1HANDCODEDMJ37CY8hcCsUVafa8XjDsdCn</td>
                             <td>"pending, 80% confidence"</td>
                         </tr>
                         <tr>
-                            <td>
-                                cHANDCODED1294ca484bb1de8bc36c7736cfef4ec50b453f067e214647d38096 
-                            </td>
                             <td>1HANDCODEDFdQGW3q6ceBkb2HrZgKiH7tm</td>
                             <td>"complete, 2 confirmations"</td>
                         </tr>
