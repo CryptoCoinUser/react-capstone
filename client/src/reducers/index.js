@@ -39,6 +39,11 @@ export const blockReducer = (state=initialState, action) => {
 			...state,
 			addresses: action.addresses
 		}
+	} else if(action.type === actions.SEND_ADDRESS_TO_REDUCER) {
+		return {
+			...state,
+			addresses: [...state.addresses, action.address]
+		}
 	}
 
 	return state;

@@ -21,6 +21,14 @@ app.use(BodyParser.json());
 
 app.use(passport.initialize());
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  next();
+});
+
+
 passport.use(
     new GoogleStrategy({
         clientID:  '956789487424-b1hntk8in8rj8j3tn36ji41m919i21oc.apps.googleusercontent.com',
@@ -28,7 +36,6 @@ passport.use(
         callbackURL: `/api/auth/google/callback`
     },
     (accessToken, refreshToken, profile, cb) => {
-        console.log('passport.use');
         // Job 1: Set up Mongo/Mongoose, create a User model which store the
         // google id, and the access token
         // Job 2: Update this callback to either update or create the user
@@ -68,11 +75,12 @@ passport.use(
             // matching access token.  If they exist, let em in, if not,
             // don't.
 
-            console.log('Bearer token is ' + token)
+            // console.log('Bearer token is ' + token)
 
             // look up token in user model
             User.findOne({'auth.googleAccessToken': token}, (err, user) => {
-                //console.log('found user ' + user)
+
+                // console.log('found USER ' + user)
                 if(err) return cb(null, false);
                 return cb(null, user);
             })
@@ -108,16 +116,17 @@ app.get('/api/auth/logout',
                         })
 });
 
-app.post('/api/saveaddress/:address',
-    // passport.authenticate('bearer', {session: false}),
+app.get('/api/saveaddress/:address',
+     passport.authenticate('bearer', {session: false}),
       (req, res) => {
-        console.log("req.user.auth", req.user.auth)
+        // console.log("SAVE ADDRESS")
+        // console.log("req.user", req.user)
         User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken}, 
                 {$push: {'addresses': req.params.address}}, 
                 {new: true},
                 (err, user) => {
                     if (err) throw err;
-                    console.log("user.addresses", user.addresses)
+                    res.send(req.params.address)
             })
 });
 
@@ -128,14 +137,28 @@ app.get('/api/isuserloggedin',
     })
 );
 
+// app.post('/api/saveaddress/:address',
+//     passport.authenticate('bearer', {session: false}),
+//     (req, res) => {
+//         console.log('it works!')
+//     }
+// );
+
 app.get('/api/addresses',
     passport.authenticate('bearer', {session: false}),
     
     (req, res) => {
-        console.log("ADDREESS USER", req.user)
+        
         // go to db and get all addresses
         // User.find();
-        res.json(['1Address1FromServerIndex.js', '1Address2FromServerIndex.js'])
+
+        User.findOne({'auth.googleId': req.user.auth.googleId},
+                (err, user) => {
+                    if (err) throw err;
+                    console.log('/addresses googleId:', user)
+                    res.json(user.addresses);
+                })
+        
 });
 
 

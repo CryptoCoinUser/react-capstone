@@ -63,6 +63,7 @@ class App extends React.Component {
 
 
     render() {
+        
         if(!this.props.currentUser){
             return <LoginPage />;
         }

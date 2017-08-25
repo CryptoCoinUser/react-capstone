@@ -18,10 +18,23 @@ class AddressesPage extends React.Component {
             )
         }
     }
+    
+    deleteAddress(e, address){
+        e.preventDefault();
+        this.props.dispatch(
+            actions.deleteAddress(address)
+        )
+    }
 
     render() {
         const addresses = this.props.addresses.map((address, index) =>
-            <li key={index}>{address}</li>
+            <li key={index}>{address} 
+                <button
+                    onClick={e => this.deleteAddress(e, address)}
+                >
+                    Delete X
+                </button>
+            </li>
         );
         
 

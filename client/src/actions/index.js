@@ -42,6 +42,12 @@ export const sendAddressesToReducer = addresses => ({
     addresses
 })
 
+export const SEND_ADDRESS_TO_REDUCER = 'SEND_ADDRESS_TO_REDUCER';
+export const sendAddressToReducer = address => ({
+    type: SEND_ADDRESS_TO_REDUCER,
+    address
+})
+
 export const fetchLatestBlock = () => dispatch => {
     const url = `https:\//api.blockcypher.com/v1/btc/main`;
     axios(url)
@@ -81,14 +87,13 @@ export const getWatchedAddresses = accessToken => dispatch => {
 }
 
 export const saveAddress = (address, accessToken) => dispatch => {
-    console.log('actions / saveAddress accessToken:', accessToken)
-    axios.post(`/api/saveaddress/${address}`, {
+    axios(`/api/saveaddress/${address}`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`
         }
     })
     .then(res => {
-        console.log("SAVE ADDRESS", res.data)
+        return dispatch(sendAddressToReducer(res.data));
     })
     .catch(err => console.log(err))
 }
