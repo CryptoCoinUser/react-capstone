@@ -28,6 +28,7 @@ class AddressesPage extends React.Component {
     }
 
     render() {
+        console.log("ADDRESSES", this.props.addresses)
         const addresses = this.props.addresses.map((address, index) =>
             <li key={index}>
                 <button
@@ -36,7 +37,10 @@ class AddressesPage extends React.Component {
                     Delete X
                 </button>
                 <span> </span>
-                {address} 
+                {address.address},
+                {address.balance},
+                {address.unconfirmed_balance} 
+
             </li>
         );
         

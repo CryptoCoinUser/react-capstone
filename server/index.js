@@ -119,15 +119,29 @@ app.get('/api/auth/logout',
 app.get('/api/saveaddress/:address',
      passport.authenticate('bearer', {session: false}),
       (req, res) => {
-        // console.log("SAVE ADDRESS")
-        // console.log("req.user", req.user)
-        User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken}, 
-                {$push: {'addresses': req.params.address}}, 
+        request(`https://api.blockcypher.com/v1/btc/main/addrs/${req.params.address}/balance`, (err, data) => {
+            const addressData = JSON.parse(data.body);
+            // build object that is being pushed in
+            const addressObj = {
+                address: addressData.address,
+                balance: addressData.balance,
+                unconfirmed_balance: addressData.unconfirmed_balance
+            }
+
+            User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken}, 
+                {$push: {'addresses': addressObj}}, 
                 {new: true},
                 (err, user) => {
                     if (err) throw err;
-                    res.send(req.params.address)
+                    res.send(addressObj)
             })
+
+
+            
+        })
+
+
+       
 });
 
 app.get('/api/deleteaddress/:address',
@@ -169,8 +183,32 @@ app.get('/api/addresses',
         User.findOne({'auth.googleId': req.user.auth.googleId},
                 (err, user) => {
                     if (err) throw err;
-                    console.log('/addresses googleId:', user)
-                    res.json(user.addresses);
+
+                    const promises = user.addresses.map(address => {
+                        return new Promise(resolve => {
+                            request(`https://api.blockcypher.com/v1/btc/main/addrs/${address}/balance`, (err, data) => {
+                                resolve(JSON.parse(data.body));
+                            })
+                        })
+                    })
+
+
+                    Promise.all(promises).then(data => {
+                        const addressesInfo = data.map(addressInfo => {
+                            return {
+                                address: addressInfo.address,
+                                balance: addressInfo.balance,
+                                unconfirmed_balance: addressInfo.unconfirmed_balance
+                            }
+                        })
+                        res.json({addressesInfo})
+                    })
+
+                    
+
+
+
+                    
                 })
         
 });

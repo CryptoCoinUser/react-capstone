@@ -14,7 +14,7 @@ var userSchema = mongoose.Schema({
         	required: 'you must supply a google Access Token'
         }
     },
-    addresses : [String] 
+    addresses : [Object] 
 });
 
 
