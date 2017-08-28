@@ -48,6 +48,18 @@ export const sendAddressToReducer = address => ({
     address
 })
 
+export const DELETE_ADDRESS_SUCCESS = 'DELETE_ADDRESS_SUCCESS';
+export const deleteAddressSuccess = (address) => ({
+    type: DELETE_ADDRESS_SUCCESS,
+    address
+})
+
+export const DELETE_ADDRESS_ERROR = 'DELETE_ADDRESS_ERROR';
+export const deleteAddressError = err => ({
+    type: DELETE_ADDRESS_ERROR,
+    error: err
+})
+
 export const fetchLatestBlock = () => dispatch => {
     const url = `https:\//api.blockcypher.com/v1/btc/main`;
     axios(url)
@@ -87,6 +99,7 @@ export const getWatchedAddresses = accessToken => dispatch => {
 }
 
 export const saveAddress = (address, accessToken) => dispatch => {
+    console.log('saveAddress accessToken', accessToken);
     axios(`/api/saveaddress/${address}`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`
@@ -96,6 +109,21 @@ export const saveAddress = (address, accessToken) => dispatch => {
         return dispatch(sendAddressToReducer(res.data));
     })
     .catch(err => console.log(err))
+}
+
+export const deleteAddress = (address, accessToken) => dispatch => {
+    console.log('deleteAddress accessToken', accessToken);
+    axios(`/api/deleteaddress/${address}`, {
+        headers: {
+            'Authorization': `Bearer ${accessToken}`
+        }
+    })
+    .then(res => {
+        return dispatch(deleteAddressSuccess(res.data));
+    })
+    .catch(err => {
+        return dispatch(deleteAddressError(err))
+    })
 }
 
 

@@ -63,7 +63,7 @@ class App extends React.Component {
 
 
     render() {
-        
+
         if(!this.props.currentUser){
             return <LoginPage />;
         }
@@ -82,18 +82,20 @@ class App extends React.Component {
                     <button
                         onClick={(e => this.getUnconfirmedAddress(e))}
                     >
-                        Add Random Address
+                        Get Address from a Random Unconfirmed Txn
                     </button>
                     <br />
 
-                    https:\//api.blockcypher.com/v1/btc/main/txs
-                    <br />
-
                     {this.props.randomAddress} 
-                    <button
-                        onClick = {(e => this.saveAddress(e))} 
-                    > Watch This Address
-                    </button><br />
+                    {this.props.randomAddress ?
+                        <button
+                            onClick = {(e => this.saveAddress(e))} 
+                            > Watch This Address
+                        </button>
+                        : ""
+
+                    }
+                    <br />
                     {this.props.randomAddressError}
                 </p>
 
@@ -108,7 +110,6 @@ class App extends React.Component {
                 <AddressesPage />
 
 
-                <h2>Welcome</h2>
                 <h4>Bitcoin network status:</h4>
                 <p><strong>{this.props.latestBlock ? this.props.latestBlock.height : ''}:</strong> Block height from http://api.blockcypher.com/v1/btc/main</p>
                 <p> 

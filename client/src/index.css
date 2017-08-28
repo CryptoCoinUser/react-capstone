@@ -12,3 +12,11 @@ div{
 table{width:100%;}
 
 td{padding:1em; text-align: center;}
+
+ul.address-list{
+	list-style: none;
+	margin:0 0 1em 0;
+	padding:0;
+}
+
+ul.address-list li{margin:0 0 1em 0;}

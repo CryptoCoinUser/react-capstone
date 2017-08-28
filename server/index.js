@@ -130,6 +130,20 @@ app.get('/api/saveaddress/:address',
             })
 });
 
+app.get('/api/deleteaddress/:address',
+    passport.authenticate('bearer', {session: false}),
+        (req, res) => {
+            User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken}, 
+                {$pull: {'addresses':req.params.address}},
+                (err, user) => {
+                    if (err) throw err;
+                    console.log("user-----", user)
+                    res.send(req.params.address)
+            })
+
+
+});
+
 app.get('/api/isuserloggedin',
     passport.authenticate('bearer', {session: false}),
     (req, res) => res.json({

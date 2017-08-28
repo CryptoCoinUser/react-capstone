@@ -5,6 +5,7 @@ const initialState = {
 	latestBlock: null,
 	randomAddress: null,
 	randomAddressError: null,
+	deleteAddressError: null,
 	addresses: []
 };
 
@@ -42,10 +43,25 @@ export const blockReducer = (state=initialState, action) => {
 	} else if(action.type === actions.SEND_ADDRESS_TO_REDUCER) {
 		return {
 			...state,
-			addresses: [...state.addresses, action.address]
+			addresses: [...state.addresses, action.address],
+			randomAddress: ''
+		}
+	} else if(action.type === actions.DELETE_ADDRESS_ERROR){
+		return {
+			...state,
+			deleteAddressError: 'error deleting address'
+		}
+	} else if(action.type === actions.DELETE_ADDRESS_SUCCESS){
+		return {
+			...state,
+			addresses: state.addresses.filter(address => {
+				return address != action.address;
+			})
 		}
 	}
 
+	console.log('STATE');
+	console.log(state);
 	return state;
 
 }

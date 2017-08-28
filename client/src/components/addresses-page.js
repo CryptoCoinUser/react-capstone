@@ -18,22 +18,25 @@ class AddressesPage extends React.Component {
             )
         }
     }
-    
+
     deleteAddress(e, address){
         e.preventDefault();
+        const accessToken = Cookies.get('accessToken');
         this.props.dispatch(
-            actions.deleteAddress(address)
+            actions.deleteAddress(address, accessToken)
         )
     }
 
     render() {
         const addresses = this.props.addresses.map((address, index) =>
-            <li key={index}>{address} 
+            <li key={index}>
                 <button
                     onClick={e => this.deleteAddress(e, address)}
                 >
                     Delete X
                 </button>
+                <span> </span>
+                {address} 
             </li>
         );
         
@@ -44,27 +47,6 @@ class AddressesPage extends React.Component {
                 <ul className="address-list">
                     {addresses}
                 </ul>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>
-                                Receiving Address
-                            </th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1HANDCODEDMJ37CY8hcCsUVafa8XjDsdCn</td>
-                            <td>"pending, 80% confidence"</td>
-                        </tr>
-                        <tr>
-                            <td>1HANDCODEDFdQGW3q6ceBkb2HrZgKiH7tm</td>
-                            <td>"complete, 2 confirmations"</td>
-                        </tr>
-
-                    </tbody>
-                </table>
             </div>
         );
     }
