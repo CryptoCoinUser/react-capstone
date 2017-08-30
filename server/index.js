@@ -127,31 +127,30 @@ app.get('/api/saveaddress/:address',
                 balance: addressData.balance,
                 unconfirmed_balance: addressData.unconfirmed_balance
             }
+            console.log('/api/saveaddress/ addressObj:', addressObj)
 
             User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken}, 
                 {$push: {'addresses': addressObj}}, 
                 {new: true},
                 (err, user) => {
-                    if (err) throw err;
+                    if (err) {
+                        console.log(err);
+                        throw err;
+                    }
                     res.send(addressObj)
             })
-
-
-            
         })
-
-
-       
 });
 
 app.get('/api/deleteaddress/:address',
     passport.authenticate('bearer', {session: false}),
         (req, res) => {
+            console.log("/api/deleteaddress/:address, req.params.address:", req.params.address);
             User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken}, 
-                {$pull: {'addresses':req.params.address}},
+                {$pull: {'addresses': {address: req.params.address}}},
                 (err, user) => {
                     if (err) throw err;
-                    console.log("user-----", user)
+                    
                     res.send(req.params.address)
             })
 
@@ -184,9 +183,10 @@ app.get('/api/addresses',
                 (err, user) => {
                     if (err) throw err;
 
-                    const promises = user.addresses.map(address => {
+                    const promises = user.addresses.map(addressObj => {
                         return new Promise(resolve => {
-                            request(`https://api.blockcypher.com/v1/btc/main/addrs/${address}/balance`, (err, data) => {
+                            request(`https://api.blockcypher.com/v1/btc/main/addrs/${addressObj.address}/balance`, (err, data) => {
+                                console.log('/api/addresses data.body:', data.body);
                                 resolve(JSON.parse(data.body));
                             })
                         })

@@ -55,8 +55,8 @@ export const blockReducer = (state=initialState, action) => {
 	} else if(action.type === actions.DELETE_ADDRESS_SUCCESS){
 		return {
 			...state,
-			addresses: state.addresses.filter(address => {
-				return address != action.address;
+			addresses: state.addresses.filter(addressObj => {
+				return addressObj.address != action.address;
 			})
 		}
 	}

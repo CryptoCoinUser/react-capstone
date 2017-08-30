@@ -129,6 +129,7 @@ export const deleteAddress = (address, accessToken) => dispatch => {
 
 
 export const isUserLoggedIn = accessToken => dispatch => {
+    console.log('isUserLoggedIn accessToken:', accessToken);
     axios('/api/isuserloggedin', {
         headers: {
             'Authorization': `Bearer ${accessToken}`

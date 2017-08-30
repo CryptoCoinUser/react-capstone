@@ -19,27 +19,29 @@ class AddressesPage extends React.Component {
         }
     }
 
-    deleteAddress(e, address){
+    deleteAddress(e, addressObj){
         e.preventDefault();
         const accessToken = Cookies.get('accessToken');
         this.props.dispatch(
-            actions.deleteAddress(address, accessToken)
+            actions.deleteAddress(addressObj.address, accessToken)
         )
     }
 
     render() {
         console.log("ADDRESSES", this.props.addresses)
-        const addresses = this.props.addresses.map((address, index) =>
-            <li key={index}>
+        const addresses = this.props.addresses.map((addressObj, index) =>
+            <li className="addressObj" key={index}>
                 <button
-                    onClick={e => this.deleteAddress(e, address)}
+                    onClick={e => this.deleteAddress(e, addressObj)}
                 >
                     Delete X
                 </button>
                 <span> </span>
-                {address.address},
-                {address.balance},
-                {address.unconfirmed_balance} 
+                <span className="address">{addressObj.address}</span> 
+                <span className="balance">{addressObj.balance / 100000000}</span>  
+                <span className="unconfirmed_balance">{addressObj.unconfirmed_balance / 100000000}</span>  
+                <span className="random">{addressObj.random}</span>  
+                <span className="note">{addressObj.note}</span> 
 
             </li>
         );

@@ -82,15 +82,15 @@ class App extends React.Component {
                     <button
                         onClick={(e => this.getUnconfirmedAddress(e))}
                     >
-                        Get Address from a Random Unconfirmed Txn
+                        Get a Random Address from an Unconfirmed Txn
                     </button>
-                    <br />
+                    <br /><br />
 
                     {this.props.randomAddress} 
                     {this.props.randomAddress ?
                         <button
                             onClick = {(e => this.saveAddress(e))} 
-                            > Watch This Address
+                            > Watch Random Address
                         </button>
                         : ""
 
@@ -102,8 +102,9 @@ class App extends React.Component {
 
                 <form id="itemToWatch">
                 <h4>Add specific address to watch list</h4>
-                    <input type="text" placeholder="paste txn id or receiving address" size="60" />
-                    <button id="submitItemToWatch">Watch this Address   </button>
+                    <input type="text" placeholder="paste your receiving address" id="myAddress" size="35" />
+                    <input type="text" placeholder="Note about this address" id="note" size="20" />
+                    <button id="watchMyAddress">Watch My Address</button>
                 </form>
 
                 <h2>Addresses you are watching</h2>

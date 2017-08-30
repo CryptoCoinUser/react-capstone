@@ -14,7 +14,27 @@ var userSchema = mongoose.Schema({
         	required: 'you must supply a google Access Token'
         }
     },
-    addresses : [Object] 
+    addresses : [{
+        address: {
+            type: String,
+            required: 'address string required'
+        },
+        balance: {
+            type: Number,
+            required: 'balance required'
+        },
+        unconfirmed_balance: {
+            type: Number,
+            required: 'unconfirmed_balance required'
+        },
+        random: {
+            type: Boolean,
+            required: 'true if address is from a random unconfirmed txn, false if user hand-pasted it'
+        },
+        note: {
+            type: String // optional: either "Random" or user-typed memo, which can default to time-stamp
+        }
+    }] 
 });
 
 
