@@ -98,9 +98,9 @@ export const getWatchedAddresses = accessToken => dispatch => {
     })
 }
 
-export const saveAddress = (address, accessToken) => dispatch => {
+export const saveAddress = (address, randomFlag, accessToken) => dispatch => {
     console.log('saveAddress accessToken', accessToken);
-    axios(`/api/saveaddress/${address}`, {
+    axios(`/api/saveaddress/${address}/${randomFlag}`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`
         }

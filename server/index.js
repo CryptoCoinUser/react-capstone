@@ -116,7 +116,7 @@ app.get('/api/auth/logout',
                         })
 });
 
-app.get('/api/saveaddress/:address',
+app.get('/api/saveaddress/:address/:randomflag',
      passport.authenticate('bearer', {session: false}),
       (req, res) => {
         request(`https://api.blockcypher.com/v1/btc/main/addrs/${req.params.address}/balance`, (err, data) => {
@@ -125,7 +125,8 @@ app.get('/api/saveaddress/:address',
             const addressObj = {
                 address: addressData.address,
                 balance: addressData.balance,
-                unconfirmed_balance: addressData.unconfirmed_balance
+                unconfirmed_balance: addressData.unconfirmed_balance,
+                random: `${req.params.randomflag}`
             }
             console.log('/api/saveaddress/ addressObj:', addressObj)
 
@@ -186,7 +187,6 @@ app.get('/api/addresses',
                     const promises = user.addresses.map(addressObj => {
                         return new Promise(resolve => {
                             request(`https://api.blockcypher.com/v1/btc/main/addrs/${addressObj.address}/balance`, (err, data) => {
-                                console.log('/api/addresses data.body:', data.body);
                                 resolve(JSON.parse(data.body));
                             })
                         })

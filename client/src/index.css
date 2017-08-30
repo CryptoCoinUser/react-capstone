@@ -25,3 +25,4 @@ ul.address-list li{margin:0 0 1em 0;}
 .address-list .addressObj span.address{color:#0a0;}
 .address-list .addressObj span.balance::before{ content: "Confirmed Balance: "; }
 .address-list .addressObj span.unconfirmed_balance::before{ content: "Unconfirmed Balance: "; }
+.address-list .addressObj span.random::before{ content: "Random? "; }

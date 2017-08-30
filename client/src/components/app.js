@@ -12,7 +12,8 @@ import * as actions from '../actions/index';
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.logout = this.logout.bind(this)
+        this.logout = this.logout.bind(this);
+        this.saveMyAddress = this.saveMyAddress.bind(this);
     }
 
     componentDidMount() {
@@ -47,19 +48,38 @@ class App extends React.Component {
         )
     }
 
-    saveAddress(e){
+    saveRandomAddress(e){
         e.preventDefault();
         const accessToken = Cookies.get('accessToken');
         if(accessToken) {
             this.props.dispatch(
-                actions.saveAddress(this.props.randomAddress, accessToken)
+                actions.saveAddress(this.props.randomAddress, true, accessToken)
             )
         }
         // error handling if no access token
     }
 
- 
+    saveMyAddress() {
+        //e.preventDefault();
 
+        console.log('saveMyAddress')
+
+        const myAddress = this.myAddressInput.value;
+
+        const accessToken = Cookies.get('accessToken');
+
+        if (myAddress) {
+            console.log('myAddress', myAddress);
+        }else{
+            console.log('no myAddress')
+        }
+
+        if(accessToken) {
+            this.props.dispatch(
+                actions.saveAddress(myAddress, false, accessToken)
+            )
+        }
+    }
 
 
     render() {
@@ -89,7 +109,7 @@ class App extends React.Component {
                     {this.props.randomAddress} 
                     {this.props.randomAddress ?
                         <button
-                            onClick = {(e => this.saveAddress(e))} 
+                            onClick = {(e => this.saveRandomAddress(e))} 
                             > Watch Random Address
                         </button>
                         : ""
@@ -100,11 +120,13 @@ class App extends React.Component {
                 </p>
 
 
-                <form id="itemToWatch">
+                <form id="myAddressForm">
                 <h4>Add specific address to watch list</h4>
-                    <input type="text" placeholder="paste your receiving address" id="myAddress" size="35" />
-                    <input type="text" placeholder="Note about this address" id="note" size="20" />
-                    <button id="watchMyAddress">Watch My Address</button>
+                    <input type="text" placeholder="paste your receiving address" id="myAddress" size="35" 
+                    ref={ref => this.myAddressInput = ref} />
+                    <button id="watchMyAddress" 
+                        onClick={this.saveMyAddress}
+                    >Watch My Address</button>
                 </form>
 
                 <h2>Addresses you are watching</h2>
