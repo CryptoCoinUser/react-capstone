@@ -203,14 +203,7 @@ app.get('/api/addresses',
                         })
                         res.json({addressesInfo})
                     })
-
-                    
-
-
-
-                    
-                })
-        
+                })       
 });
 
 

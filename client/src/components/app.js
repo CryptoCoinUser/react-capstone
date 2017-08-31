@@ -59,8 +59,8 @@ class App extends React.Component {
         // error handling if no access token
     }
 
-    saveMyAddress() {
-        //e.preventDefault();
+    saveMyAddress(e) {
+        e.preventDefault();
 
         console.log('saveMyAddress')
 
