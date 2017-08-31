@@ -38,7 +38,8 @@ class AddressesPage extends React.Component {
                 </button>
                 <span> </span>
                 <span className="address">{addressObj.address}</span> 
-                <span className="balance">{addressObj.balance / 100000000}</span>  
+                <span className="balance">{addressObj.balance / 100000000}</span>
+                <span className="lastUpdated">{addressObj.lastUpdated}</span>   
                 <span className="unconfirmed_balance">{addressObj.unconfirmed_balance / 100000000}</span>  
                 <span className="random">{addressObj.random}</span>  
                 <span className="note">{addressObj.note}</span> 

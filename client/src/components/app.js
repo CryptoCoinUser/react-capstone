@@ -105,8 +105,8 @@ class App extends React.Component {
                         Get a Random Address from an Unconfirmed Txn
                     </button>
                     <br /><br />
-
-                    {this.props.randomAddress} 
+                    <div id="randomAddressAndButton">
+                    {this.props.randomAddress} <span> </span> 
                     {this.props.randomAddress ?
                         <button
                             onClick = {(e => this.saveRandomAddress(e))} 
@@ -115,6 +115,7 @@ class App extends React.Component {
                         : ""
 
                     }
+                    </div>
                     <br />
                     {this.props.randomAddressError}
                 </p>

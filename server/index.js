@@ -143,6 +143,57 @@ app.get('/api/saveaddress/:address/:randomflag',
         })
 });
 
+
+app.get('/api/addresses',
+    passport.authenticate('bearer', {session: false}),
+    
+    (req, res) => {
+        User.findOne({'auth.googleId': req.user.auth.googleId},
+                (err, user) => {
+                    if (err) throw err;
+
+                    const promises = user.addresses.map(addressObj => {
+                        return new Promise(resolve => {
+                            request(`https://api.blockcypher.com/v1/btc/main/addrs/${addressObj.address}/balance`, (err, data) => {
+                                const addressResult = JSON.parse(data.body);
+                                if(addressResult.error) {
+                                    resolve(addressObj);
+                                }else{
+                                    addressObj.balance = addressResult.balance,
+                                    addressObj.unconfirmed_balance = addressResult.unconfirmed_balance
+                                    addressObj.lastUpdated = Date.now();
+                                    resolve(addressObj)
+                                }
+                            })
+                        })
+                    })
+
+                    Promise.all(promises).then(allAddressesData => {
+                        console.log("resolved addresses", allAddressesData)
+                        User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken},
+                            {$set: {'addresses': allAddressesData}},
+                            {new: true},
+                            (err, user) => {
+                            if (err) {
+                                console.log(err);
+                                throw err;
+                            }
+                            res.json({addressesInfo: user.addresses})
+                        })
+                        
+                        // const addressesInfo = data.map(addressInfo => {
+                        //     return {
+                        //         address: addressInfo.address,
+                        //         balance: addressInfo.balance,
+                        //         unconfirmed_balance: addressInfo.unconfirmed_balance
+                        //     }
+                        // })
+                        // res.json({addressesInfo: addressesInfo})
+                    })
+                })       
+});
+
+
 app.get('/api/deleteaddress/:address',
     passport.authenticate('bearer', {session: false}),
         (req, res) => {
@@ -164,47 +215,6 @@ app.get('/api/isuserloggedin',
         googleId: req.user.auth.googleId
     })
 );
-
-// app.post('/api/saveaddress/:address',
-//     passport.authenticate('bearer', {session: false}),
-//     (req, res) => {
-//         console.log('it works!')
-//     }
-// );
-
-app.get('/api/addresses',
-    passport.authenticate('bearer', {session: false}),
-    
-    (req, res) => {
-        
-        // go to db and get all addresses
-        // User.find();
-
-        User.findOne({'auth.googleId': req.user.auth.googleId},
-                (err, user) => {
-                    if (err) throw err;
-
-                    const promises = user.addresses.map(addressObj => {
-                        return new Promise(resolve => {
-                            request(`https://api.blockcypher.com/v1/btc/main/addrs/${addressObj.address}/balance`, (err, data) => {
-                                resolve(JSON.parse(data.body));
-                            })
-                        })
-                    })
-
-
-                    Promise.all(promises).then(data => {
-                        const addressesInfo = data.map(addressInfo => {
-                            return {
-                                address: addressInfo.address,
-                                balance: addressInfo.balance,
-                                unconfirmed_balance: addressInfo.unconfirmed_balance
-                            }
-                        })
-                        res.json({addressesInfo})
-                    })
-                })       
-});
 
 
 // Serve the built client

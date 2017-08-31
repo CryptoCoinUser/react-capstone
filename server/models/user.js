@@ -27,6 +27,10 @@ var userSchema = mongoose.Schema({
             type: Number,
             required: 'unconfirmed_balance required'
         },
+        lastUpdated:{
+            type: Date,
+            default: Date.now()
+        },
         random: {
             type: Boolean,
             required: 'true if address is from a random unconfirmed txn, false if user hand-pasted it'
