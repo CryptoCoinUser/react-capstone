@@ -11,8 +11,7 @@ import './index.css';
 ReactDOM.render(
 <Provider store={store}>
 	<div className="index">
-	  <h1> client / src / components / index.js</h1>
-	  	<App />
+	   	<App />
   	</div>
  </Provider>,
   document.getElementById('root')

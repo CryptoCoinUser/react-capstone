@@ -1,12 +1,13 @@
 body {
   margin: 0;
-  padding: 0;
+  padding: 1em;
   font-family: sans-serif;
 }
 
-div{
+#randomAddressDiv{
 	border:1px solid #000;
 	padding:1em;
+	margin:0 0 2em 0;
 }
 
 table{width:100%;}
@@ -15,7 +16,17 @@ td{padding:1em; text-align: center;}
 
 #randomAddressAndButton{padding:1em; background-color: #eee;}
 
-input#myAddress {font-size: 1.5em; margin-right: 1em; padding:0.5em 1em; border: 2px solid #000;}
+#myAddressForm{	float:left;
+	clear:both;
+	border:1px solid #000;
+	padding:1em 1em 3em 1em;
+}
+
+#myAddressForm input {font-size: 1.5em; margin-right: 1em; padding:0.5em 1em; border: 2px solid #000;
+	border:1px solid #000;
+}
+h2{clear:both; padding-top: 1em;}
+h4{clear:both;}
 
 ul.address-list{
 	list-style: none;
@@ -25,10 +36,32 @@ ul.address-list{
 
 ul.address-list li{margin:0 0 1em 0;}
 
-.address-list .addressObj span{padding-right:1em; white-space: nowrap;}
+.address-list .addressObj{clear:both; border-bottom: 1px solid #000; margin-bottom: 2em;
+float:left;}
+
+.address-list .addressObj button{display: block; float: left;}
+
+.address-list .addressObj span{padding-right:1em; 
+	display: block; 
+	float:left;
+	padding:0 1em 1em 0;
+}
+
 .address-list .addressObj span.address{font-weight: bold;}
-.address-list .addressObj span.balance{color:#0a0;}
+
+.address-list .addressObj span.balance{color:#0a0; white-space: nowrap;}
 .address-list .addressObj span.balance::before{ content: "Confirmed Balance: "; }
-.address-list .addressObj span.unconfirmed_balance{color:#a00;}
+
+.address-list .addressObj span.unconfirmed_balance{color:#a00; white-space: nowrap;}
 .address-list .addressObj span.unconfirmed_balance::before{ content: "Unconfirmed Balance: "; }
+
+.address-list .addressObj span.lastUpdated{white-space: nowrap;}
+.address-list .addressObj span.lastUpdated::before{ content: "Last Updated (GMT) : "; }
+
+.address-list .addressObj span.random{font-style:italic;white-space: nowrap;}
 .address-list .addressObj span.random::before{ content: "Random? "; }
+
+.address-list .addressObj span.note{white-space: nowrap; color:#00a; font-weight: bold;}
+.address-list .addressObj span.note::before{ content: "Note: "; }
+
+.address-list .addressObj span.confidence::before{ content: "Confidence: "; }

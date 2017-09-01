@@ -36,7 +36,7 @@ export const blockReducer = (state=initialState, action) => {
 			randomAddressError: 'error getting random address, probably 429, too many requests'
 		}
 	} else if(action.type === actions.SEND_ADDRESSES_TO_REDUCER) {
-
+		console.log('SEND_ADDRESSES_TO_REDUCER action.addresses.addressesInfo: ', action.addresses.addressesInfo)
 		return {
 			...state,
 			addresses: action.addresses.addressesInfo
@@ -59,6 +59,7 @@ export const blockReducer = (state=initialState, action) => {
 				return addressObj.address != action.address;
 			})
 		}
+
 	}
 
 	console.log('STATE');

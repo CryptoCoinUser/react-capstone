@@ -51,9 +51,10 @@ class App extends React.Component {
     saveRandomAddress(e){
         e.preventDefault();
         const accessToken = Cookies.get('accessToken');
+        const randomAddressNote = "Random Address added on " + Date.now();
         if(accessToken) {
             this.props.dispatch(
-                actions.saveAddress(this.props.randomAddress, true, accessToken)
+                actions.saveAddress(accessToken, this.props.randomAddress, true, randomAddressNote)
             )
         }
         // error handling if no access token
@@ -64,21 +65,22 @@ class App extends React.Component {
 
         console.log('saveMyAddress')
 
-        const myAddress = this.myAddressInput.value;
+        const myAddress     = this.myAddressInput.value;
+        let myAddressNote = this.myAddressNoteInput.value;
+        if(!myAddressNote){
+            myAddressNote = "My Address added on " + Date.now()
+        }
 
         const accessToken = Cookies.get('accessToken');
 
-        if (myAddress) {
-            console.log('myAddress', myAddress);
-        }else{
-            console.log('no myAddress')
-        }
 
         if(accessToken) {
             this.props.dispatch(
-                actions.saveAddress(myAddress, false, accessToken)
+                actions.saveAddress(accessToken, myAddress, false, myAddressNote)
             )
         }
+        this.myAddressInput = "";
+        this.myAddressNoteInput = "";
     }
 
 
@@ -89,19 +91,14 @@ class App extends React.Component {
         }
         return (
             <div className="app">
-                <p><a href="#" onClick={(e => this.logout(e))}>logout</a></p>
-
-
+                <p id="logout"><a href="#" onClick={(e => this.logout(e))}>logout</a></p>
                 <h2>Add Address</h2>
-
-
-
-                <h4>Add a random address from a not-yet-confirmed txn to watch list</h4>
-                <p>
+                <div id="randomAddressDiv">
+                    <h4>Add a random address from a not-yet-confirmed txn to watch list</h4>
                     
                     <button
                         onClick={(e => this.getUnconfirmedAddress(e))}
-                    >
+                     >
                         Get a Random Address from an Unconfirmed Txn
                     </button>
                     <br /><br />
@@ -118,13 +115,15 @@ class App extends React.Component {
                     </div>
                     <br />
                     {this.props.randomAddressError}
-                </p>
+                </div>
 
 
                 <form id="myAddressForm">
                 <h4>Add specific address to watch list</h4>
-                    <input type="text" placeholder="paste your receiving address" id="myAddress" size="35" 
+                    <input type="text" placeholder="paste your receiving address" id="myAddress" size="50" 
                     ref={ref => this.myAddressInput = ref} />
+                    <input type="text" placeholder="note" id="myAddressNote" size="20" 
+                    ref={ref => this.myAddressNoteInput = ref} />
                     <button id="watchMyAddress" 
                         onClick={this.saveMyAddress}
                     >Watch My Address</button>
@@ -133,7 +132,7 @@ class App extends React.Component {
                 <h2>Addresses you are watching</h2>
                 <AddressesPage />
 
-
+                {/*
                 <h4>Bitcoin network status:</h4>
                 <p><strong>{this.props.latestBlock ? this.props.latestBlock.height : ''}:</strong> Block height from http://api.blockcypher.com/v1/btc/main</p>
                 <p> 
@@ -141,7 +140,7 @@ class App extends React.Component {
                         Latest block url from http://api.blockcypher.com/v1/btc/main
                     </a>
                 </p>
-             
+                */}
 
           
                 

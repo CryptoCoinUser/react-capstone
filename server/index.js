@@ -116,7 +116,7 @@ app.get('/api/auth/logout',
                         })
 });
 
-app.get('/api/saveaddress/:address/:randomflag',
+app.get('/api/saveaddress/:address/:randomflag/:note',
      passport.authenticate('bearer', {session: false}),
       (req, res) => {
         request(`https://api.blockcypher.com/v1/btc/main/addrs/${req.params.address}/balance`, (err, data) => {
@@ -126,7 +126,9 @@ app.get('/api/saveaddress/:address/:randomflag',
                 address: addressData.address,
                 balance: addressData.balance,
                 unconfirmed_balance: addressData.unconfirmed_balance,
-                random: `${req.params.randomflag}`
+                random: `${req.params.randomflag}`,
+                note: `${req.params.note}`,
+                lastUpdated: Date.now()
             }
             console.log('/api/saveaddress/ addressObj:', addressObj)
 
@@ -159,17 +161,17 @@ app.get('/api/addresses',
                                 if(addressResult.error) {
                                     resolve(addressObj);
                                 }else{
-                                    addressObj.balance = addressResult.balance,
-                                    addressObj.unconfirmed_balance = addressResult.unconfirmed_balance
+                                    addressObj.balance = addressResult.balance;
+                                    addressObj.unconfirmed_balance = addressResult.unconfirmed_balance;
                                     addressObj.lastUpdated = Date.now();
-                                    resolve(addressObj)
+                                    resolve(addressObj);
                                 }
                             })
                         })
                     })
 
                     Promise.all(promises).then(allAddressesData => {
-                        console.log("resolved addresses", allAddressesData)
+                        console.log("resolved addresses allAddressesData", allAddressesData)
                         User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken},
                             {$set: {'addresses': allAddressesData}},
                             {new: true},

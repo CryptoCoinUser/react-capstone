@@ -94,13 +94,14 @@ export const getWatchedAddresses = accessToken => dispatch => {
         }
     })
     .then(res => {
+        console.log('getWatchedAddresses res.data: ', res.data)
         return dispatch(sendAddressesToReducer(res.data));
     })
 }
 
-export const saveAddress = (address, randomFlag, accessToken) => dispatch => {
+export const saveAddress = (accessToken, address, randomFlag, note = "noNote") => dispatch => {
     console.log('saveAddress accessToken', accessToken);
-    axios(`/api/saveaddress/${address}/${randomFlag}`, {
+    axios(`/api/saveaddress/${address}/${randomFlag}/${note}`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`
         }
