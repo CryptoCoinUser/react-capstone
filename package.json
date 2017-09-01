@@ -41,6 +41,7 @@
     "express": "^4.14.1",
     "http-proxy-middleware": "^0.17.3",
     "isomorphic-fetch": "^2.2.1",
+    "moment": "^2.18.1",
     "mongoose": "^4.11.4",
     "npm-run-all": "^4.0.1",
     "react": "^15.3.1",

@@ -27,6 +27,13 @@ var userSchema = mongoose.Schema({
             type: Number,
             required: 'unconfirmed_balance required'
         },
+        recentTxn:{
+            type: String,
+            required: 'required from API'
+        },
+        confidence:{
+            type: Number
+        },
         lastUpdated:{
             type: Date,
             default: Date.now()
@@ -37,6 +44,10 @@ var userSchema = mongoose.Schema({
         },
         note: {
             type: String // optional: either "Random" or user-typed memo, which can default to time-stamp
+        },
+        savedOn: {
+            type: Date,
+            default: Date.now()
         }
     }] 
 });

@@ -119,13 +119,15 @@ app.get('/api/auth/logout',
 app.get('/api/saveaddress/:address/:randomflag/:note',
      passport.authenticate('bearer', {session: false}),
       (req, res) => {
-        request(`https://api.blockcypher.com/v1/btc/main/addrs/${req.params.address}/balance`, (err, data) => {
+        request(`https://api.blockcypher.com/v1/btc/main/addrs/${req.params.address}`, (err, data) => {
             const addressData = JSON.parse(data.body);
             // build object that is being pushed in
+            //console.log('addressData :', addressData);
             const addressObj = {
                 address: addressData.address,
                 balance: addressData.balance,
                 unconfirmed_balance: addressData.unconfirmed_balance,
+                recentTxn: addressData.unconfirmed_txrefs[0].tx_hash,
                 random: `${req.params.randomflag}`,
                 note: `${req.params.note}`,
                 lastUpdated: Date.now()

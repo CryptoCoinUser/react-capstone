@@ -56,7 +56,7 @@ float:left;}
 .address-list .addressObj span.unconfirmed_balance::before{ content: "Unconfirmed Balance: "; }
 
 .address-list .addressObj span.lastUpdated{white-space: nowrap;}
-.address-list .addressObj span.lastUpdated::before{ content: "Last Updated (GMT) : "; }
+.address-list .addressObj span.lastUpdated::before{ content: "Last Updated : "; }
 
 .address-list .addressObj span.random{font-style:italic;white-space: nowrap;}
 .address-list .addressObj span.random::before{ content: "Random? "; }

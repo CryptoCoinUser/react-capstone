@@ -51,10 +51,9 @@ class App extends React.Component {
     saveRandomAddress(e){
         e.preventDefault();
         const accessToken = Cookies.get('accessToken');
-        const randomAddressNote = "Random Address added on " + Date.now();
         if(accessToken) {
             this.props.dispatch(
-                actions.saveAddress(accessToken, this.props.randomAddress, true, randomAddressNote)
+                actions.saveAddress(accessToken, this.props.randomAddress, true)
             )
         }
         // error handling if no access token

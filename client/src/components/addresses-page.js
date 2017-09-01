@@ -3,6 +3,7 @@ import * as Cookies from 'js-cookie';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import * as actions from '../actions/index';
+import moment from 'moment';
 
 
 class AddressesPage extends React.Component {
@@ -37,19 +38,19 @@ class AddressesPage extends React.Component {
                     Delete X
                 </button>
                 <span> </span>
-                <span className="random">{addressObj.random}</span> 
+                <span className="random">{addressObj.random.toString()}</span> 
 
-                <span className="note">{addressObj.note}</span> 
+                <span className="note">{
+                    addressObj.random? "Random Address Saved On " + moment(addressObj.savedOn).format("dddd, MMMM Do YYYY, h:mm")
+                    : addressObj.note
+                }</span> 
 
-                <span className="lastUpdated">{addressObj.lastUpdated}</span>  
+                <span className="lastUpdated">{moment(addressObj.lastUpdated).fromNow()}</span>  
 
                 <span className="address">{addressObj.address}</span> 
                 <span className="balance">{addressObj.balance / 100000000}</span> 
                 <span className="unconfirmed_balance">{addressObj.unconfirmed_balance / 100000000}</span>
-                <span className="confidence">{}</span> 
-                
-                 
-                
+                <span className="confidence">Recent Txn: {addressObj.recentTxn}</span> 
 
             </li>
         );
