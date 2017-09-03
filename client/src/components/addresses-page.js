@@ -50,7 +50,10 @@ class AddressesPage extends React.Component {
                 <span className="address">{addressObj.address}</span> 
                 <span className="balance">{addressObj.balance / 100000000}</span> 
                 <span className="unconfirmed_balance">{addressObj.unconfirmed_balance / 100000000}</span>
-                <span className="confidence">Recent Txn: {addressObj.recentTxn}</span> 
+                const baseURL = 'https:\//live.blockcypher.com/btc/tx/';
+                const txhash = {addressObj.recentTxn};
+                const confidenceURL = baseURL + txhash;
+                <a href=`${confidenceURL}`>Confidence Link</a>
 
             </li>
         );
