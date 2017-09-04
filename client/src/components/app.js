@@ -78,8 +78,8 @@ class App extends React.Component {
                 actions.saveAddress(accessToken, myAddress, false, myAddressNote)
             )
         }
-        // this.myAddressInput = "";
-        // this.myAddressNoteInput = "";
+         this.myAddressInput.value = "";
+         this.myAddressNoteInput.value = "";
     }
 
 

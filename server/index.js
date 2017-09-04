@@ -31,8 +31,8 @@ app.use(function(req, res, next) {
 
 passport.use(
     new GoogleStrategy({
-        clientID:  '956789487424-b1hntk8in8rj8j3tn36ji41m919i21oc.apps.googleusercontent.com',
-        clientSecret: process.env.secret,
+        clientID:  process.env.CLIENTID,
+        clientSecret: process.env.SECRET,
         callbackURL: `/api/auth/google/callback`
     },
     (accessToken, refreshToken, profile, cb) => {
@@ -119,19 +119,39 @@ app.get('/api/auth/logout',
 app.get('/api/saveaddress/:address/:randomflag/:note',
      passport.authenticate('bearer', {session: false}),
       (req, res) => {
-        request(`https://api.blockcypher.com/v1/btc/main/addrs/${req.params.address}?token=03016274b5814976af645d94b4cdd1d0`, (err, data) => {
-            const addressData = JSON.parse(data.body);
+        request(`https://api.blockcypher.com/v1/btc/main/addrs/${req.params.address}?token=${process.env.BLOCKCYPHERTOKEN}`, (err, data) => {
+            const addrRes = JSON.parse(data.body);
             // build object that is being pushed in
-            //console.log('addressData :', addressData);
+            //console.log('addrRes :', addrRes);
             const addressObj = {
-                address: addressData.address,
-                balance: addressData.balance,
-                unconfirmed_balance: addressData.unconfirmed_balance,
-                recentTxn: addressData.unconfirmed_txrefs[0].tx_hash,
+                address: addrRes.address,
+                balance: addrRes.balance,
+                unconfirmed_balance: addrRes.unconfirmed_balance,
+                recentTxn: -1,               
                 random: `${req.params.randomflag}`,
                 note: `${req.params.note}`,
                 lastUpdated: Date.now()
             }
+            // assume the tx is the first one in unconfirmed_txrefs, or if there aren't any unconfirmed_txrefs, the first one in txrefs.
+            if(addrRes.unconfirmed_txrefs){
+                addressObj.recentTxn = addrRes.unconfirmed_txrefs[0].tx_hash;
+            } else if (addrRes.txrefs){
+               addressObj.recentTxn = addrRes.txrefs[0].tx_hash; 
+            }
+            /**/
+            for (i = 0; i < addrRes.unconfirmed_n_tx; i++){
+                if(addrRes.unconfirmed_txrefs[i].tx_hash == addressObj.recentTxn){
+                    addressObj.preference = addrRes.unconfirmed_txrefs[i].preference;
+                }
+            }
+
+            for (i = 0; i < addrRes.n_tx; i++){
+                if(addrRes.txrefs[i].tx_hash == addressObj.recentTxn){
+                    addressObj.confirmations = addrRes.txrefs[i].confirmations;
+                    addressObj.confirmed = true;
+                }
+            }
+            /* */
             User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken}, 
                 {$push: {'addresses': addressObj}}, 
                 {new: true},
@@ -157,13 +177,31 @@ app.get('/api/addresses',
 
                     const promises = user.addresses.map(addressObj => {
                         return new Promise(resolve => {
-                            request(`https://api.blockcypher.com/v1/btc/main/addrs/${addressObj.address}/balance?token=03016274b5814976af645d94b4cdd1d0`, (err, data) => {
-                                const addressResult = JSON.parse(data.body);
-                                if(addressResult.error) {
+                            request(`https://api.blockcypher.com/v1/btc/main/addrs/${addressObj.address}/?token=${process.env.BLOCKCYPHERTOKEN}`, (err, data) => {
+                                const addrRes = JSON.parse(data.body);
+                                if(addrRes.error) {
                                     resolve(addressObj);
                                 }else{
-                                    addressObj.balance = addressResult.balance;
-                                    addressObj.unconfirmed_balance = addressResult.unconfirmed_balance;
+                                    /* find recentTxn in either unconfirmed_txrefs or txrefs; 
+                                          if it's in unconfirmed_txrefs, try to get confidence number (or at least preference high/low/medium)
+                                          XOR if it's in txrefs, get the number of confirmations
+                                    */
+
+                                    for (i = 0; i < addrRes.unconfirmed_n_tx; i++){
+                                        if(addrRes.unconfirmed_txrefs[i].tx_hash == addressObj.recentTxn){
+                                            addressObj.preference = addrRes.unconfirmed_txrefs[i].preference;
+                                        }
+                                    }
+
+                                    for (i = 0; i < addrRes.n_tx; i++){
+                                        if(addrRes.txrefs[i].tx_hash == addressObj.recentTxn){
+                                            addressObj.confirmations = addrRes.txrefs[i].confirmations;
+                                            addressObj.confirmed = true;
+                                        }
+                                    }
+
+                                    addressObj.balance = addrRes.balance;
+                                    addressObj.unconfirmed_balance = addrRes.unconfirmed_balance;
                                     addressObj.lastUpdated = Date.now();
                                     resolve(addressObj);
                                 }
@@ -183,15 +221,7 @@ app.get('/api/addresses',
                             }
                             res.json({addressesInfo: user.addresses})
                         })
-                        
-                        // const addressesInfo = data.map(addressInfo => {
-                        //     return {
-                        //         address: addressInfo.address,
-                        //         balance: addressInfo.balance,
-                        //         unconfirmed_balance: addressInfo.unconfirmed_balance
-                        //     }
-                        // })
-                        // res.json({addressesInfo: addressesInfo})
+ 
                     })
                 })       
 });

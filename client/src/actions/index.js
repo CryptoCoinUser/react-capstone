@@ -61,7 +61,7 @@ export const deleteAddressError = err => ({
 })
 
 export const fetchLatestBlock = () => dispatch => {
-    const url = `https:\//api.blockcypher.com/v1/btc/main?token=03016274b5814976af645d94b4cdd1d0`;
+    const url = `https:\//api.blockcypher.com/v1/btc/main`;
     axios(url)
     .then(res => {
         return dispatch(fetchLatestBlockSuccess(res.data))
@@ -76,7 +76,7 @@ export const fetchLatestBlock = () => dispatch => {
 
 
 export const getUnconfirmedAddress = () => dispatch => {
-    const url = 'https://api.blockcypher.com/v1/btc/main/txs?token=03016274b5814976af645d94b4cdd1d0';
+    const url = 'https://api.blockcypher.com/v1/btc/main/txs';
     axios(url)
     .then(res => {
         return dispatch(getUnconfirmedAddressSuccess(res.data))

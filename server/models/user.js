@@ -27,14 +27,23 @@ var userSchema = mongoose.Schema({
             type: Number,
             required: 'unconfirmed_balance required'
         },
-        recentTxn:{
+        recentTxn: {
             type: String,
             required: 'required from API'
         },
-        confidence:{
+        confidence: {
             type: Number
         },
-        lastUpdated:{
+        preference: {
+            type: String
+        },
+        confirmed: {
+            type: Boolean
+        },
+        confirmations: {
+            type: Number
+        },
+        lastUpdated: {
             type: Date,
             default: Date.now()
         },
