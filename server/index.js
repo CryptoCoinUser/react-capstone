@@ -11,7 +11,7 @@ const mongoose = require('mongoose');
 const User = require('./models/user');
 
 mongoose.Promise = global.Promise;
-const DATABASE_URL = 'mongodb://localhost/reactCapstone';
+const DATABASE_URL = process.env.DBURL || 'mongodb://localhost/reactCapstone';
 
 //const secret = require('./secret');
 
