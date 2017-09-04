@@ -29,8 +29,10 @@ class AddressesPage extends React.Component {
     }
 
     render() {
-        console.log("address-page.js ADDRESSES", this.props.addresses)
+        console.log("address-page.js ADDRESSES", this.props.addresses);
+        const confideceBaseURL = 'https:\//live.blockcypher.com/btc/tx/';
         const addresses = this.props.addresses.map((addressObj, index) =>
+
             <li className="addressObj" key={index}>
                 <button
                     onClick={e => this.deleteAddress(e, addressObj)}
@@ -40,20 +42,20 @@ class AddressesPage extends React.Component {
                 <span> </span>
                 <span className="random">{addressObj.random.toString()}</span> 
 
-                <span className="note">{
-                    addressObj.random? "Random Address Saved On " + moment(addressObj.savedOn).format("dddd, MMMM Do YYYY, h:mm")
-                    : addressObj.note
-                }</span> 
+                <span className="note">
+                    { 
+                        (!(addressObj.random) || (addressObj.random == "false")) ?  addressObj.note  
+                        : "Random Address Saved On " + moment(addressObj.savedOn).format("YYYY-MM-DD, HH:mm") 
+                    }
+                </span> 
 
                 <span className="lastUpdated">{moment(addressObj.lastUpdated).fromNow()}</span>  
 
                 <span className="address">{addressObj.address}</span> 
                 <span className="balance">{addressObj.balance / 100000000}</span> 
                 <span className="unconfirmed_balance">{addressObj.unconfirmed_balance / 100000000}</span>
-                const baseURL = 'https:\//live.blockcypher.com/btc/tx/';
-                const txhash = {addressObj.recentTxn};
-                const confidenceURL = baseURL + txhash;
-                <a href=`${confidenceURL}`>Confidence Link</a>
+               
+                <span className="confidence"><a href={confideceBaseURL + addressObj.recentTxn} target='_blank'>View Confidence on BlockCypher Page &gt;&gt;</a></span>
 
             </li>
         );

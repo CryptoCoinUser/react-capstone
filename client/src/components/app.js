@@ -6,7 +6,7 @@ import axios from 'axios';
 
 import {connect} from 'react-redux';
 import * as actions from '../actions/index';
-
+import moment from 'moment';
 
 
 class App extends React.Component {
@@ -67,7 +67,7 @@ class App extends React.Component {
         const myAddress     = this.myAddressInput.value;
         let myAddressNote = this.myAddressNoteInput.value;
         if(!myAddressNote){
-            myAddressNote = "My Address added on " + Date.now()
+            myAddressNote = "My Address added on " + moment(Date.now()).format("YYYY-MM-DD, HH:mm")
         }
 
         const accessToken = Cookies.get('accessToken');
@@ -78,8 +78,8 @@ class App extends React.Component {
                 actions.saveAddress(accessToken, myAddress, false, myAddressNote)
             )
         }
-        this.myAddressInput = "";
-        this.myAddressNoteInput = "";
+        // this.myAddressInput = "";
+        // this.myAddressNoteInput = "";
     }
 
 

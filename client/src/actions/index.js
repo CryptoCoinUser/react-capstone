@@ -61,7 +61,7 @@ export const deleteAddressError = err => ({
 })
 
 export const fetchLatestBlock = () => dispatch => {
-    const url = `https:\//api.blockcypher.com/v1/btc/main`;
+    const url = `https:\//api.blockcypher.com/v1/btc/main?token=03016274b5814976af645d94b4cdd1d0`;
     axios(url)
     .then(res => {
         return dispatch(fetchLatestBlockSuccess(res.data))
@@ -76,7 +76,7 @@ export const fetchLatestBlock = () => dispatch => {
 
 
 export const getUnconfirmedAddress = () => dispatch => {
-    const url = 'https://api.blockcypher.com/v1/btc/main/txs';
+    const url = 'https://api.blockcypher.com/v1/btc/main/txs?token=03016274b5814976af645d94b4cdd1d0';
     axios(url)
     .then(res => {
         return dispatch(getUnconfirmedAddressSuccess(res.data))
@@ -100,7 +100,7 @@ export const getWatchedAddresses = accessToken => dispatch => {
 }
 
 export const saveAddress = (accessToken, address, randomFlag, note = "noNote") => dispatch => {
-    console.log('saveAddress accessToken', accessToken);
+    console.log('saveAddress randomFlag', randomFlag);
     axios(`/api/saveaddress/${address}/${randomFlag}/${note}`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`

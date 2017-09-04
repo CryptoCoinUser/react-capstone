@@ -119,7 +119,7 @@ app.get('/api/auth/logout',
 app.get('/api/saveaddress/:address/:randomflag/:note',
      passport.authenticate('bearer', {session: false}),
       (req, res) => {
-        request(`https://api.blockcypher.com/v1/btc/main/addrs/${req.params.address}`, (err, data) => {
+        request(`https://api.blockcypher.com/v1/btc/main/addrs/${req.params.address}?token=03016274b5814976af645d94b4cdd1d0`, (err, data) => {
             const addressData = JSON.parse(data.body);
             // build object that is being pushed in
             //console.log('addressData :', addressData);
@@ -132,8 +132,6 @@ app.get('/api/saveaddress/:address/:randomflag/:note',
                 note: `${req.params.note}`,
                 lastUpdated: Date.now()
             }
-            console.log('/api/saveaddress/ addressObj:', addressObj)
-
             User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken}, 
                 {$push: {'addresses': addressObj}}, 
                 {new: true},
@@ -142,6 +140,7 @@ app.get('/api/saveaddress/:address/:randomflag/:note',
                         console.log(err);
                         throw err;
                     }
+                    console.log('/api/saveaddress/:address/:randomflag/:note req.params.randomflag:', req.params.randomflag);
                     res.send(addressObj)
             })
         })
@@ -158,7 +157,7 @@ app.get('/api/addresses',
 
                     const promises = user.addresses.map(addressObj => {
                         return new Promise(resolve => {
-                            request(`https://api.blockcypher.com/v1/btc/main/addrs/${addressObj.address}/balance`, (err, data) => {
+                            request(`https://api.blockcypher.com/v1/btc/main/addrs/${addressObj.address}/balance?token=03016274b5814976af645d94b4cdd1d0`, (err, data) => {
                                 const addressResult = JSON.parse(data.body);
                                 if(addressResult.error) {
                                     resolve(addressObj);
