@@ -49,7 +49,7 @@ class AddressesPage extends React.Component {
                     }
                 </span> 
 
-                <span className="lastUpdated">{moment(addressObj.lastUpdated).fromNow()}</span>  
+                <span className="lastUpdated">{moment(addressObj.lastUpdated).format("YYYY-MM-DD, HH:mm")}</span>  
 
                 <span className="address">{addressObj.address}</span> 
                 <span className="balance">{addressObj.balance / 100000000}</span> 
