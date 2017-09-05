@@ -48,23 +48,23 @@ class AddressesPage extends React.Component {
                         : "Random Address Saved On " + moment(addressObj.savedOn).format("YYYY-MM-DD, HH:mm") 
                     }
                 </span> 
-
-                <span className="lastUpdated">{moment(addressObj.lastUpdated).format("YYYY-MM-DD, HH:mm")}</span>  
-
-                 
-                <span className="balance">{addressObj.balance / 100000000}</span> 
-                <span className="unconfirmed_balance">{addressObj.unconfirmed_balance / 100000000}</span>
-
-                <span className="txn">{addressObj.recentTxn}</span>
-                {   
-                    addressObj.confirmed ? <span className="confirmations">{addressObj.confirmations}</span> 
-                    : <div className ="unconfirmed">
-                          <span className="preference">{addressObj.preference}</span>
-                          <span className="confidence">
-                            <a href={confideceBaseURL + addressObj.recentTxn} target='_blank'>View Confidence on BlockCypher Page &gt;&gt;</a>
-                          </span>
-                      </div>
-                }
+                <div className="balancesInfo"> 
+                    <span className="balance">{addressObj.balance / 100000000}</span> 
+                    <span className="unconfirmed_balance">{addressObj.unconfirmed_balance / 100000000}</span>
+                    <span className="lastUpdated">{moment(addressObj.lastUpdated).format("YYYY-MM-DD, HH:mm")}</span>
+                </div>
+                <div className="txnInfo">
+                    <span className="txn">{addressObj.recentTxn}</span>
+                    {   
+                        addressObj.confirmed ? <span className="confirmations">{addressObj.confirmations}</span> 
+                        : <div className ="unconfirmed">
+                              <span className="preference">{addressObj.preference}</span>
+                              <span className="confidence">
+                                <a href={confideceBaseURL + addressObj.recentTxn} target='_blank'>View Confidence on BlockCypher Page &gt;&gt;</a>
+                              </span>
+                          </div>
+                    }
+                </div>
 
 
             </li>

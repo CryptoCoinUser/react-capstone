@@ -34,7 +34,7 @@ passport.use(
         clientID:  process.env.CLIENTID,
         clientSecret: process.env.SECRET,
         callbackURL: `/api/auth/google/callback`
-        
+
     },
     (accessToken, refreshToken, profile, cb) => {
         // Job 1: Set up Mongo/Mongoose, create a User model which store the
@@ -165,7 +165,6 @@ app.get('/api/saveaddress/:address/:randomflag/:note',
                         console.log(err);
                         throw err;
                     }
-                    console.log('/api/saveaddress/:address/:randomflag/:note req.params.randomflag:', req.params.randomflag);
                     res.send(addressObj)
             })
         })

@@ -62,8 +62,6 @@ class App extends React.Component {
     saveMyAddress(e) {
         e.preventDefault();
 
-        console.log('saveMyAddress')
-
         const myAddress     = this.myAddressInput.value;
         let myAddressNote = this.myAddressNoteInput.value;
         if(!myAddressNote){
@@ -121,7 +119,7 @@ class App extends React.Component {
                 <h4>Add a specific address to watch list</h4>
                     <input type="text" placeholder="Paste address" id="myAddress" size="50" 
                     ref={ref => this.myAddressInput = ref} />
-                    <input type="text" placeholder="note" id="myAddressNote" size="20" 
+                    <input type="text" placeholder="Note" id="myAddressNote" size="20" 
                     ref={ref => this.myAddressNoteInput = ref} />
                     <button id="watchMyAddress" 
                         onClick={this.saveMyAddress}
