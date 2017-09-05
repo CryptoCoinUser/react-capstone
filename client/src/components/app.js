@@ -65,7 +65,7 @@ class App extends React.Component {
         const myAddress     = this.myAddressInput.value;
         let myAddressNote = this.myAddressNoteInput.value;
         if(!myAddressNote){
-            myAddressNote = "My Address added on " + moment(Date.now()).format("YYYY-MM-DD, HH:mm")
+            myAddressNote = "saved on " + moment(Date.now()).format("YYYY-MM-DD, HH:mm")
         }
 
         const accessToken = Cookies.get('accessToken');

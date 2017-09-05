@@ -60,7 +60,7 @@ class AddressesPage extends React.Component {
                         : <div className ="unconfirmed">
                               <span className="preference">{addressObj.preference}</span>
                               <span className="confidence">
-                                <a href={confideceBaseURL + addressObj.recentTxn} target='_blank'>View Confidence on BlockCypher Page &gt;&gt;</a>
+                                <a href={confideceBaseURL + addressObj.recentTxn} target='_blank' title="View BlockCypher's confidence in this transaction; opens in new tab">BlockCypher Confidence &gt;&gt;</a>
                               </span>
                           </div>
                     }
