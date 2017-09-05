@@ -93,24 +93,24 @@ class App extends React.Component {
                 <p id="logout"><a href="#" onClick={(e => this.logout(e))}>logout</a></p>
                 <h2>Add Address</h2>
                 <div id="randomAddressDiv">
-                    <h4>Add a random address from a not-yet-confirmed txn to watch list</h4>
+                    <h4>Add a random address (from a not-yet-confirmed transaction) to watch list</h4>
                     
                     <button
                         onClick={(e => this.getUnconfirmedAddress(e))}
                      >
-                        Get a Random Address from an Unconfirmed Txn
+                        Get Random Address
                     </button>
                     <br /><br />
                     <div id="randomAddressAndButton">
-                    {this.props.randomAddress} <span> </span> 
-                    {this.props.randomAddress ?
-                        <button
-                            onClick = {(e => this.saveRandomAddress(e))} 
-                            > Watch Random Address
-                        </button>
-                        : ""
+                        {this.props.randomAddress} <span> </span> 
+                        {this.props.randomAddress ?
+                            <button
+                                onClick = {(e => this.saveRandomAddress(e))} 
+                                > Watch Random Address
+                            </button>
+                            : ""
 
-                    }
+                        }
                     </div>
                     <br />
                     {this.props.randomAddressError}
@@ -118,8 +118,8 @@ class App extends React.Component {
 
 
                 <form id="myAddressForm">
-                <h4>Add specific address to watch list</h4>
-                    <input type="text" placeholder="paste your receiving address" id="myAddress" size="50" 
+                <h4>Add a specific address to watch list</h4>
+                    <input type="text" placeholder="Paste address" id="myAddress" size="50" 
                     ref={ref => this.myAddressInput = ref} />
                     <input type="text" placeholder="note" id="myAddressNote" size="20" 
                     ref={ref => this.myAddressNoteInput = ref} />
@@ -128,7 +128,7 @@ class App extends React.Component {
                     >Watch My Address</button>
                 </form>
 
-                <h2>Addresses you are watching</h2>
+                <h2>Watch List</h2>
                 <AddressesPage />
 
                 {/*

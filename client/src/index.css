@@ -50,7 +50,8 @@ float:left;}
 .address-list .addressObj span.address{font-weight: bold;}
 
 .address-list .addressObj span.txn{}
-.address-list .addressObj span.txn::before{content: "Assuming you are interested in txn ";}
+.address-list .addressObj span.txn::before{content: "Assuming you are interested in transaction ";}
+.address-list .addressObj span.txn::after{content: ":";}
 
 .address-list .addressObj span.balance{color:#0a0; white-space: nowrap;}
 .address-list .addressObj span.balance::before{ content: "Confirmed Balance: "; }
@@ -68,8 +69,8 @@ float:left;}
 .address-list .addressObj span.note::before{ content: "Note: "; }
 
 
-.address-list .addressObj span.confirmations::before{ content: "Confirmations: "; }
+.address-list .addressObj span.confirmations::after{ content: " Confirmations"; }
 
-.address-list .addressObj span.preference::before{ content: "Preference: "; }
+.address-list .addressObj span.preference::before{ content: "Miner Preference: "; }
 
 .address-list .addressObj span.confidence{}

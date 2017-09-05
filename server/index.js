@@ -34,6 +34,7 @@ passport.use(
         clientID:  process.env.CLIENTID,
         clientSecret: process.env.SECRET,
         callbackURL: `/api/auth/google/callback`
+        
     },
     (accessToken, refreshToken, profile, cb) => {
         // Job 1: Set up Mongo/Mongoose, create a User model which store the
@@ -139,18 +140,22 @@ app.get('/api/saveaddress/:address/:randomflag/:note',
                addressObj.recentTxn = addrRes.txrefs[0].tx_hash; 
             }
             /**/
-            for (i = 0; i < addrRes.unconfirmed_n_tx; i++){
-                if(addrRes.unconfirmed_txrefs[i].tx_hash == addressObj.recentTxn){
-                    addressObj.preference = addrRes.unconfirmed_txrefs[i].preference;
+            if(addrRes.unconfirmed_n_tx){
+                for (i = 0; i < addrRes.unconfirmed_n_tx; i++){
+                    if(addrRes.unconfirmed_txrefs[i].tx_hash == addressObj.recentTxn){
+                        addressObj.preference = addrRes.unconfirmed_txrefs[i].preference;
+                    }
+                }
+            }
+            if(addrRes.txrefs){
+                for (i = 0; i < addrRes.n_tx; i++){
+                    if(addrRes.txrefs[i].tx_hash == addressObj.recentTxn){
+                        addressObj.confirmations = addrRes.txrefs[i].confirmations;
+                        addressObj.confirmed = true;
+                    }
                 }
             }
 
-            for (i = 0; i < addrRes.n_tx; i++){
-                if(addrRes.txrefs[i].tx_hash == addressObj.recentTxn){
-                    addressObj.confirmations = addrRes.txrefs[i].confirmations;
-                    addressObj.confirmed = true;
-                }
-            }
             /* */
             User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken}, 
                 {$push: {'addresses': addressObj}}, 
@@ -186,17 +191,19 @@ app.get('/api/addresses',
                                           if it's in unconfirmed_txrefs, try to get confidence number (or at least preference high/low/medium)
                                           XOR if it's in txrefs, get the number of confirmations
                                     */
-
-                                    for (i = 0; i < addrRes.unconfirmed_n_tx; i++){
-                                        if(addrRes.unconfirmed_txrefs[i].tx_hash == addressObj.recentTxn){
-                                            addressObj.preference = addrRes.unconfirmed_txrefs[i].preference;
+                                    if(addrRes.unconfirmed_n_tx){
+                                        for (i = 0; i < addrRes.unconfirmed_n_tx; i++){
+                                            if(addrRes.unconfirmed_txrefs[i].tx_hash == addressObj.recentTxn){
+                                                addressObj.preference = addrRes.unconfirmed_txrefs[i].preference;
+                                            }
                                         }
                                     }
-
-                                    for (i = 0; i < addrRes.n_tx; i++){
-                                        if(addrRes.txrefs[i].tx_hash == addressObj.recentTxn){
-                                            addressObj.confirmations = addrRes.txrefs[i].confirmations;
-                                            addressObj.confirmed = true;
+                                    if(addrRes.txrefs){
+                                        for (i = 0; i < addrRes.n_tx; i++){
+                                            if(addrRes.txrefs[i].tx_hash == addressObj.recentTxn){
+                                                addressObj.confirmations = addrRes.txrefs[i].confirmations;
+                                                addressObj.confirmed = true;
+                                            }
                                         }
                                     }
 
