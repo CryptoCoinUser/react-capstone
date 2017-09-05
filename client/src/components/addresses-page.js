@@ -39,7 +39,6 @@ class AddressesPage extends React.Component {
                 >
                     Delete X
                 </button>
-                <span> </span>
                 {/*<span className="random">{addressObj.random.toString()}</span>*/}
                 <span className="address">{addressObj.address}</span> 
                 <span className="note">

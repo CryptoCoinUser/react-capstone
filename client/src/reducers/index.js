@@ -33,7 +33,7 @@ export const blockReducer = (state=initialState, action) => {
 	} else if(action.type === actions.GET_UNCONFIRMED_ADDRESS_ERROR) {
 		return {
 			...state,
-			randomAddressError: 'error getting random address, probably 429, too many requests'
+			randomAddressError: 'Error, probably too many requests: BlockCypher API allows only 3 per second or 200 per hour. Quota freshes at the top of the hour'
 		}
 	} else if(action.type === actions.SEND_ADDRESSES_TO_REDUCER) {
 		console.log('SEND_ADDRESSES_TO_REDUCER action.addresses.addressesInfo: ', action.addresses.addressesInfo);

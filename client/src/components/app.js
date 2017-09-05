@@ -89,20 +89,19 @@ class App extends React.Component {
         return (
             <div className="app">
                 <p id="logout"><a href="#" onClick={(e => this.logout(e))}>logout</a></p>
-                <h2>Add Address</h2>
+                <h2>Add Bitcoin Address</h2>
                 <div id="randomAddressDiv">
                     <h4>Add a random address (from a not-yet-confirmed transaction) to watch list</h4>
                     
-                    <button
+                    <button id="getRandomAddress"
                         onClick={(e => this.getUnconfirmedAddress(e))}
                      >
                         Get Random Address
                     </button>
-                    <br /><br />
                     <div id="randomAddressAndButton">
                         {this.props.randomAddress} <span> </span> 
                         {this.props.randomAddress ?
-                            <button
+                            <button id="watchRandomAddress"
                                 onClick = {(e => this.saveRandomAddress(e))} 
                                 > Watch Random Address
                             </button>
@@ -110,7 +109,6 @@ class App extends React.Component {
 
                         }
                     </div>
-                    <br />
                     {this.props.randomAddressError}
                 </div>
 
