@@ -65,7 +65,7 @@ class App extends React.Component {
         const myAddress     = this.myAddressInput.value;
         let myAddressNote = this.myAddressNoteInput.value;
         if(!myAddressNote){
-            myAddressNote = "saved on " + moment(Date.now()).format("YYYY-MM-DD, HH:mm")
+            myAddressNote = "Address saved on " + moment(Date.now()).format("YYYY-MM-DD, HH:mm")
         }
 
         const accessToken = Cookies.get('accessToken');
@@ -87,11 +87,11 @@ class App extends React.Component {
             return <LoginPage />;
         }
         return (
-            <div className="app">
+            <div id="main">
                 <p id="logout"><a href="#" onClick={(e => this.logout(e))}>logout</a></p>
                 <h2>Add Bitcoin Address</h2>
-                <div id="randomAddressDiv">
-                    <h4>Add a random address (from a not-yet-confirmed transaction) to watch list</h4>
+                <div id="randomAddressWrapper">
+                    <h4>Add a random address (from a recent transaction) to watch list</h4>
                     
                     <button id="getRandomAddress"
                         onClick={(e => this.getUnconfirmedAddress(e))}
@@ -99,11 +99,11 @@ class App extends React.Component {
                         Get Random Address
                     </button>
                     <div id="randomAddressAndButton">
-                        {this.props.randomAddress} <span> </span> 
+                        <span id="randomAddress">{this.props.randomAddress}</span> 
                         {this.props.randomAddress ?
                             <button id="watchRandomAddress"
                                 onClick = {(e => this.saveRandomAddress(e))} 
-                                > Watch Random Address
+                                > Watch This Address
                             </button>
                             : ""
 
@@ -115,7 +115,7 @@ class App extends React.Component {
 
                 <form id="myAddressForm">
                 <h4>Add a specific address to watch list</h4>
-                    <input type="text" placeholder="Paste address" id="myAddress" size="50" 
+                    <input type="text" placeholder="Paste address" id="myAddress" size="40" 
                     ref={ref => this.myAddressInput = ref} />
                     <input type="text" placeholder="Note" id="myAddressNote" size="20" 
                     ref={ref => this.myAddressNoteInput = ref} />
@@ -124,7 +124,7 @@ class App extends React.Component {
                     >Watch My Address</button>
                 </form>
 
-                <h2>Watch List</h2>
+                <h2>Address Watch List</h2>
                 <AddressesPage />
 
                 {/*

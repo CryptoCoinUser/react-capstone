@@ -31,7 +31,7 @@ app.use(function(req, res, next) {
 
 passport.use(
     new GoogleStrategy({
-        clientID:  process.env.CLIENTID,
+        clientID:  '956789487424-b1hntk8in8rj8j3tn36ji41m919i21oc.apps.googleusercontent.com',
         clientSecret: process.env.SECRET,
         callbackURL: `/api/auth/google/callback`
 
