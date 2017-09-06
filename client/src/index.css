@@ -7,9 +7,10 @@ body {
 #loginWrapper{
 	text-align: center;
 }
-
-#loginWrapper img{
-	border: 10px dashed #000;
+#loginWrapper a#loginLink{font-size: 3em; text-decoration: none;}
+#loginWrapper a#loginLink:hover{text-decoration: underline;}
+#loginWrapper video{
+	border: 1px dotted #000;
 }
 
 #logout{text-align: center; font-size: 1.5em;}
