@@ -203,6 +203,9 @@ app.get('/api/addresses',
                 })       
 });
 
+app.post('/api/webhook/', (req, res) => {
+    console.log("REQUEST", req);
+})
 
 app.get('/api/deleteaddress/:address',
     passport.authenticate('bearer', {session: false}),
