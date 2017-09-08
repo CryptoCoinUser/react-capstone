@@ -75,7 +75,7 @@ class AddressesPage extends React.Component {
                                 <a href={confideceBaseURL + addressObj.recentTxn} target='_blank' title="View BlockCypher's confidence in this transaction; opens in new tab">BlockCypher Confidence &gt;&gt;</a>
                               </span>
 
-                              <button onClick={e => this.tryWebSockets(e,addressObj)}>tryWebSockets</button>
+                              {/*<button onClick={e => this.tryWebSockets(e,addressObj)}>tryWebSockets</button>*/}
                           </div>
                     }
                 </div>
