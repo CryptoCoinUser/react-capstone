@@ -112,5 +112,3 @@ ul.address-list li{margin:0 0 1em 0;}
 
 .address-list .addressObj span.preference{}
 .address-list .addressObj span.preference::before{ content: "Miner Preference: "; }
-
-.address-list .addressObj span.confidence{}

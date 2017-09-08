@@ -37,11 +37,6 @@ passport.use(
 
     },
     (accessToken, refreshToken, profile, cb) => {
-        // Job 1: Set up Mongo/Mongoose, create a User model which store the
-        // google id, and the access token
-        // Job 2: Update this callback to either update or create the user
-        // so it contains the correct access token
-   
         // create user
         User.findOne({'auth.googleId': profile.id}, (err, user) => {
             if (err) return cb(err);
@@ -55,7 +50,6 @@ passport.use(
                 newUser.auth.googleAccessToken = accessToken;
                 newUser.addresses = [];
 
-                //console.log(newUser);
                 //save newUser
                 newUser.save(err => {
                     if(err){
@@ -72,13 +66,6 @@ passport.use(
 passport.use(
     new BearerStrategy(
         (token, cb) => {
-            // Job 3: Update this callback to try to find a user with a 
-            // matching access token.  If they exist, let em in, if not,
-            // don't.
-
-            // console.log('Bearer token is ' + token)
-
-            // look up token in user model
             User.findOne({'auth.googleAccessToken': token}, (err, user) => {
 
                 // console.log('found USER ' + user)
@@ -123,7 +110,6 @@ app.get('/api/saveaddress/:address/:randomflag/:note',
         request(`https://api.blockcypher.com/v1/btc/main/addrs/${req.params.address}?token=${process.env.BLOCKCYPHERTOKEN}`, (err, data) => {
             const addrRes = JSON.parse(data.body);
             // build object that is being pushed in
-            //console.log('addrRes :', addrRes);
             const addressObj = {
                 address: addrRes.address,
                 balance: addrRes.balance,
@@ -133,30 +119,16 @@ app.get('/api/saveaddress/:address/:randomflag/:note',
                 note: `${req.params.note}`,
                 lastUpdated: Date.now()
             }
-            // assume the tx is the first one in unconfirmed_txrefs, or if there aren't any unconfirmed_txrefs, the first one in txrefs.
+            // assume "the" txn is the first one in unconfirmed_txrefs, or if there aren't any unconfirmed_txrefs, the first one in txrefs.
             if(addrRes.unconfirmed_txrefs){
-                addressObj.recentTxn = addrRes.unconfirmed_txrefs[0].tx_hash;
+                addressObj.recentTxn  = addrRes.unconfirmed_txrefs[0].tx_hash;
+                addressObj.preference = addrRes.unconfirmed_txrefs[0].preference;
             } else if (addrRes.txrefs){
-               addressObj.recentTxn = addrRes.txrefs[0].tx_hash; 
-            }
-            /**/
-            if(addrRes.unconfirmed_n_tx){
-                for (i = 0; i < addrRes.unconfirmed_n_tx; i++){
-                    if(addrRes.unconfirmed_txrefs[i].tx_hash == addressObj.recentTxn){
-                        addressObj.preference = addrRes.unconfirmed_txrefs[i].preference;
-                    }
-                }
-            }
-            if(addrRes.txrefs){
-                for (i = 0; i < addrRes.n_tx; i++){
-                    if(addrRes.txrefs[i].tx_hash == addressObj.recentTxn){
-                        addressObj.confirmations = addrRes.txrefs[i].confirmations;
-                        addressObj.confirmed = true;
-                    }
-                }
+               addressObj.recentTxn = addrRes.txrefs[0].tx_hash;
+               addressObj.confirmations = addrRes.txrefs[0].confirmations;
+               addressObj.confirmed = true;
             }
 
-            /* */
             User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken}, 
                 {$push: {'addresses': addressObj}}, 
                 {new: true},
@@ -187,7 +159,7 @@ app.get('/api/addresses',
                                     resolve(addressObj);
                                 }else{
                                     /* find recentTxn in either unconfirmed_txrefs or txrefs; 
-                                          if it's in unconfirmed_txrefs, try to get confidence number (or at least preference high/low/medium)
+                                          if it's in unconfirmed_txrefs, get miner preference (high/low/medium)
                                           XOR if it's in txrefs, get the number of confirmations
                                     */
                                     if(addrRes.unconfirmed_n_tx){
@@ -197,7 +169,7 @@ app.get('/api/addresses',
                                             }
                                         }
                                     }
-                                    if(addrRes.txrefs){
+                                    if(addrRes.n_tx){
                                         for (i = 0; i < addrRes.n_tx; i++){
                                             if(addrRes.txrefs[i].tx_hash == addressObj.recentTxn){
                                                 addressObj.confirmations = addrRes.txrefs[i].confirmations;
@@ -216,7 +188,6 @@ app.get('/api/addresses',
                     })
 
                     Promise.all(promises).then(allAddressesData => {
-                        console.log("resolved addresses allAddressesData", allAddressesData)
                         User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken},
                             {$set: {'addresses': allAddressesData}},
                             {new: true},

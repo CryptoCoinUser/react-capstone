@@ -27,7 +27,7 @@ class App extends React.Component {
         this.props.dispatch(
             actions.fetchLatestBlock()
         )
-        
+
     }
 
     logout(e) {
@@ -86,7 +86,9 @@ class App extends React.Component {
         if(!this.props.currentUser){
             return <LoginPage />;
         }
+        const addrBaseUrl = 'http:\//api.blockcypher.com/v1/btc/main/addrs/';
         return (
+            
             <div id="main">
                 <p id="logout"><a href="#" onClick={(e => this.logout(e))}>logout</a></p>
                 <h2>Add Bitcoin Address</h2>
@@ -99,7 +101,7 @@ class App extends React.Component {
                         Get Random Address
                     </button>
                     <div id="randomAddressAndButton">
-                        <span id="randomAddress">{this.props.randomAddress}</span> 
+                        <span id="randomAddress"><a href={addrBaseUrl + this.props.randomAddress}>{this.props.randomAddress}</a></span>
                         {this.props.randomAddress ?
                             <button id="watchRandomAddress"
                                 onClick = {(e => this.saveRandomAddress(e))} 

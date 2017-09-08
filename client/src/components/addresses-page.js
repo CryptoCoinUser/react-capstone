@@ -27,10 +27,21 @@ class AddressesPage extends React.Component {
             actions.deleteAddress(addressObj.address, accessToken)
         )
     }
+    tryWebSockets(e, addressObj){
+        e.preventDefault();
+        this.props.dispatch(
+            actions.tryWebSockets(addressObj.address, addressObj.txn)
+        )
+    }
 
     render() {
-        console.log("address-page.js ADDRESSES", this.props.addresses);
+        <div id="browser-websocket">
+            {/* https://.github.io/documentation/#websockets */} 
+        </div>
         const confideceBaseURL = 'https:\//live.blockcypher.com/btc/tx/';
+        const txBaseURL = 'https:\//api.blockcypher.com/v1/btc/main/txs/';
+        const addrBaseUrl = 'http:\//api.blockcypher.com/v1/btc/main/addrs/';
+
         const addresses = this.props.addresses.map((addressObj, index) =>
 
             <li className="addressObj" key={index}>
@@ -40,7 +51,7 @@ class AddressesPage extends React.Component {
                     Delete X
                 </button>
                 {/*<span className="random">{addressObj.random.toString()}</span>*/}
-                <span className="address">{addressObj.address}</span> 
+                <span className="address"><a href={addrBaseUrl + addressObj.address}>{addressObj.address}</a></span> 
                 <span className="note">
                     { 
                         (!(addressObj.random) || (addressObj.random == "false")) ?  addressObj.note  
@@ -53,14 +64,18 @@ class AddressesPage extends React.Component {
                     <span className="lastUpdated">{moment(addressObj.lastUpdated).format("YYYY-MM-DD, HH:mm")}</span>
                 </div>
                 <div className="txnInfo">
-                    <span className="txn">{addressObj.recentTxn}</span>
+                    <span className="txn"><a href={txBaseURL + addressObj.recentTxn}>{addressObj.recentTxn}</a></span>
                     {   
                         addressObj.confirmed ? <span className="confirmations">{addressObj.confirmations}</span> 
                         : <div className ="unconfirmed">
+
                               <span className="preference">{addressObj.preference}</span>
                               <span className="confidence">
+
                                 <a href={confideceBaseURL + addressObj.recentTxn} target='_blank' title="View BlockCypher's confidence in this transaction; opens in new tab">BlockCypher Confidence &gt;&gt;</a>
                               </span>
+
+                              <button onClick={e => this.tryWebSockets(e,addressObj)}>tryWebSockets</button>
                           </div>
                     }
                 </div>

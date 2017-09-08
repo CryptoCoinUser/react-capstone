@@ -94,13 +94,11 @@ export const getWatchedAddresses = accessToken => dispatch => {
         }
     })
     .then(res => {
-        console.log('getWatchedAddresses res.data: ', res.data)
         return dispatch(sendAddressesToReducer(res.data));
     })
 }
 
 export const saveAddress = (accessToken, address, randomFlag, note = "noNote") => dispatch => {
-    console.log('saveAddress randomFlag', randomFlag);
     axios(`/api/saveaddress/${address}/${randomFlag}/${note}`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`
@@ -113,7 +111,6 @@ export const saveAddress = (accessToken, address, randomFlag, note = "noNote") =
 }
 
 export const deleteAddress = (address, accessToken) => dispatch => {
-    console.log('deleteAddress accessToken', accessToken);
     axios(`/api/deleteaddress/${address}`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`
@@ -130,7 +127,6 @@ export const deleteAddress = (address, accessToken) => dispatch => {
 
 
 export const isUserLoggedIn = accessToken => dispatch => {
-    console.log('isUserLoggedIn accessToken:', accessToken);
     axios('/api/isuserloggedin', {
         headers: {
             'Authorization': `Bearer ${accessToken}`
@@ -150,4 +146,37 @@ export const logoutCurrentUser = (accessToken) => dispatch => {
    .then(res => {
       return dispatch(logoutCurrentUserSuccess());  
    })
+}
+
+export const tryWebSockets = (address, txn) => dispatch => {
+    console.log('tryWebSockets event', event);
+    // Get latest unconfirmed transactions live
+    const ws = new WebSocket("ws://socket.blockcypher.com/v1/btc/main");
+    const pingEvent = { "event" : "ping" };
+    let count = 0;
+
+    ws.onmessage = function (event) {
+       console.log('ws.onmessage');
+      count++;
+      if (count > 10) ws.close();
+    }
+
+
+    ws.onopen = function(event) {
+    console.log('ws.onopen');
+      ws.send(JSON.stringify({
+        //filter: "event=unconfirmed-tx", 
+        event: "unconfirmed-tx",
+        address,
+        tx: txn,
+        confidence: 0.1,
+        confirmations: 0,
+        token: '03016274b5814976af645d94b4cdd1d0'
+      }));
+    }
+
+    ws.onerror = function(event){
+        console.log('onerror', event);
+    }
+
 }
