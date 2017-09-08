@@ -153,7 +153,7 @@ app.get('/api/addresses',
 
                     const promises = user.addresses.map(addressObj => {
                         return new Promise(resolve => {
-                            request(`https://api.blockcypher.com/v1/btc/main/addrs/${addressObj.address}/?token=${process.env.BLOCKCYPHERTOKEN}`, (err, data) => {
+                            request(`https://api.blockcypher.com/v1/btc/main/addrs/${addressObj.address}?token=${process.env.BLOCKCYPHERTOKEN}`, (err, data) => {
                                 const addrRes = JSON.parse(data.body);
                                 if(addrRes.error) {
                                     resolve(addressObj);
@@ -204,7 +204,7 @@ app.get('/api/addresses',
 });
 
 app.post('/api/webhook', (req, res) => {
-    console.log("REQUEST", req);
+    console.log("REQUEST body", req.body);
 })
 
 app.get('/api/deleteaddress/:address',
