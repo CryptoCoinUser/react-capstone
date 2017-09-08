@@ -203,7 +203,7 @@ app.get('/api/addresses',
                 })       
 });
 
-app.post('/api/webhook/', (req, res) => {
+app.post('/api/webhook', (req, res) => {
     console.log("REQUEST", req);
 })
 
