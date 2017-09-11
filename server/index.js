@@ -250,12 +250,23 @@ app.get('/api/saveorupdateemail/:email',
 
 app.post('/api/webhook/:email', (req, res) => {
     console.log('/api/webhook/:email req.body', req.body)
+    const emailData = {
+     from: "foo@bar.com",
+     to: req.params.email,
+     subject: "Test From Server Index.js",
+     text: `Req.body.hash: ${req.body.hash}`,
+     html: `<p>Req.body.hash: ${req.body.hash}</p>`
+    }
+    // import our mailer function
+    sendEmail(emailData);
+
+    console.log("REQUEST body", req.body);
 })
 
 app.post('/api/webhook/:address/:email', (req, res) => {
     console.log('/api/webhook/:address/:email', req.params)
     const {email, address} = req.params;
-    var webhook = {
+    const webhook = {
         event: "unconfirmed-tx",
         address,
         url: `https://watch-my-address.herokuapp.com/api/webhook/${email}`
@@ -263,7 +274,7 @@ app.post('/api/webhook/:address/:email', (req, res) => {
     bcapi.createHook(webhook, (err, data) => {
         console.log("DATA", data)
     });
-  
+
 })
 
 app.get('/api/deleteaddress/:address/:optionalwebhookid',
