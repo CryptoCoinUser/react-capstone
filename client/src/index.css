@@ -49,6 +49,18 @@ span#randomAddress{
 	padding:0.5 1em 2em 1em;
 }
 
+#addressesWithWebhooks dl{
+	text-align: left;
+	display: block;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+#addressesWithWebhooks button{font-size:0.5em; padding:0.5em;}
+
+
 #notificationEmail input,
 #myAddressForm input {font-size: 1.2em; margin-right: 1em; margin-bottom:0.5em; padding:0.5em; 
 	border:1px solid #000;

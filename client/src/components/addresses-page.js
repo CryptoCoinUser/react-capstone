@@ -39,9 +39,13 @@ class AddressesPage extends React.Component {
         e.preventDefault();
         //const myEmailAddress = this.myEmailAddress.value;
         const accessToken = Cookies.get('accessToken');
+        if(this.props.email.includes('Your email - if you want to set up notifications')){
+            alert('please set up email first');
+            return
+        }
         if(accessToken) {
             this.props.dispatch(
-                actions.emailMeAboutThisAddress(accessToken, addressObj.address)
+                actions.emailMeAboutThisAddress(accessToken, addressObj.address, this.props.email)
             )
         }
     }
@@ -117,7 +121,8 @@ class AddressesPage extends React.Component {
 
 // connect this component to the store
 const mapStateToProps = state => ({
-   addresses: state.addresses 
+   addresses: state.addresses,
+   email: state.email 
 })
 
 export default connect(mapStateToProps)(AddressesPage)

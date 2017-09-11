@@ -6,7 +6,8 @@ const initialState = {
 	randomAddress: null,
 	randomAddressError: null,
 	deleteAddressError: null,
-	addresses: []
+	addresses: [],
+	email: 'Your email - if you want to set up notifications'
 };
 
 export const blockReducer = (state=initialState, action) => {
@@ -16,9 +17,11 @@ export const blockReducer = (state=initialState, action) => {
 			latestBlock: action.response
 		}
 	}else if(action.type === actions.IS_USER_LOGGED_IN_SUCCESS){
+		console.log('action.user', action.user)
 		return {
 			...state,
-			currentUser: action.user
+			currentUser: action.user.googleId,
+			email: action.user.email || 'Your email - if you want to set up notifications'
 		}
 	}else if(action.type === actions.LOGOUT_CURRENT_USER_SUCCESS){
 		return {
@@ -59,6 +62,12 @@ export const blockReducer = (state=initialState, action) => {
 			})
 		}
 
+	} else if (action.type === actions.SAVE_OR_UPDATE_EMAIL_SUCCESS){
+		console.log('action', action)
+		return {
+			...state,
+			email: action.email
+		}
 	}
 
 

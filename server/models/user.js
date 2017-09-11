@@ -12,10 +12,10 @@ var userSchema = mongoose.Schema({
         googleAccessToken: {
         	type: String,
         	required: 'you must supply a google Access Token'
-        },
-        email: {
-            type: String,
         }
+    },
+    email : {
+        type: String,
     },
     addresses : [{
         address: {

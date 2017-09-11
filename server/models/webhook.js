@@ -6,8 +6,7 @@ var webhookSchema = mongoose.Schema({
     address : {
         type : String,
         required : 'bitcoin address used to in url parameter for requesting webhook creation'
-    }
-    
+    },    
     email : {
         type : String,
         required : 'provided / pre-saved by user who requested an email notification about an address'
@@ -21,7 +20,7 @@ var webhookSchema = mongoose.Schema({
     },
     payload : [
         {
-            type : String
+         type : String
         }
     ],
     tally : {

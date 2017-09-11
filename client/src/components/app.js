@@ -14,6 +14,7 @@ class App extends React.Component {
         super(props);
         this.logout = this.logout.bind(this);
         this.saveMyAddress = this.saveMyAddress.bind(this);
+        this.saveOrUpdateEmail = this.saveOrUpdateEmail.bind(this);
     }
 
     componentDidMount() {
@@ -80,6 +81,20 @@ class App extends React.Component {
          this.myAddressNoteInput.value = "";
     }
 
+    saveOrUpdateEmail(e) {
+        e.preventDefault();
+        const email = this.emailInput.value;
+        const accessToken = Cookies.get('accessToken');
+         if(accessToken) {
+            this.props.dispatch(
+                actions.saveOrUpdateEmail(accessToken, email)
+            )
+        }
+        this.emailInput.value = "";
+        console.log('this.props', this.props);
+
+    }
+
 
     render() {
 
@@ -92,12 +107,37 @@ class App extends React.Component {
             <div id="main">
                 <p id="logout"><a href="#" onClick={(e => this.logout(e))}>logout</a></p>
                 <div id="notificationEmail">
-                    <input type ="email" size="40" placeholder="Your Email for Notifications" />
-                    <button>Save / Update</button>
+                    <form>
+                        <input type ="email" size="40" placeholder={this.props.email} ref={ref => this.emailInput = ref} />
+                        <button id="saveOrUpdateEmail" onClick = {(e => this.saveOrUpdateEmail(e))}>Save / Update Notification Email</button>
+                    </form>
+                    <div id="addressesWithWebhooks">
+                        <p>List of bitcoin addreses which have a webhookId<br />To Do: add a way to unsubscribe from email notifications without deleting address</p>
+                        <table>
+                            <tr>
+                                <th>Unsubscribe?</th>
+                                <th>Bitcoin Address</th>
+                                <th>Note</th>
+                                <th>BlockCypher's Webhook ID</th>
+                            </tr>
+                            <tr>
+                                <td> <button>Unsubscribe</button> </td>
+                                <td> Address 1 </td>
+                                <td> My ABC Address </td>
+                                <td> abc-123-cde-456 </td>
+                            </tr>
+                            <tr>
+                                <td> <button>Unsubscribe</button> </td>
+                                <td> Address 2 </td>
+                                <td> Random Address Created on ....</td>
+                                <td> abd-123-cde-456 </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
                 <h2>Add Bitcoin Address</h2>
                 <div id="randomAddressWrapper">
-                    <h4>Add a random address (from a recent transaction) to watch list</h4>
+                    <h4>Add a random address (from some recent transaction) to watch list</h4>
                     
                     <button id="getRandomAddress"
                         onClick={(e => this.getUnconfirmedAddress(e))}
@@ -156,7 +196,8 @@ const mapStateToProps = (state, props) => ({
     latestBlock: state.latestBlock,
     latestBlockHeight: state.latestBlockHeight,
     randomAddress: state.randomAddress,
-    randomAddressError: state.randomAddressError 
+    randomAddressError: state.randomAddressError,
+    email: state.email 
 })
 
 export default connect(mapStateToProps)(App);

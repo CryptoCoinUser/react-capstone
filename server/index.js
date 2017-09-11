@@ -11,6 +11,10 @@ const mongoose = require('mongoose');
 const User = require('./models/user');
 const { sendEmail } = require('./emailer')
 
+const bcypher = require('blockcypher');
+
+var bcapi = new bcypher('btc','main', process.env.BLOCKCYPHERTOKEN);
+
 mongoose.Promise = global.Promise;
 const DATABASE_URL = process.env.DBURL || 'mongodb://localhost/reactCapstone';
 
@@ -214,39 +218,74 @@ app.get('/api/addresses',
                 })       
 });
 
-app.post('/api/webhook', (req, res) => {
-    // make our email object
-    const emailData = {
-     from: "foo@bar.com",
-     to: "adkantor@gmail.com",
-     subject: "Hello world",
-     text: "Plain text content",
-     html: "<p>HTML version</p>"
-    }
-    // import our mailer function
-    sendEmail(emailData);
+app.get('/api/saveorupdateemail/:email', 
+    passport.authenticate('bearer', {session: false}),
+    (req, res) => {
+        User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken}, 
+        {$set: {'email': `${req.params.email}`}}, 
+        {new: true},
+        (err, user) => {
+            if (err) {
+                console.log(err);
+                throw err;
+            }
+            res.send(`${req.params.email}`);
+    })
+})
 
-    console.log("REQUEST body", req.body);
+// wehn web hook posts to us
+// const emailData = {
+//      from: "foo@bar.com",
+//      to: "adkantor@gmail.com",
+//      subject: "Hello world",
+//      text: "Plain text content",
+//      html: "<p>HTML version</p>"
+//     }
+//     // import our mailer function
+//     sendEmail(emailData);
+
+//     console.log("REQUEST body", req.body);
+
+
+
+app.post('/api/webhook/:email', (req, res) => {
+    console.log('/api/webhook/:email req.body', req.body)
+})
+
+app.post('/api/webhook/:address/:email', (req, res) => {
+    console.log('/api/webhook/:address/:email', req.params)
+    const {email, address} = req.params;
+    var webhook = {
+        event: "unconfirmed-tx",
+        address,
+        url: `https://watch-my-address.herokuapp.com/api/webhook/${email}`
+    };
+    bcapi.createHook(webhook, (err, data) => {
+        console.log("DATA", data)
+    });
+  
 })
 
 app.get('/api/deleteaddress/:address/:optionalwebhookid',
     passport.authenticate('bearer', {session: false}),
         (req, res) => {
-            console.log("/api/deleteaddress/:address, req.params.address:", req.params.address);
+            const {address, optionalwebhookid} = req.params
+            console.log("/api/deleteaddress/:address, req.params.address:", address);
+
             User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken}, 
-                {$pull: {'addresses': {address: req.params.address}}},
+                {$pull: {'addresses': {address}}},
                 (err, user) => {
                     if (err) throw err;
-                    res.send(req.params.address)
+                    res.send(address)
             })
-/*
+/**/
             if(optionalwebhookid){
                 app.delete(`https://api.blockcypher.com/v1/btc/main/hooks/${optionalwebhookid}?token=${process.env.BLOCKCYPHERTOKEN}`, (req, res) => {
                     console.log(`expect 204 response only, check if ${optionalwebhookid} was deleted from https://api.blockcypher.com/v1/btc/main/hooks?token=${process.env.BLOCKCYPHERTOKEN}`)
                 })
                 
             }
-*/
+
 
 });
 
@@ -254,7 +293,8 @@ app.get('/api/deleteaddress/:address/:optionalwebhookid',
 app.get('/api/isuserloggedin',
     passport.authenticate('bearer', {session: false}),
     (req, res) => res.json({
-        googleId: req.user.auth.googleId
+        googleId: req.user.auth.googleId,
+        email: req.user.email
     })
 );
 

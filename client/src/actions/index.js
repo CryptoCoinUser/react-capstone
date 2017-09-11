@@ -60,8 +60,15 @@ export const deleteAddressError = err => ({
     error: err
 })
 
+
+export const SAVE_OR_UPDATE_EMAIL_SUCCESS = 'SAVE_OR_UPDATE_EMAIL_SUCCESS';
+export const saveOrUpdateEmailSuccess = email => ({
+    type: SAVE_OR_UPDATE_EMAIL_SUCCESS,
+    email
+})
+
 export const fetchLatestBlock = () => dispatch => {
-    const url = `https:\//api.blockcypher.com/v1/btc/main`;
+    const url = `https://api.blockcypher.com/v1/btc/main`;
     axios(url)
     .then(res => {
         return dispatch(fetchLatestBlockSuccess(res.data))
@@ -111,17 +118,32 @@ export const saveAddress = (accessToken, address, randomFlag, note = "noNote") =
 }
 
 
-export const emailMeAboutThisAddress = (accessToken, address) => dispatch => {
+export const saveOrUpdateEmail = (accessToken, email) => dispatch => {
+    axios(`/api/saveorupdateemail/${email}`, {
+        headers: {
+            'Authorization': `Bearer ${accessToken}`
+        }
+    })
+    .then(res => {
+        console.log('saveOrUpdateEmail res.data', res.data)
+        return dispatch(saveOrUpdateEmailSuccess(res.data))
+    })
+    .catch(err => console.log(err));
+}
+
+
+export const emailMeAboutThisAddress = (accessToken, address, email) => dispatch => {
     console.log('emailMeAboutThisAddress', address);
-    // axios(`/api/emailabout/${address}`, {
-    //     headers: {
-    //         'Authorization': `Bearer ${accessToken}`
-    //     }
-    // })
-    // .then(res => {
-    //     return dispatch();
-    // })
-    // .catch(err => console.log(err))
+    axios.post(`/api/webhook/${address}/${email}`, {
+        headers: {
+            'Authorization': `Bearer ${accessToken}`
+        }
+    })
+    .then(res => {
+        console.log('webhook ', res)
+        // return dispatch();
+    })
+    .catch(err => console.log(err))
 }
 
 export const deleteAddress = (accessToken, address, optinalWebHookId = "null") => dispatch => {
@@ -164,7 +186,7 @@ export const tryWebSockets = (address, txn) => dispatch => {
     console.log('tryWebSockets event', event);
     // Get latest unconfirmed transactions live
     const ws = new WebSocket("ws://socket.blockcypher.com/v1/btc/main");
-    const pingEvent = { "event" : "ping" };
+    //const pingEvent = { "event" : "ping" };
     let count = 0;
 
     ws.onmessage = function (event) {
