@@ -268,12 +268,13 @@ app.post('/api/webhook/:address/:email', (req, res) => {
     console.log('/api/webhook/:address/:email', req.params)
     const {email, address} = req.params;
     const webhook = {
-        event: "unconfirmed-tx",
+        event: "tx-confirmation",
         address,
         url: `https://watch-my-address.herokuapp.com/api/webhook/${email}`
     };
     bcapi.createHook(webhook, (err, data) => {
-        console.log("DATA", data)
+        console.log("DATA", data);
+        res.send(data.id);
     });
 
 })
