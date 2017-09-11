@@ -261,6 +261,7 @@ app.post('/api/webhook/:email', (req, res) => {
     sendEmail(emailData);
 
     console.log("REQUEST body", req.body);
+    res.send(req.body.id);
 })
 
 app.post('/api/webhook/:address/:email', (req, res) => {
