@@ -3,19 +3,23 @@ var mongoose = require('mongoose');
 // webhooks that BlockChypher might ping for a different user than the one logged in
 var webhookSchema = mongoose.Schema({
 
-    webhookId : {
-        type: String,
-        required: 'provided by BlockCypher response'
-    },
+    address : {
+        type : String,
+        required : 'bitcoin address used to in url parameter for requesting webhook creation'
+    }
+    
     email : {
         type : String,
-        required : 'provided by user who requested an email notification about an address or its txn'
+        required : 'provided / pre-saved by user who requested an email notification about an address'
+    },
+    webhookId : {
+        type: String // provided by BlockCypher as a response to a successfully created webhook
     },
     created : {
          type : Date,
          default : Date.now()
     },
-    addressData : [
+    payload : [
         {
             type : String
         }
