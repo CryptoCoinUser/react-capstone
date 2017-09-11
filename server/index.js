@@ -9,6 +9,7 @@ const BodyParser = require('body-parser');
 const request = require('request');
 const mongoose = require('mongoose');
 const User = require('./models/user');
+const { sendEmail } = require('./emailer')
 
 mongoose.Promise = global.Promise;
 const DATABASE_URL = process.env.DBURL || 'mongodb://localhost/reactCapstone';
@@ -37,6 +38,7 @@ passport.use(
 
     },
     (accessToken, refreshToken, profile, cb) => {
+        console.log('google profile',  profile)
         // create user
         User.findOne({'auth.googleId': profile.id}, (err, user) => {
             if (err) return cb(err);
@@ -155,6 +157,7 @@ app.get('/api/addresses',
                         return new Promise(resolve => {
                             request(`https://api.blockcypher.com/v1/btc/main/addrs/${addressObj.address}?token=${process.env.BLOCKCYPHERTOKEN}`, (err, data) => {
                                 const addrRes = JSON.parse(data.body);
+                                //console.log('/api/addresses addrRes', addrRes);
                                 if(addrRes.error) {
                                     resolve(addressObj);
                                 }else{
@@ -163,17 +166,25 @@ app.get('/api/addresses',
                                           XOR if it's in txrefs, get the number of confirmations
                                     */
                                     if(addrRes.unconfirmed_n_tx){
+                                       
                                         for (i = 0; i < addrRes.unconfirmed_n_tx; i++){
                                             if(addrRes.unconfirmed_txrefs[i].tx_hash == addressObj.recentTxn){
                                                 addressObj.preference = addrRes.unconfirmed_txrefs[i].preference;
                                             }
                                         }
                                     }
-                                    if(addrRes.n_tx){
-                                        for (i = 0; i < addrRes.n_tx; i++){
-                                            if(addrRes.txrefs[i].tx_hash == addressObj.recentTxn){
-                                                addressObj.confirmations = addrRes.txrefs[i].confirmations;
-                                                addressObj.confirmed = true;
+                                    if(addrRes.txrefs){
+                                        if(addressObj.recentTxn == -1){
+                                           addressObj.recentTxn = addrRes.txrefs[0].tx_hash;
+                                           addressObj.confirmations = addrRes.txrefs[0].confirmations;
+                                           addressObj.confirmed = true;
+                                        } else {
+                                            for (i = 0; i < addrRes.n_tx; i++){
+                                                //console.log('/api/addresses addrRes.txrefs[i]', addrRes.txrefs[i]);
+                                                if(addrRes.txrefs[i].tx_hash == addressObj.recentTxn){
+                                                    addressObj.confirmations = addrRes.txrefs[i].confirmations;
+                                                    addressObj.confirmed = true;
+                                                }
                                             }
                                         }
                                     }
@@ -204,10 +215,21 @@ app.get('/api/addresses',
 });
 
 app.post('/api/webhook', (req, res) => {
+    // make our email object
+    const emailData = {
+     from: "foo@bar.com",
+     to: "adkantor@gmail.com",
+     subject: "Hello world",
+     text: "Plain text content",
+     html: "<p>HTML version</p>"
+    }
+    // import our mailer function
+    sendEmail(emailData);
+
     console.log("REQUEST body", req.body);
 })
 
-app.get('/api/deleteaddress/:address',
+app.get('/api/deleteaddress/:address/:optionalwebhookid',
     passport.authenticate('bearer', {session: false}),
         (req, res) => {
             console.log("/api/deleteaddress/:address, req.params.address:", req.params.address);
@@ -215,12 +237,19 @@ app.get('/api/deleteaddress/:address',
                 {$pull: {'addresses': {address: req.params.address}}},
                 (err, user) => {
                     if (err) throw err;
-                    
                     res.send(req.params.address)
             })
-
+/*
+            if(optionalwebhookid){
+                app.delete(`https://api.blockcypher.com/v1/btc/main/hooks/${optionalwebhookid}?token=${process.env.BLOCKCYPHERTOKEN}`, (req, res) => {
+                    console.log(`res is supposed to be nill, check if ${optionalwebhookid} was deleted from https://api.blockcypher.com/v1/btc/main/hooks?token=${process.env.BLOCKCYPHERTOKEN}`)
+                })
+                
+            }
+*/
 
 });
+
 
 app.get('/api/isuserloggedin',
     passport.authenticate('bearer', {session: false}),

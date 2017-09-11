@@ -91,6 +91,10 @@ class App extends React.Component {
             
             <div id="main">
                 <p id="logout"><a href="#" onClick={(e => this.logout(e))}>logout</a></p>
+                <div id="notificationEmail">
+                    <input type ="email" size="40" placeholder="Your Email for Notifications" />
+                    <button>Save / Update</button>
+                </div>
                 <h2>Add Bitcoin Address</h2>
                 <div id="randomAddressWrapper">
                     <h4>Add a random address (from a recent transaction) to watch list</h4>

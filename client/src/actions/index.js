@@ -110,8 +110,22 @@ export const saveAddress = (accessToken, address, randomFlag, note = "noNote") =
     .catch(err => console.log(err))
 }
 
-export const deleteAddress = (address, accessToken) => dispatch => {
-    axios(`/api/deleteaddress/${address}`, {
+
+export const emailMeAboutThisAddress = (accessToken, address) => dispatch => {
+    console.log('emailMeAboutThisAddress', address);
+    // axios(`/api/emailabout/${address}`, {
+    //     headers: {
+    //         'Authorization': `Bearer ${accessToken}`
+    //     }
+    // })
+    // .then(res => {
+    //     return dispatch();
+    // })
+    // .catch(err => console.log(err))
+}
+
+export const deleteAddress = (accessToken, address, optinalWebHookId = "null") => dispatch => {
+    axios(`/api/deleteaddress/${address}/${optinalWebHookId}`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`
         }
@@ -123,8 +137,6 @@ export const deleteAddress = (address, accessToken) => dispatch => {
         return dispatch(deleteAddressError(err))
     })
 }
-
-
 
 export const isUserLoggedIn = accessToken => dispatch => {
     axios('/api/isuserloggedin', {

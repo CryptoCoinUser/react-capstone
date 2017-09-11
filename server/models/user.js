@@ -12,6 +12,9 @@ var userSchema = mongoose.Schema({
         googleAccessToken: {
         	type: String,
         	required: 'you must supply a google Access Token'
+        },
+        email: {
+            type: String,
         }
     },
     addresses : [{
@@ -57,6 +60,9 @@ var userSchema = mongoose.Schema({
         savedOn: {
             type: Date,
             default: Date.now()
+        },
+        webhookId: {
+            type: String
         }
     }] 
 });

@@ -24,7 +24,8 @@ class AddressesPage extends React.Component {
         e.preventDefault();
         const accessToken = Cookies.get('accessToken');
         this.props.dispatch(
-            actions.deleteAddress(addressObj.address, accessToken)
+            //actions.deleteAddressHook(addressObj.address),
+            actions.deleteAddress(accessToken, addressObj.address, addressObj.webhookId)
         )
     }
     tryWebSockets(e, addressObj){
@@ -32,6 +33,17 @@ class AddressesPage extends React.Component {
         this.props.dispatch(
             actions.tryWebSockets(addressObj.address, addressObj.txn)
         )
+    }
+
+    emailMeAboutThisAddress(e, addressObj) {
+        e.preventDefault();
+        //const myEmailAddress = this.myEmailAddress.value;
+        const accessToken = Cookies.get('accessToken');
+        if(accessToken) {
+            this.props.dispatch(
+                actions.emailMeAboutThisAddress(accessToken, addressObj.address)
+            )
+        }
     }
 
     render() {
@@ -79,7 +91,15 @@ class AddressesPage extends React.Component {
                           </div>
                     }
                 </div>
-
+                <div className="emailMe">
+                    {/*<span className="emailInput">
+                        <input type="email" placeholder="me@example.com" size="20"  ref={ref => this.myEmailAddress = ref} />
+                    </span>*/}
+                    <button className="emailMe" 
+                        onClick={e => this.emailMeAboutThisAddress(e, addressObj)}
+                    >Email me updates about this address</button>
+                </div>
+                <div className="clr"></div>
 
             </li>
         );

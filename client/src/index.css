@@ -4,7 +4,8 @@ body {
   font-family: sans-serif;
 }
 
-#loginWrapper{
+#loginWrapper,
+#notificationEmail{
 	text-align: center;
 }
 #loginWrapper a#loginLink{font-size: 3em; text-decoration: none;}
@@ -48,6 +49,7 @@ span#randomAddress{
 	padding:0.5 1em 2em 1em;
 }
 
+#notificationEmail input,
 #myAddressForm input {font-size: 1.2em; margin-right: 1em; margin-bottom:0.5em; padding:0.5em; 
 	border:1px solid #000;
 }
@@ -65,6 +67,10 @@ ul.address-list{
 }
 
 ul.address-list li{margin:0 0 1em 0;}
+
+div.clr{
+	clear:both;
+}
 
 .address-list .addressObj{
 	clear:both; 
