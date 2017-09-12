@@ -247,7 +247,7 @@ app.get('/api/saveorupdateemail/:email',
 //     console.log("REQUEST body", req.body);
 
 
-
+//RESPOND TO WEBHOOK PING FROM BLOCKCYPHER
 app.post('/api/webhook/:email', (req, res) => {
     console.log('/api/webhook/:email req.body', req.body)
     const emailData = {
@@ -264,6 +264,7 @@ app.post('/api/webhook/:email', (req, res) => {
     res.send(req.body.id);
 })
 
+// SETUP WEBHOOK
 app.post('/api/webhook/:address/:email', (req, res) => {
     console.log('/api/webhook/:address/:email', req.params)
     const {email, address} = req.params;
@@ -273,9 +274,15 @@ app.post('/api/webhook/:address/:email', (req, res) => {
         url: `https://watch-my-address.herokuapp.com/api/webhook/${email}`
     };
     bcapi.createHook(webhook, (err, data) => {
-        console.log("DATA", data);
+        console.log("bcapi.createHook data", data);
+        /*
+            find in this user's addresses[] one with address from req.params, 
+            and set its webhookId to data.id
+            else can't delete webhook from blockcypher while deleting address
+        */
         res.send(data.id);
     });
+
 
 })
 
@@ -285,21 +292,29 @@ app.get('/api/deleteaddress/:address/:optionalwebhookid',
             const {address, optionalwebhookid} = req.params
             console.log("/api/deleteaddress/:address, req.params.address:", address);
 
-            User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken}, 
-                {$pull: {'addresses': {address}}},
-                (err, user) => {
-                    if (err) throw err;
-                    res.send(address)
-            })
-/**/
             if(optionalwebhookid){
+                console.log(`optionalwebhookid: ${optionalwebhookid}`);
                 app.delete(`https://api.blockcypher.com/v1/btc/main/hooks/${optionalwebhookid}?token=${process.env.BLOCKCYPHERTOKEN}`, (req, res) => {
                     console.log(`expect 204 response only, check if ${optionalwebhookid} was deleted from https://api.blockcypher.com/v1/btc/main/hooks?token=${process.env.BLOCKCYPHERTOKEN}`)
                 })
                 
             }
 
-
+            User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken}, 
+                {$pull: {'addresses': {address}}},
+                (err, user) => {
+                    if (err) throw err;
+                    res.send(address)
+            })
+/**/       // .then(someRes => {
+                if(optionalwebhookid){
+                    console.log(`optionalwebhookid: ${optionalwebhookid}`);
+                    app.delete(`https://api.blockcypher.com/v1/btc/main/hooks/${optionalwebhookid}?token=${process.env.BLOCKCYPHERTOKEN}`, (req, res) => {
+                        console.log(`expect 204 response only, check if ${optionalwebhookid} was deleted from https://api.blockcypher.com/v1/btc/main/hooks?token=${process.env.BLOCKCYPHERTOKEN}`)
+                    })
+                    
+                }
+           // })
 });
 
 

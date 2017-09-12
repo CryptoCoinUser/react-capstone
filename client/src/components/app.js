@@ -111,7 +111,8 @@ class App extends React.Component {
                         <input type ="email" size="40" placeholder={this.props.email} ref={ref => this.emailInput = ref} />
                         <button id="saveOrUpdateEmail" onClick = {(e => this.saveOrUpdateEmail(e))}>Save / Update Notification Email</button>
                     </form>
-                    <div id="addressesWithWebhooks">
+                
+                    {/*<div id="addressesWithWebhooks">
                         <p>List of bitcoin addreses which have a webhookId<br />To Do: add a way to unsubscribe from email notifications without deleting address</p>
                         <table>
                             <tr>
@@ -133,8 +134,9 @@ class App extends React.Component {
                                 <td> abd-123-cde-456 </td>
                             </tr>
                         </table>
-                    </div>
+                    </div>*/}
                 </div>
+               
                 <h2>Add Bitcoin Address</h2>
                 <div id="randomAddressWrapper">
                     <h4>Add a random address (from some recent transaction) to watch list</h4>
