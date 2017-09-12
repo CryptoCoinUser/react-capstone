@@ -19,5 +19,5 @@ yarn-error.log*
 server/secret.js
 dbStarter.json
 todo.txt
-temp.html
+
 webhook.html
