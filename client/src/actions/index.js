@@ -67,6 +67,12 @@ export const saveOrUpdateEmailSuccess = email => ({
     email
 })
 
+export const EMAIL_ME_ABOUT_THIS_ADDRESS_SUCCESS = 'EMAIL_ME_ABOUT_THIS_ADDRESS_SUCCESS';
+export const emailMeAboutThisAddressSuccess = addresses =>({
+    type: EMAIL_ME_ABOUT_THIS_ADDRESS_SUCCESS,
+    addresses
+})
+
 export const fetchLatestBlock = () => dispatch => {
     const url = `https://api.blockcypher.com/v1/btc/main`;
     axios(url)
@@ -134,19 +140,20 @@ export const saveOrUpdateEmail = (accessToken, email) => dispatch => {
 
 export const emailMeAboutThisAddress = (accessToken, address, email) => dispatch => {
     console.log('emailMeAboutThisAddress', address);
-    axios.post(`/api/webhook/${address}/${email}`, {
+    console.log('accessToken', accessToken)
+    axios.get(`/api/webhook/${address}/${email}`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`
         }
     })
     .then(res => {
-        console.log('webhook ', res)
-        // return dispatch();
+        //console.log('webhook ', res)
+        return dispatch(emailMeAboutThisAddressSuccess(res.data));
     })
     .catch(err => console.log(err))
 }
 
-export const deleteAddress = (accessToken, address, optinalWebHookId = "null") => dispatch => {
+export const deleteAddress = (accessToken, address, optinalWebHookId = null) => dispatch => {
     axios(`/api/deleteaddress/${address}/${optinalWebHookId}`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`

@@ -21,6 +21,7 @@ class AddressesPage extends React.Component {
     }
 
     deleteAddress(e, addressObj){
+        console.log('----addressObj', addressObj)
         e.preventDefault();
         const accessToken = Cookies.get('accessToken');
         this.props.dispatch(

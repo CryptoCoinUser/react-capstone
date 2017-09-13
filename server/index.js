@@ -72,9 +72,10 @@ passport.use(
 passport.use(
     new BearerStrategy(
         (token, cb) => {
+            //console.log('token, cb', token, cb)
             User.findOne({'auth.googleAccessToken': token}, (err, user) => {
 
-                // console.log('found USER ' + user)
+                console.log('passport.use new BearerStrategy err', + err)
                 if(err) return cb(null, false);
                 return cb(null, user);
             })
@@ -183,7 +184,7 @@ app.get('/api/addresses',
                                            addressObj.confirmations = addrRes.txrefs[0].confirmations;
                                            addressObj.confirmed = true;
                                         } else {
-                                            for (i = 0; i < addrRes.n_tx; i++){
+                                            for (i = 0; i < addrRes.txrefs.length; i++){
                                                 //console.log('/api/addresses addrRes.txrefs[i]', addrRes.txrefs[i]);
                                                 if(addrRes.txrefs[i].tx_hash == addressObj.recentTxn){
                                                     addressObj.confirmations = addrRes.txrefs[i].confirmations;
@@ -265,22 +266,59 @@ app.post('/api/webhook/:email', (req, res) => {
 })
 
 // SETUP WEBHOOK
-app.post('/api/webhook/:address/:email', (req, res) => {
+app.get('/api/webhook/:address/:email',
+    passport.authenticate('bearer', {session: false}),
+    (req, res) => {
     console.log('/api/webhook/:address/:email', req.params)
     const {email, address} = req.params;
     const webhook = {
+        /**/
         event: "tx-confirmation",
         address,
         url: `https://watch-my-address.herokuapp.com/api/webhook/${email}`
+        
+        /* from websocket attempt 
+        event: "tx-confirmation", 
+        address: '1F92vHB8ZL9thL2bzjmAFkYF21gqeD9suD', 
+        token: '03016274b5814976af645d94b4cdd1d0',
+        url: `https://watch-my-address.herokuapp.com/api/webhook/socketExperiment`
+        confidence: 0.1, 
+        confirmations: 10
+        */
     };
-    bcapi.createHook(webhook, (err, data) => {
+    bcapi.createHook(webhook, 
+    
+        (err, data) => {
         console.log("bcapi.createHook data", data);
+        const webhookId = data.id
         /*
             find in this user's addresses[] one with address from req.params, 
             and set its webhookId to data.id
             else can't delete webhook from blockcypher while deleting address
         */
-        res.send(data.id);
+                User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken, 'addresses.address': address},
+                       {$set: {'addresses.$.webhookId': webhookId}}, {new: true},
+                        (err, user) => {
+                            if(err) throw err;
+                            console.log('the user is supposed to have a webhookId', user)
+                            res.send(user.addresses);
+                        } 
+                    )
+        
+                        //     {$set: { addressesAddress : webhookId }}, {new: true},
+                        //     (err, user) => {
+                        //         if (err) throw err;
+                        //         console.log("user", user)
+                        // })
+        
+/*Person.update({'items.id': 2}, {'$set': {
+    'items.$.name': 'updated item2',
+    'items.$.value': 'two updated'
+}}, function(err) { ...*/
+
+
+
+        
     });
 
 
@@ -292,13 +330,13 @@ app.get('/api/deleteaddress/:address/:optionalwebhookid',
             const {address, optionalwebhookid} = req.params
             console.log("/api/deleteaddress/:address, req.params.address:", address);
 
-            if(optionalwebhookid){
-                console.log(`optionalwebhookid: ${optionalwebhookid}`);
-                app.delete(`https://api.blockcypher.com/v1/btc/main/hooks/${optionalwebhookid}?token=${process.env.BLOCKCYPHERTOKEN}`, (req, res) => {
-                    console.log(`expect 204 response only, check if ${optionalwebhookid} was deleted from https://api.blockcypher.com/v1/btc/main/hooks?token=${process.env.BLOCKCYPHERTOKEN}`)
-                })
+            // if(optionalwebhookid){
+            //     console.log(`optionalwebhookid: ${optionalwebhookid}`);
+            //     app.delete(`https://api.blockcypher.com/v1/btc/main/hooks/${optionalwebhookid}?token=${process.env.BLOCKCYPHERTOKEN}`, (req, res) => {
+            //         console.log(`expect 204 response only, check if ${optionalwebhookid} was deleted from https://api.blockcypher.com/v1/btc/main/hooks?token=${process.env.BLOCKCYPHERTOKEN}`)
+            //     })
                 
-            }
+            // }
 
             User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken}, 
                 {$pull: {'addresses': {address}}},
@@ -308,8 +346,10 @@ app.get('/api/deleteaddress/:address/:optionalwebhookid',
             })
 /**/       // .then(someRes => {
                 if(optionalwebhookid){
-                    console.log(`optionalwebhookid: ${optionalwebhookid}`);
-                    app.delete(`https://api.blockcypher.com/v1/btc/main/hooks/${optionalwebhookid}?token=${process.env.BLOCKCYPHERTOKEN}`, (req, res) => {
+                    console.log(`optionalwebhookid line 350: ${optionalwebhookid}`);
+                    const deleteString = `https://api.blockcypher.com/v1/btc/main/hooks/${optionalwebhookid}?token=${process.env.BLOCKCYPHERTOKEN}`;
+                    console.log('deleteString', deleteString)
+                    request.delete(deleteString, (req, res) => {
                         console.log(`expect 204 response only, check if ${optionalwebhookid} was deleted from https://api.blockcypher.com/v1/btc/main/hooks?token=${process.env.BLOCKCYPHERTOKEN}`)
                     })
                     

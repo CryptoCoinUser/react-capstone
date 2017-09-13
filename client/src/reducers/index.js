@@ -68,6 +68,11 @@ export const blockReducer = (state=initialState, action) => {
 			...state,
 			email: action.email
 		}
+	} else if (action.type === actions.EMAIL_ME_ABOUT_THIS_ADDRESS_SUCCESS){
+		return {
+			...state,
+			addresses: action.addresses
+		}
 	}
 
 
