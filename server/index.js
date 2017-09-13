@@ -252,7 +252,7 @@ app.get('/api/saveorupdateemail/:email',
 app.post('/api/webhook/:email', (req, res) => {
     console.log('/api/webhook/:email req.body', req.body)
     const emailData = {
-     from: "foo@bar.com",
+     from: "avram.thinkful@gmail.com",
      to: req.params.email,
      subject: "Test From Server Index.js",
      text: `Req.body.hash: ${req.body.hash}`,
