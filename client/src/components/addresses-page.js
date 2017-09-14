@@ -64,13 +64,15 @@ class AddressesPage extends React.Component {
         const addresses = this.props.addresses.map((addressObj, index) =>
 
             <li className="addressObj" key={index}>
-                <button
+                <span className="address"><a href={addrBaseUrl + addressObj.address}>{addressObj.address}</a>
+                   <button className="delete"
                     onClick={e => this.deleteAddress(e, addressObj)}
-                >
-                    Delete X
+                    >
+                    Delete from List <span>X</span>
                 </button>
+                </span> 
                 {/*<span className="random">{addressObj.random.toString()}</span>*/}
-                <span className="address"><a href={addrBaseUrl + addressObj.address}>{addressObj.address}</a></span> 
+                
                 <span className="note">
                     { 
                         (!(addressObj.random) || (addressObj.random == "false")) ?  addressObj.note  
@@ -82,6 +84,16 @@ class AddressesPage extends React.Component {
                     <span className="unconfirmed_balance">{addressObj.unconfirmed_balance / 100000000}</span>
                     <span className="lastUpdated">{moment(addressObj.lastUpdated).format("YYYY-MM-DD, HH:mm")}</span>
                 </div>
+                <div className="emailMe">
+                    {
+                        addressObj.webhookId ? <span className="webhookId"><a href={webhookIdBaseURL + addressObj.webhookId + token}>{addressObj.webhookId}</a></span>
+                        : <button className="emailMe" onClick={e => this.emailMeAboutThisAddress(e, addressObj)}>
+                        Subscribe to Email Alerts about Transactions that Use this Address
+                        </button>
+                         
+                    }
+                    
+                </div>
                 <div className="txnInfo">
                     <span className="txn"><a href={txBaseURL + addressObj.recentTxn}>{addressObj.recentTxn}</a></span>
                     {   
@@ -91,20 +103,12 @@ class AddressesPage extends React.Component {
                               <span className="preference">{addressObj.preference}</span>
                               <span className="confidence">
 
-                                <a href={confideceBaseURL + addressObj.recentTxn} target='_blank' title="View BlockCypher's confidence in this transaction; opens in new tab">BlockCypher Confidence &gt;&gt;</a>
+                                <a href={confideceBaseURL + addressObj.recentTxn} target='_blank' title="View BlockCypher's confidence that this transaction will confirm; opens in new tab">BlockCypher Confidence &gt;&gt;</a>
                               </span>
 
                               {/*<button onClick={e => this.tryWebSockets(e,addressObj)}>tryWebSockets</button>*/}
                           </div>
                     }
-                </div>
-                <div className="emailMe">
-                    {
-                        addressObj.webhookId ? <span className="webhookId"><a href={webhookIdBaseURL + addressObj.webhookId + token}>{addressObj.webhookId}</a></span>
-                        : <button className="emailMe" onClick={e => this.emailMeAboutThisAddress(e, addressObj)}>Email me updates about this address</button>
-                         
-                    }
-                    
                 </div>
                 <div className="clr"></div>
 

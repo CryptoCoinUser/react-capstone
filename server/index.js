@@ -251,26 +251,25 @@ app.get('/api/saveorupdateemail/:email',
 //RESPOND TO WEBHOOK PING FROM BLOCKCYPHER
 app.post('/api/webhook/:email', (req, res) => {
     //console.log('/api/webhook/:email req.body', req.body)
-    const txAddresses = req.body.addresses.join("\n ");
+    const txAddresses = req.body.addresses.join("<br>");
     const emailData = {
      from: "avram.thinkful@gmail.com",
      to: req.params.email,
-     subject: "Update about a Bitcoin address you subscribed to on watch-my-address",
+     subject: "Update about a Bitcoin Transaction which uses an address you subscribed to on watch-my-address.herokuapp.com",
      text: `Req.body.hash: ${req.body.hash}`,
      html: 
-`<h4>You can unsubscribe by logging into https://watch-my-address.herokuapp.com/ ("the app") and deleting the address</h4>
-<p>You subscribed to updates about a Bitcoin address ("the address") from a list below:<br>
-${txAddresses}<br>
-You will get an email every time that address a tranasaction with that address (among others) has been confirmed, up to 6 confirmations per tranasaction.<br> 
-Note that the address may be used in multiple tranasactions and you will get confirmation emails for each one, until you delete the address from the app.<br>
-This transaction's unique hash is ${req.body.hash}</p>
-<p>This transaction's confirmations so far: ${req.body.confirmations}</p>
-<h4>Other transaction info</h4>
-<p>Block height ${req.body.block_height}</p>
-<p>Total Bitcoin in transaction, not necesserily in the address: ${req.body.total / 100000000}</p>
-<p>Miner Preference: ${req.body.preference}</p>
-<p>Transaction was received: ${req.body.received}</p>`
-    }
+`<p>You subscribed to updates about a Bitcoin address ("the address") from a list below:<br>
+${txAddresses}</p>
+<p>You can <strong>unsubscribe</strong> by logging into https://watch-my-address.herokuapp.com/ ("the app") and deleting the address</p>
+<p>You will get an email every time a tranasaction that uses the address gets confirmed, up to 6 confirmations per tranasaction.</p>
+<p>Note that the address may be used in multiple transactions and you will get confirmation emails for each one, until you delete the address from the app.</p>
+<p>This transaction's confirmations so far: ${req.body.confirmations}<br>
+This transaction's ID is:<br>
+${req.body.hash}</p>
+<p>You can find out more about this transaction via <br>
+https://live.blockcypher.com/btc/tx/${req.body.hash}</p>`
+}
+
     // import our mailer function
     sendEmail(emailData);
 
@@ -286,10 +285,12 @@ app.get('/api/webhook/:address/:email',
     const {email, address} = req.params;
     const webhook = {
         /**/
-        event: "tx-confirmation",
+        event: "confirmed-tx",
+        //event: "tx-confirmation",
         //event: "unconfirmed-tx",
         address,
-        url: `https://watch-my-address.herokuapp.com/api/webhook/${email}`
+        url: `https://watch-my-address.herokuapp.com/api/webhook/${email}`,
+        confirmations: 3
         
         /* from websocket attempt 
         event: "tx-confirmation", 

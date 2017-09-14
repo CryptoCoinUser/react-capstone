@@ -3,6 +3,8 @@ body {
   padding: 0.5em 1em;
   font-family: sans-serif;
 }
+a{text-decoration: none}
+a:hover{text-decoration: underline;}
 
 #loginWrapper,
 #notificationEmail{
@@ -29,9 +31,6 @@ body {
 	margin:0 0 2em 0;
 }
 
-table{width:100%;}
-
-td{padding:1em; text-align: center;}
 
 button{font-size:1.5em; padding:0.5em; margin-bottom:0.5em;}
 
@@ -89,46 +88,51 @@ div.clr{
 	padding:1em 1em 1em 2em;
 	border-bottom: 1px solid #000; 
 	margin-bottom: 1em;
-	line-height: 200%;
+	line-height: 180%;
 }
 
 .address-list .addressObj:last-child{border-bottom: none;}
 
-.address-list .addressObj button{
+.address-list .addressObj button.delete{
 	display: block; 
-	float: left;
-	margin:0 1em 1em 0;
+	float: right;
+	margin:-0.3em 0 1em 1em;
 }
+.address-list .addressObj button.delete span{color:#f00; font-weight: 700;}
+
+.address-list .addressObj .emailMe button{float:none; margin:1em 0;}
 
 .address-list .addressObj span{
 	padding:0 1em 1em 0;
 }
 
-.address-list .addressObj span.address{font-weight: bold;}
+.address-list .addressObj .address{font-weight: bold;
+	display: block;
+}
+.address-list .addressObj .address a{font-size: 180%;}
 
 .address-list .addressObj span.txn{}
-.address-list .addressObj span.txn::before{content: "Assuming you are interested in transaction ";}
-.address-list .addressObj span.txn::after{content: ":";}
+.address-list .addressObj span.txn::before{content: "Address is used in at least one transaction: ";}
 
-.address-list .addressObj span.balance{color:#0a0; white-space: nowrap;}
+.address-list .addressObj span.balance{color:#0a0;}
 .address-list .addressObj span.balance::before{ content: "Confirmed Balance: "; }
 
-.address-list .addressObj span.unconfirmed_balance{color:#a00; white-space: nowrap;}
+.address-list .addressObj span.unconfirmed_balance{color:#a00; }
 .address-list .addressObj span.unconfirmed_balance::before{ content: "Unconfirmed Balance: "; }
 
-.address-list .addressObj span.lastUpdated{white-space: nowrap;}
-.address-list .addressObj span.lastUpdated::before{ content: "Balances Last Updated: "; }
+.address-list .addressObj span.lastUpdated{}
+.address-list .addressObj span.lastUpdated::before{ content: "Last Updated: "; }
 
-.address-list .addressObj span.random{font-style:italic;white-space: nowrap;}
+.address-list .addressObj span.random{font-style:italic;}
 .address-list .addressObj span.random::before{ content: "Random? "; }
 
-.address-list .addressObj span.note{white-space: nowrap; color:#00a; font-weight: bold;}
+.address-list .addressObj span.note{ color:#000; font-weight: bold;}
 .address-list .addressObj span.note::before{ }
 
-.address-list .addressObj span.confirmations{white-space: nowrap}
-.address-list .addressObj span.confirmations::after{ content: " Confirmations"; }
+.address-list .addressObj span.confirmations::before{ content: "Whitch has: "; }
+.address-list .addressObj span.confirmations::after{ content: " Confirmation(s)"; }
 
 .address-list .addressObj span.preference{}
 .address-list .addressObj span.preference::before{ content: "Miner Preference: "; }
 
-.address-list .addressObj span.webhookId::before{ content: "webhookId: "; }
+.address-list .addressObj span.webhookId::before{ content: "Subscribed using webhookId: "; }
