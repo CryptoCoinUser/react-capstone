@@ -102,6 +102,7 @@ class App extends React.Component {
             return <LoginPage />;
         }
         const addrBaseUrl = 'http:\//api.blockcypher.com/v1/btc/main/addrs/';
+        const addrLiveBaseURL = 'https:\//live.blockcypher.com/btc/address/'
         return (
             
             <div id="main">
@@ -147,7 +148,7 @@ class App extends React.Component {
                         Get Random Address
                     </button>
                     <div id="randomAddressAndButton">
-                        <span id="randomAddress"><a href={addrBaseUrl + this.props.randomAddress}>{this.props.randomAddress}</a></span>
+                        <span id="randomAddress"><a href={addrLiveBaseURL + this.props.randomAddress}>{this.props.randomAddress}</a></span>
                         {this.props.randomAddress ?
                             <button id="watchRandomAddress"
                                 onClick = {(e => this.saveRandomAddress(e))} 
