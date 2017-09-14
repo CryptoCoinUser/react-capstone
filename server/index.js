@@ -251,7 +251,7 @@ app.get('/api/saveorupdateemail/:email',
 //RESPOND TO WEBHOOK PING FROM BLOCKCYPHER
 app.post('/api/webhook/:email', (req, res) => {
     //console.log('/api/webhook/:email req.body', req.body)
-    var var txAddresses = req.body.addresses.join("\n ");
+    const txAddresses = req.body.addresses.join("\n ");
     const emailData = {
      from: "avram.thinkful@gmail.com",
      to: req.params.email,
