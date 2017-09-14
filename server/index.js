@@ -260,9 +260,8 @@ app.post('/api/webhook/:email', (req, res) => {
      html: 
 `<p>You subscribed to updates about a Bitcoin address ("the address") from a list below:<br>
 ${txAddresses}</p>
-<p>You can <strong>unsubscribe</strong> by logging into https://watch-my-address.herokuapp.com/ ("the app") and deleting the address</p>
-<p>You will get an email every time a tranasaction that uses the address gets confirmed, up to 6 confirmations per tranasaction.</p>
-<p>Note that the address may be used in multiple transactions and you will get confirmation emails for each one, until you delete the address from the app.</p>
+<p>You can <strong>unsubscribe</strong> by logging into https://watch-my-address.herokuapp.com/ ("the app") and deleting the address from your Address Watch List</p>
+<p>You will get an email like this every time a tranasaction that uses the address gets confirmed, up to a total of 3 confirmations</p>
 <p>This transaction's confirmations so far: ${req.body.confirmations}<br>
 This transaction's ID is:<br>
 ${req.body.hash}</p>

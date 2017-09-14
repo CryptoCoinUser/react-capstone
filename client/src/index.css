@@ -98,7 +98,7 @@ div.clr{
 	float: right;
 	margin:-0.3em 0 1em 1em;
 }
-.address-list .addressObj button.delete span{color:#f00; font-weight: 700;}
+.address-list .addressObj button.delete span{color:#f00; font-weight: 700; padding:0 0 0 1em;}
 
 .address-list .addressObj .emailMe button{float:none; margin:1em 0;}
 
@@ -112,7 +112,7 @@ div.clr{
 .address-list .addressObj .address a{font-size: 180%;}
 
 .address-list .addressObj span.txn{}
-.address-list .addressObj span.txn::before{content: "Address is used in at least one transaction: ";}
+.address-list .addressObj span.txn::before{content: "This address is used in at least one transaction: ";}
 
 .address-list .addressObj span.balance{color:#0a0;}
 .address-list .addressObj span.balance::before{ content: "Confirmed Balance: "; }
