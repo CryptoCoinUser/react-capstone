@@ -255,8 +255,8 @@ app.post('/api/webhook/:email', (req, res) => {
      from: "avram.thinkful@gmail.com",
      to: req.params.email,
      subject: "Test From Server Index.js",
-     text: `Req.body.hash: ${req.body.hash}`,
-     html: `<p>Req.body.hash: ${req.body.hash}</p>`
+     text: `Req.body: ${req.body}`,
+     html: `<p>HTML Req.body: ${req.body}</p>`
     }
     // import our mailer function
     sendEmail(emailData);
@@ -273,7 +273,7 @@ app.get('/api/webhook/:address/:email',
     const {email, address} = req.params;
     const webhook = {
         /**/
-        event: "unconfirmed-tx",
+        event: "tx-confirmation",
         address,
         url: `https://watch-my-address.herokuapp.com/api/webhook/${email}`
         
