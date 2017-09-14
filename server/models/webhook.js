@@ -14,18 +14,19 @@ var webhookSchema = mongoose.Schema({
     webhookId : {
         type: String // provided by BlockCypher as a response to a successfully created webhook
     },
+    note : {
+        type: String
+    },
+    payload : {
+         type : Object
+    },
+    tally : {
+        type : Number // number of times this webhook as pinged by BlockCypher
+    },
     created : {
          type : Date,
          default : Date.now()
     },
-    payload : [
-        {
-         type : String
-        }
-    ],
-    tally : {
-        type : Number // number of times this webhook as pinged by BlockCypher
-    }
 
  
 });
