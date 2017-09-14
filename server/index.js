@@ -251,19 +251,25 @@ app.get('/api/saveorupdateemail/:email',
 //RESPOND TO WEBHOOK PING FROM BLOCKCYPHER
 app.post('/api/webhook/:email', (req, res) => {
     //console.log('/api/webhook/:email req.body', req.body)
+    var var txAddresses = req.body.addresses.join("\n ");
     const emailData = {
      from: "avram.thinkful@gmail.com",
      to: req.params.email,
-     subject: "Test From Server Index.js",
+     subject: "Update about a Bitcoin address you subscribed to on watch-my-address",
      text: `Req.body.hash: ${req.body.hash}`,
-     html: `<h1>Unsubscribe by deleting the address from the app...</h1>
-<p>block_height ${req.body.block_height}</p>
-<p>hash ${req.body.hash}</p>
-<p>addresses ${req.body.addresses}</p>
-<p>total ${req.body.total / 100000000}</p>
-<p>preference ${req.body.preference}</p>
-<p>received ${req.body.received}</p>
-<p>confirmations ${req.body.confirmations}</p>`
+     html: 
+`<h4>You can unsubscribe by logging into https://watch-my-address.herokuapp.com/ ("the app") and deleting the address</h4>
+<p>You subscribed to updates about a Bitcoin address ("the address") from a list below:<br>
+${txAddresses}<br>
+You will get an email every time that address a tranasaction with that address (among others) has been confirmed, up to 6 confirmations per tranasaction.<br> 
+Note that the address may be used in multiple tranasactions and you will get confirmation emails for each one, until you delete the address from the app.<br>
+This transaction's unique hash is ${req.body.hash}</p>
+<p>This transaction's confirmations so far: ${req.body.confirmations}</p>
+<h4>Other transaction info</h4>
+<p>Block height ${req.body.block_height}</p>
+<p>Total Bitcoin in transaction, not necesserily in the address: ${req.body.total / 100000000}</p>
+<p>Miner Preference: ${req.body.preference}</p>
+<p>Transaction was received: ${req.body.received}</p>`
     }
     // import our mailer function
     sendEmail(emailData);
