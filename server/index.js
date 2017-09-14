@@ -255,8 +255,15 @@ app.post('/api/webhook/:email', (req, res) => {
      from: "avram.thinkful@gmail.com",
      to: req.params.email,
      subject: "Test From Server Index.js",
-     text: `Req.body: ${req.body}`,
-     html: `<p>HTML Req.body: ${req.body}</p>`
+     text: `Req.body.hash: ${req.body.hash}`,
+     html: `<h1>HTML Req.body...</h1>
+<p>block_height ${req.body.block_height}</p>
+<p>hash ${req.body.hash}</p>
+<p>addresses ${req.body.addresses}</p>
+<p>total ${req.body.total}</p>
+<p>preference ${req.body.preference}</p>
+<p>received ${req.body.received}</p>
+<p>confirmations ${req.body.confirmations}</p>`
     }
     // import our mailer function
     sendEmail(emailData);
