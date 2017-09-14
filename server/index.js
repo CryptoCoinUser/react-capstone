@@ -42,7 +42,7 @@ passport.use(
 
     },
     (accessToken, refreshToken, profile, cb) => {
-        console.log('google profile',  profile)
+        //console.log('google profile',  profile)
         // create user
         User.findOne({'auth.googleId': profile.id}, (err, user) => {
             if (err) return cb(err);
@@ -75,7 +75,7 @@ passport.use(
             //console.log('token, cb', token, cb)
             User.findOne({'auth.googleAccessToken': token}, (err, user) => {
 
-                console.log('passport.use new BearerStrategy err', + err)
+                //console.log('passport.use new BearerStrategy err', + err)
                 if(err) return cb(null, false);
                 return cb(null, user);
             })
@@ -250,7 +250,7 @@ app.get('/api/saveorupdateemail/:email',
 
 //RESPOND TO WEBHOOK PING FROM BLOCKCYPHER
 app.post('/api/webhook/:email', (req, res) => {
-    console.log('/api/webhook/:email req.body', req.body)
+    //console.log('/api/webhook/:email req.body', req.body)
     const emailData = {
      from: "avram.thinkful@gmail.com",
      to: req.params.email,
@@ -261,7 +261,7 @@ app.post('/api/webhook/:email', (req, res) => {
     // import our mailer function
     sendEmail(emailData);
 
-    console.log("REQUEST body", req.body);
+    //console.log("REQUEST body", req.body);
     res.send(req.body.id);
 })
 
@@ -269,11 +269,11 @@ app.post('/api/webhook/:email', (req, res) => {
 app.get('/api/webhook/:address/:email',
     passport.authenticate('bearer', {session: false}),
     (req, res) => {
-    console.log('/api/webhook/:address/:email', req.params)
+    //console.log('/api/webhook/:address/:email', req.params)
     const {email, address} = req.params;
     const webhook = {
         /**/
-        event: "tx-confirmation",
+        event: "unconfirmed-tx",
         address,
         url: `https://watch-my-address.herokuapp.com/api/webhook/${email}`
         
@@ -289,7 +289,7 @@ app.get('/api/webhook/:address/:email',
     bcapi.createHook(webhook, 
     
         (err, data) => {
-        console.log("bcapi.createHook data", data);
+        //console.log("bcapi.createHook data", data);
         const webhookId = data.id
         /*
             find in this user's addresses[] one with address from req.params, 
@@ -300,7 +300,7 @@ app.get('/api/webhook/:address/:email',
                        {$set: {'addresses.$.webhookId': webhookId}}, {new: true},
                         (err, user) => {
                             if(err) throw err;
-                            console.log('the user is supposed to have a webhookId', user)
+                            //console.log('the user is supposed to have a webhookId', user)
                             res.send(user.addresses);
                         } 
                     )
@@ -328,7 +328,7 @@ app.get('/api/deleteaddress/:address/:optionalwebhookid',
     passport.authenticate('bearer', {session: false}),
         (req, res) => {
             const {address, optionalwebhookid} = req.params
-            console.log("/api/deleteaddress/:address, req.params.address:", address);
+            //console.log("/api/deleteaddress/:address, req.params.address:", address);
 
             // if(optionalwebhookid){
             //     console.log(`optionalwebhookid: ${optionalwebhookid}`);
@@ -346,11 +346,11 @@ app.get('/api/deleteaddress/:address/:optionalwebhookid',
             })
 /**/       // .then(someRes => {
                 if(optionalwebhookid){
-                    console.log(`optionalwebhookid line 350: ${optionalwebhookid}`);
+                    //console.log(`optionalwebhookid line 350: ${optionalwebhookid}`);
                     const deleteString = `https://api.blockcypher.com/v1/btc/main/hooks/${optionalwebhookid}?token=${process.env.BLOCKCYPHERTOKEN}`;
-                    console.log('deleteString', deleteString)
+                    //console.log('deleteString', deleteString)
                     request.delete(deleteString, (req, res) => {
-                        console.log(`expect 204 response only, check if ${optionalwebhookid} was deleted from https://api.blockcypher.com/v1/btc/main/hooks?token=${process.env.BLOCKCYPHERTOKEN}`)
+                        //console.log(`expect 204 response only, check if ${optionalwebhookid} was deleted from https://api.blockcypher.com/v1/btc/main/hooks?token=${process.env.BLOCKCYPHERTOKEN}`)
                     })
                     
                 }
