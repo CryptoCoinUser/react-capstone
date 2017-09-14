@@ -130,3 +130,5 @@ div.clr{
 
 .address-list .addressObj span.preference{}
 .address-list .addressObj span.preference::before{ content: "Miner Preference: "; }
+
+.address-list .addressObj span.webhookId::before{ content: "webhookId: "; }

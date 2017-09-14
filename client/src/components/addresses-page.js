@@ -58,6 +58,8 @@ class AddressesPage extends React.Component {
         const confideceBaseURL = 'https:\//live.blockcypher.com/btc/tx/';
         const txBaseURL = 'https:\//api.blockcypher.com/v1/btc/main/txs/';
         const addrBaseUrl = 'http:\//api.blockcypher.com/v1/btc/main/addrs/';
+        const webhookIdBaseURL = 'https:\//api.blockcypher.com/v1/btc/main/hooks/'
+        const token = '?token=03016274b5814976af645d94b4cdd1d0'
 
         const addresses = this.props.addresses.map((addressObj, index) =>
 
@@ -97,12 +99,12 @@ class AddressesPage extends React.Component {
                     }
                 </div>
                 <div className="emailMe">
-                    {/*<span className="emailInput">
-                        <input type="email" placeholder="me@example.com" size="20"  ref={ref => this.myEmailAddress = ref} />
-                    </span>*/}
-                    <button className="emailMe" 
-                        onClick={e => this.emailMeAboutThisAddress(e, addressObj)}
-                    >Email me updates about this address</button>
+                    {
+                        addressObj.webhookId ? <span className="webhookId"><a href={webhookIdBaseURL + addressObj.webhookId + token}>{addressObj.webhookId}</a></span>
+                        : <button className="emailMe" onClick={e => this.emailMeAboutThisAddress(e, addressObj)}>Email me updates about this address</button>
+                         
+                    }
+                    
                 </div>
                 <div className="clr"></div>
 

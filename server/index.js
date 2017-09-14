@@ -256,11 +256,11 @@ app.post('/api/webhook/:email', (req, res) => {
      to: req.params.email,
      subject: "Test From Server Index.js",
      text: `Req.body.hash: ${req.body.hash}`,
-     html: `<h1>HTML Req.body...</h1>
+     html: `<h1>Unsubscribe by deleting the address from the app...</h1>
 <p>block_height ${req.body.block_height}</p>
 <p>hash ${req.body.hash}</p>
 <p>addresses ${req.body.addresses}</p>
-<p>total ${req.body.total}</p>
+<p>total ${req.body.total / 100000000}</p>
 <p>preference ${req.body.preference}</p>
 <p>received ${req.body.received}</p>
 <p>confirmations ${req.body.confirmations}</p>`
@@ -281,6 +281,7 @@ app.get('/api/webhook/:address/:email',
     const webhook = {
         /**/
         event: "tx-confirmation",
+        //event: "unconfirmed-tx",
         address,
         url: `https://watch-my-address.herokuapp.com/api/webhook/${email}`
         
