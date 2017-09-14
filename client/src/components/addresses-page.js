@@ -58,9 +58,9 @@ class AddressesPage extends React.Component {
         const confideceBaseURL = 'https:\//live.blockcypher.com/btc/tx/';
         const txBaseURL = 'https:\//api.blockcypher.com/v1/btc/main/txs/';
         const addrBaseUrl = 'http:\//api.blockcypher.com/v1/btc/main/addrs/';
-        const addrLiveBaseURL = 'https:\//live.blockcypher.com/btc/address/'
-        const webhookIdBaseURL = 'https:\//api.blockcypher.com/v1/btc/main/hooks/'
-        const token = '?token=03016274b5814976af645d94b4cdd1d0'
+        const addrLiveBaseURL = 'https:\//live.blockcypher.com/btc/address/';
+        const webhookIdBaseURL = 'https:\//api.blockcypher.com/v1/btc/main/hooks/';
+        const token = '?token=03016274b5814976af645d94b4cdd1d0';
 
         const addresses = this.props.addresses.map((addressObj, index) =>
 
