@@ -105,76 +105,55 @@ class App extends React.Component {
         const addrLiveBaseURL = 'https:\//live.blockcypher.com/btc/address/'
         return (
             
-            <div id="main">
-                <p id="logout"><a href="#" onClick={(e => this.logout(e))}>logout</a></p>
-                <div id="notificationEmail">
-                    <form>
-                        <input type ="email" size="40" placeholder={this.props.email} ref={ref => this.emailInput = ref} />
-                        <button id="saveOrUpdateEmail" onClick = {(e => this.saveOrUpdateEmail(e))}>Save / Update Notification Email</button>
-                    </form>
-                
-                    {/*<div id="addressesWithWebhooks">
-                        <p>List of bitcoin addreses which have a webhookId<br />To Do: add a way to unsubscribe from email notifications without deleting address</p>
-                        <table>
-                            <tr>
-                                <th>Unsubscribe?</th>
-                                <th>Bitcoin Address</th>
-                                <th>Note</th>
-                                <th>BlockCypher's Webhook ID</th>
-                            </tr>
-                            <tr>
-                                <td> <button>Unsubscribe</button> </td>
-                                <td> Address 1 </td>
-                                <td> My ABC Address </td>
-                                <td> abc-123-cde-456 </td>
-                            </tr>
-                            <tr>
-                                <td> <button>Unsubscribe</button> </td>
-                                <td> Address 2 </td>
-                                <td> Random Address Created on ....</td>
-                                <td> abd-123-cde-456 </td>
-                            </tr>
-                        </table>
-                    </div>*/}
-                </div>
-               
+            <div id="main">            
                 <h2>Add Bitcoin Address</h2>
-                <div id="randomAddressWrapper">
-                    <h4>Add a random address (from some recent transaction) to watch list</h4>
-                    
-                    <button id="getRandomAddress"
-                        onClick={(e => this.getUnconfirmedAddress(e))}
-                     >
-                        Get Random Address
-                    </button>
-                    <div id="randomAddressAndButton">
-                        <span id="randomAddress"><a href={addrLiveBaseURL + this.props.randomAddress}>{this.props.randomAddress}</a></span>
-                        {this.props.randomAddress ?
-                            <button id="watchRandomAddress"
-                                onClick = {(e => this.saveRandomAddress(e))} 
-                                > Watch This Address
-                            </button>
-                            : ""
+                <div id="addAddressesWrapper">
+                    <div id="randomAddressWrapper">
+                        <h4>Add a random address (from some recent transaction) to watch list</h4>
+                        
+                        <button id="getRandomAddress"
+                            onClick={(e => this.getUnconfirmedAddress(e))}
+                         >
+                            Get Random Address
+                        </button>
+                        <div id="randomAddressAndButton">
+                            <span id="randomAddress"><a href={addrLiveBaseURL + this.props.randomAddress}>{this.props.randomAddress}</a></span>
+                            {this.props.randomAddress ?
+                                <button id="watchRandomAddress"
+                                    onClick = {(e => this.saveRandomAddress(e))} 
+                                    > Watch This Address
+                                </button>
+                                : ""
 
-                        }
+                            }
+                        </div>
+                        {this.props.randomAddressError}
                     </div>
-                    {this.props.randomAddressError}
+
+
+                    <form id="myAddressForm">
+                        <h4>Add a specific address to watch list</h4>
+                        <input type="text" placeholder="Paste address" id="myAddress" size="40" 
+                        ref={ref => this.myAddressInput = ref} />
+                        <input type="text" placeholder="Note" id="myAddressNote" size="20" 
+                        ref={ref => this.myAddressNoteInput = ref} />
+                        <button id="watchMyAddress" 
+                            onClick={this.saveMyAddress}
+                        >Watch My Address</button>
+                    </form>
                 </div>
-
-
-                <form id="myAddressForm">
-                <h4>Add a specific address to watch list</h4>
-                    <input type="text" placeholder="Paste address" id="myAddress" size="40" 
-                    ref={ref => this.myAddressInput = ref} />
-                    <input type="text" placeholder="Note" id="myAddressNote" size="20" 
-                    ref={ref => this.myAddressNoteInput = ref} />
-                    <button id="watchMyAddress" 
-                        onClick={this.saveMyAddress}
-                    >Watch My Address</button>
-                </form>
 
                 <h2>Address Watch List</h2>
                 <AddressesPage />
+
+
+                <div id="notificationEmail">
+                    <form>
+                        <input type ="email" size="50" placeholder={this.props.email} ref={ref => this.emailInput = ref} />
+                        <button id="saveOrUpdateEmail" onClick = {(e => this.saveOrUpdateEmail(e))}>Save / Update Email</button>
+                    </form>
+                
+               </div>
 
                 {/*
                 <h4>Bitcoin network status:</h4>
@@ -188,7 +167,7 @@ class App extends React.Component {
 
           
                 
-
+                <p id="logout"><a href="#" onClick={(e => this.logout(e))}>logout</a></p>
             </div>
         )
     }

@@ -1,7 +1,7 @@
 body {
   margin: 0;
-  padding: 0.5em 1em;
-  font-family: sans-serif;
+  padding: 0.5em;
+  font-family: Courier, Monaco, monospace;
 }
 a{text-decoration: none}
 a:hover{text-decoration: underline;}
@@ -16,60 +16,64 @@ a:hover{text-decoration: underline;}
 	border: 1px dotted #000;
 }
 
-#logout{text-align: center; font-size: 1.5em;}
+p#logout{text-align: center; font-size: 1em;}
+p#logout a{display: block; background: #eee; line-height: 2em; border-radius: 5px;}
 
 #main{
-	width:80%;
+	width:90%;
 	min-width: 40em; 
 	margin:0 auto;
 }
 
 #randomAddressWrapper{
 	text-align: center;
-	border:1px solid #000;
-	padding:1em;
-	margin:0 0 2em 0;
+	padding:0 1em 0 1em;
+	margin:0 0 1em 0;
+	border-bottom:1px solid #000;
 }
 
 
-button{font-size:1.5em; padding:0.5em; margin-bottom:0.5em;}
+button{font-size:1.1em; padding:0.5em; margin-bottom:0.5em;}
+input,
+button{border-radius: 5px;
+font-family: Courier, Monaco, monospace;}
 
-#randomAddressAndButton{padding:1em;  }
+#randomAddressAndButton{padding:0 0 0 0;  }
 
 span#randomAddress{
 	font-weight: bold; font-size: 150%;
-	padding:0 1em 0 0;
+}
+
+#addAddressesWrapper{
+	padding-bottom: 1em;
+	border:1px solid #000;
+	border-radius: 10px;
 }
 
 #myAddressForm{	
 	text-align: center; 
 	clear:both;
-	border:1px solid #000;
-	padding:0.5 1em 2em 1em;
-}
-
-#addressesWithWebhooks dl{
-	text-align: left;
-	display: block;
-    margin-top: 1em;
-    margin-bottom: 1em;
-    margin-left: 0;
-    margin-right: 0;
+	padding:0 1em 0 1em;
 }
 
 #addressesWithWebhooks button{font-size:0.5em; padding:0.5em;}
 
 
+
 #notificationEmail input,
-#myAddressForm input {font-size: 1.2em; margin-right: 1em; margin-bottom:0.5em; padding:0.5em; 
-	border:1px solid #000;
+#myAddressForm input {font-size: 1.1em; margin-right: 1em; margin-bottom:0.5em; padding:0.5em; 
+	text-align: center;
 }
 h2{clear:both; padding-top: 0.5em; margin-top: 0.5em;
  font-size: 200%;
 text-align: center;}
 h4{clear:both; font-size: 100%}
 
-div.addresses{border: 1px solid #000;}
+div#addressesWrapper{
+	border: 1px solid #000; 
+	border-radius: 10px;
+	margin-bottom: 2em;
+}
 
 ul.address-list{
 	list-style: none;
@@ -96,7 +100,7 @@ div.clr{
 .address-list .addressObj button.delete{
 	display: block; 
 	float: right;
-	margin:-0.3em 0 1em 1em;
+	margin:0 0 1em 1em;
 }
 .address-list .addressObj button.delete span{color:#f00; font-weight: 700; padding:0 0 0 1em;}
 
@@ -109,10 +113,10 @@ div.clr{
 .address-list .addressObj .address{font-weight: bold;
 	display: block;
 }
-.address-list .addressObj .address a{font-size: 180%;}
+.address-list .addressObj .address a{font-size: 1.5em;}
 
 .address-list .addressObj span.txn{}
-.address-list .addressObj span.txn::before{content: "This address is used in at least one transaction: ";}
+.address-list .addressObj span.txn::before{content: "This address is in at least one transaction, such as: ";}
 
 .address-list .addressObj span.balance{color:#0a0;}
 .address-list .addressObj span.balance::before{ content: "Confirmed Balance: "; }
@@ -129,10 +133,13 @@ div.clr{
 .address-list .addressObj span.note{ color:#000; font-weight: bold;}
 .address-list .addressObj span.note::before{ }
 
-.address-list .addressObj span.confirmations::before{ content: "Which has: "; }
+.address-list .addressObj span.confirmations{display: block;}
+.address-list .addressObj span.confirmations::before{ content: "This transaction has: "; }
 .address-list .addressObj span.confirmations::after{ content: " Confirmation(s)"; }
 
 .address-list .addressObj span.preference{}
-.address-list .addressObj span.preference::before{ content: "Miner Preference: "; }
+.address-list .addressObj span.preference::before{ content: "Pending transaction miner preference: "; }
+
+.address-list .addressObj span.confidence{display: block;}
 
 .address-list .addressObj span.webhookId::before{ content: "Subscribed using webhookId: "; }

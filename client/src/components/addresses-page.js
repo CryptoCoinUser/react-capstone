@@ -89,7 +89,7 @@ class AddressesPage extends React.Component {
                     {
                         addressObj.webhookId ? <span className="webhookId"><a href={webhookIdBaseURL + addressObj.webhookId + token}>{addressObj.webhookId}</a></span>
                         : <button className="emailMe" onClick={e => this.emailMeAboutThisAddress(e, addressObj)}>
-                        Subscribe to Email Alerts about this Address
+                        Email Me Alerts about this Address
                         </button>
                          
                     }
@@ -100,11 +100,11 @@ class AddressesPage extends React.Component {
                     {   
                         addressObj.confirmed ? <span className="confirmations">{addressObj.confirmations}</span> 
                         : <div className ="unconfirmed">
-
                               <span className="preference">{addressObj.preference}</span>
                               <span className="confidence">
-
-                                <a href={confideceBaseURL + addressObj.recentTxn} target='_blank' title="View BlockCypher's confidence that this transaction will confirm; opens in new tab">BlockCypher Confidence &gt;&gt;</a>
+                                <a href={confideceBaseURL + addressObj.recentTxn} target='_blank' title="View BlockCypher's confidence that this transaction will confirm; opens in new tab">
+                                View BlockCypher confidence in this transaction
+                                </a>
                               </span>
 
                               {/*<button onClick={e => this.tryWebSockets(e,addressObj)}>tryWebSockets</button>*/}
@@ -118,7 +118,7 @@ class AddressesPage extends React.Component {
         
 
         return (
-            <div className="addresses">
+            <div id="addressesWrapper">
                 <ul className="address-list">
                     {addresses}
                 </ul>
