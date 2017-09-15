@@ -285,8 +285,8 @@ app.get('/api/webhook/:address/:email',
     const {email, address} = req.params;
     const webhook = {
         /**/
-        event: "confirmed-tx",
-        //event: "tx-confirmation",
+        //event: "confirmed-tx", /*seems to email only for 1st conf, still emails about multiple txns*/
+        event: "tx-confirmation",
         //event: "unconfirmed-tx",
         address,
         url: `https://watch-my-address.herokuapp.com/api/webhook/${email}`,

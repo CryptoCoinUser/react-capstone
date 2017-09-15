@@ -129,7 +129,7 @@ div.clr{
 .address-list .addressObj span.note{ color:#000; font-weight: bold;}
 .address-list .addressObj span.note::before{ }
 
-.address-list .addressObj span.confirmations::before{ content: "Whitch has: "; }
+.address-list .addressObj span.confirmations::before{ content: "Which has: "; }
 .address-list .addressObj span.confirmations::after{ content: " Confirmation(s)"; }
 
 .address-list .addressObj span.preference{}
