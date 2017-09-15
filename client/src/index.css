@@ -10,6 +10,10 @@ a:hover{text-decoration: underline;}
 #notificationEmail{
 	text-align: center;
 }
+
+#loginWrapper #intro p{max-width: 60em; margin:0 auto 2em;}
+#loginWrapper #intro p img{height: 50%; width:50%; display: block; margin:0 auto;}
+
 #loginWrapper a#loginLink{font-size: 3em; text-decoration: none;}
 #loginWrapper a#loginLink:hover{text-decoration: underline;}
 #loginWrapper video{
@@ -118,13 +122,13 @@ div.clr{
 .address-list .addressObj span.txn{}
 .address-list .addressObj span.txn::before{content: "This address is in at least one transaction, such as: ";}
 
-.address-list .addressObj span.balance{color:#0a0;}
+.address-list .addressObj span.balance{color:#0a0; white-space: nowrap;}
 .address-list .addressObj span.balance::before{ content: "Confirmed Balance: "; }
 
-.address-list .addressObj span.unconfirmed_balance{color:#a00; }
+.address-list .addressObj span.unconfirmed_balance{color:#a00; white-space: nowrap; }
 .address-list .addressObj span.unconfirmed_balance::before{ content: "Unconfirmed Balance: "; }
 
-.address-list .addressObj span.lastUpdated{}
+.address-list .addressObj span.lastUpdated{ display: block; padding-bottom:0;}
 .address-list .addressObj span.lastUpdated::before{ content: "Last Updated: "; }
 
 .address-list .addressObj span.random{font-style:italic;}
