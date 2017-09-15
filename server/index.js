@@ -249,13 +249,14 @@ app.get('/api/saveorupdateemail/:email',
 
 
 //RESPOND TO WEBHOOK PING FROM BLOCKCYPHER
-app.post('/api/webhook/:email', (req, res) => {
+app.post('/api/webhook/:address/:email', (req, res) => {
     //console.log('/api/webhook/:email req.body', req.body)
     const txAddresses = req.body.addresses.join("<br>");
+    const theAddress = req.params.address;
     const emailData = {
      from: "avram.thinkful@gmail.com",
      to: req.params.email,
-     subject: "Update about a Bitcoin Transaction which uses an address you subscribed to on watch-my-address.herokuapp.com",
+     subject: `Update about a Bitcoin Transaction which uses ${theAddress}, the address you subscribed to`,
      text: `Req.body.hash: ${req.body.hash}`,
      html: 
 `<p>You subscribed to updates about a Bitcoin address ("the address") from a list below:<br>
@@ -289,7 +290,7 @@ app.get('/api/webhook/:address/:email',
         event: "tx-confirmation",
         //event: "unconfirmed-tx",
         address,
-        url: `https://watch-my-address.herokuapp.com/api/webhook/${email}`,
+        url: `https://watch-my-address.herokuapp.com/api/webhook/${address}/${email}`,
         confirmations: 3
         
         /* from websocket attempt 
