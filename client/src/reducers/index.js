@@ -73,8 +73,13 @@ export const blockReducer = (state=initialState, action) => {
 			...state,
 			addresses: action.addresses
 		}
+	} else if (action.type === actions.REFRESH_THIS_ADDRESS_SUCCESS){
+		console.log('reducer REFRESH_THIS_ADDRESS_SUCCESS state', state)
+		return {
+			...state,
+			addresses: action.addresses
+		}
 	}
-
 
 	return state;
 

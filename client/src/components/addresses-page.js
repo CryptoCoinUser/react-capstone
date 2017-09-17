@@ -51,16 +51,40 @@ class AddressesPage extends React.Component {
         }
     }
 
+    refreshThisAddress(e, addressObj){
+        e.preventDefault();
+        // action with address
+        const accessToken = Cookies.get('accessToken');
+        if(accessToken) {
+            this.props.dispatch(
+                actions.refreshThisAddress(accessToken, addressObj.address, addressObj.recentTxn)
+            )
+        }
+
+        // server API call res => updateAddress
+        /* want to update
+            - confirmed T/F? => helper function
+            - balance
+            - uncofirmed balance
+            - last updated
+           want to NOT update
+           - date created 
+           - random T/F
+           - note
+           - transactions associated with
+        */
+
+    }
+
     render() {
-        <div id="browser-websocket">
-            {/* https://.github.io/documentation/#websockets */} 
-        </div>
         const confideceBaseURL = 'https:\//live.blockcypher.com/btc/tx/';
         const txBaseURL = 'https:\//api.blockcypher.com/v1/btc/main/txs/';
         const addrBaseUrl = 'http:\//api.blockcypher.com/v1/btc/main/addrs/';
         const addrLiveBaseURL = 'https:\//live.blockcypher.com/btc/address/';
         const webhookIdBaseURL = 'https:\//api.blockcypher.com/v1/btc/main/hooks/';
         const token = '?token=03016274b5814976af645d94b4cdd1d0';
+
+        console.log('this.props.addresses', this.props.addresses);
 
         const addresses = this.props.addresses.map((addressObj, index) =>
 
@@ -83,18 +107,23 @@ class AddressesPage extends React.Component {
                 <div className="balancesInfo"> 
                     <span className="balance">{addressObj.balance / 100000000}</span> 
                     <span className="unconfirmed_balance">{addressObj.unconfirmed_balance / 100000000}</span>
-                    <span className="lastUpdated">{moment(addressObj.lastUpdated).format("YYYY-MM-DD, HH:mm")}</span>
+                    <span className="lastUpdated">
+                        {moment(addressObj.lastUpdated).format("YYYY-MM-DD, HH:mm")} 
+                        <button className="refresh" onClick={e => this.refreshThisAddress(e, addressObj)}>Refresh</button>
+                    </span>
                 </div>
-                <div className="emailMe">
-                    {
-                        addressObj.webhookId ? <span className="webhookId"><a href={webhookIdBaseURL + addressObj.webhookId + token}>{addressObj.webhookId}</a></span>
-                        : <button className="emailMe" onClick={e => this.emailMeAboutThisAddress(e, addressObj)}>
-                        Email Me Updates about this Address
-                        </button>
-                         
-                    }
-                    
-                </div>
+                { addressObj.confirmed ? {/* No email-me option for confirmed tx */}
+                  : <div className="emailMe">
+                          {
+                            addressObj.webhookId ? <span className="webhookId"><a href={webhookIdBaseURL + addressObj.webhookId + token}>{addressObj.webhookId}</a></span>
+                            : <button className="emailMe" onClick={e => this.emailMeAboutThisAddress(e, addressObj)}>
+                            Email Me Updates about this Address
+                            </button>
+                             
+                        }
+                    </div>
+                }
+                
                 <div className="txnInfo">
                     <span className="txn"><a href={txBaseURL + addressObj.recentTxn}>{addressObj.recentTxn}</a></span>
                     {   

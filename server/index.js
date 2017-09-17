@@ -111,6 +111,95 @@ app.get('/api/auth/logout',
                         })
 });
 
+
+
+function txRefreshFromAddrRes(tx, addrRes){
+    const txReport = {
+        'preference': undefined,
+        'confirmed' : undefined,
+        'confirmations': -1,
+        'internalMemo': ''
+    }
+
+    if(tx == -1){
+        txReport.internalMemo += 'warning: tx was -1';
+        tx = chooseRecentTx(addrRes);
+    }
+
+    if(addrRes.unconfirmed_txrefs){
+        for (i = 0; i < addrRes.unconfirmed_txrefs.length; i++){
+            if(addrRes.unconfirmed_txrefs[i].tx_hash == tx){
+                txReport.preference = addrRes.unconfirmed_txrefs[i].preference;
+                txReport.confirmed = false;
+                return txReport;
+            }
+        }
+    } 
+    if(addrRes.txrefs){
+        for (i = 0; i < addrRes.txrefs.length; i++){
+           if(addrRes.txrefs[i].tx_hash == tx){
+                txReport.confirmations = addrRes.txrefs[i].confirmations;
+                txReport.confirmed = true;
+                return txReport;
+            }
+        }
+    }
+
+    return txReport;  
+}
+
+function chooseRecentTx(addrRes){
+    let tx;
+    if(addrRes.unconfirmed-txrefs){
+        return addrRes.unconfirmed-txrefs[0].tx_hash;
+    }else if(addrRes.txrefs){
+        return addrRes.txrefs[0].tx_hash;
+    } else {
+        return 'warning: addrRes has neither unconfirmed-txrefs nor txrefs';
+    }
+}
+
+
+app.get('/api/refreshaddress/:address/:recenttxn',
+    passport.authenticate('bearer', {session: false}),
+    (req, res) => {
+        const address = req.params.address; 
+        request(`https://api.blockcypher.com/v1/btc/main/addrs/${address}?token=${process.env.BLOCKCYPHERTOKEN}`, (err, data) => {
+            const addrRes = JSON.parse(data.body);
+
+            const {balance, unconfirmed_balance} = addrRes;
+
+            const toUpdate = {
+                'addresses.$.balance': balance,
+                'addresses.$.unconfirmed_balance': unconfirmed_balance,
+                'addresses.$.lastUpdated': Date.now(),
+                'addresses.$.confirmed': undefined,
+                'addresses.$.confirmations': undefined,
+            }
+
+            const txReport = txRefreshFromAddrRes(req.params.recenttxn, addrRes);
+            console.log('txReport', txReport)
+
+            if(txReport.confirmed == true){
+                toUpdate['addresses.$.confirmed'] = true;
+                toUpdate['addresses.$.confirmations'] = txReport.confirmations;
+            }
+
+            console.log('toUpdate', toUpdate);
+            
+            User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken, 'addresses.address': address},
+                {$set: toUpdate}, {new: true},
+                    (err, user) => {
+                        if(err) throw err;
+                        console.log("refreshaddress user", user)
+                        res.send(user.addresses);
+                } 
+            )
+
+        })
+ 
+})
+
 app.get('/api/saveaddress/:address/:randomflag/:note',
      passport.authenticate('bearer', {session: false}),
       (req, res) => {
@@ -175,6 +264,7 @@ app.get('/api/addresses',
                                         for (i = 0; i < addrRes.unconfirmed_n_tx; i++){
                                             if(addrRes.unconfirmed_txrefs[i].tx_hash == addressObj.recentTxn){
                                                 addressObj.preference = addrRes.unconfirmed_txrefs[i].preference;
+                                                break
                                             }
                                         }
                                     }
@@ -189,6 +279,7 @@ app.get('/api/addresses',
                                                 if(addrRes.txrefs[i].tx_hash == addressObj.recentTxn){
                                                     addressObj.confirmations = addrRes.txrefs[i].confirmations;
                                                     addressObj.confirmed = true;
+                                                    break
                                                 }
                                             }
                                         }
@@ -234,20 +325,6 @@ app.get('/api/saveorupdateemail/:email',
     })
 })
 
-// wehn web hook posts to us
-// const emailData = {
-//      from: "foo@bar.com",
-//      to: "adkantor@gmail.com",
-//      subject: "Hello world",
-//      text: "Plain text content",
-//      html: "<p>HTML version</p>"
-//     }
-//     // import our mailer function
-//     sendEmail(emailData);
-
-//     console.log("REQUEST body", req.body);
-
-
 //RESPOND TO WEBHOOK PING FROM BLOCKCYPHER
 app.post('/api/webhook/:address/:email', (req, res) => {
     //console.log('/api/webhook/:email req.body', req.body)
@@ -256,17 +333,14 @@ app.post('/api/webhook/:address/:email', (req, res) => {
     const emailData = {
      from: "avram.thinkful@gmail.com",
      to: req.params.email,
-     subject: `Update about a Bitcoin Transaction which uses ${theAddress}, the address you subscribed to`,
+     subject: `Update on ${theAddress} Bitcoin address you are watching on watch-my-address.herokuapp.com`,
      text: `Req.body.hash: ${req.body.hash}`,
      html: 
-`<p>You subscribed to updates about a Bitcoin address ("the address") from a list below:<br>
-${txAddresses}</p>
-<p>You can <strong>unsubscribe</strong> by logging into https://watch-my-address.herokuapp.com/ ("the app") and deleting the address from your Address Watch List</p>
-<p>You will get an email like this every time a transaction that uses the address gets confirmed, up to a max of 3 confirmations</p>
-<p>Note you might get email alerts about more than one transaction since the address might get re-used in additional transactions, such as when receiving and then sending</p>
-<p>This transaction's confirmations so far: ${req.body.confirmations}<br>
-This transaction's ID is:<br>
-${req.body.hash}</p>
+`<p>You subscribed to updates about the following Bitcoin address: ${theAddress}</p>
+<p>You can <strong>unsubscribe</strong> by logging into https://watch-my-address.herokuapp.com/ and deleting the address from your Address Watch List</p>
+<p>You will get an email like this every time a transaction that uses the address gets confirmed, for a total of 3 confirmations per transaction</p>
+<p>Note you might get email alerts about more than one transaction since the address might get re-used in additional transactions, such as for receiving and then for sending</p>
+<p>${req.body.confirmations} confirmations so far for transaction ${req.body.hash}<br>
 <p>You can find out more about this transaction via <br>
 https://live.blockcypher.com/btc/tx/${req.body.hash}</p>`
 }
@@ -312,28 +386,13 @@ app.get('/api/webhook/:address/:email',
             and set its webhookId to data.id
             else can't delete webhook from blockcypher while deleting address
         */
-                User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken, 'addresses.address': address},
-                       {$set: {'addresses.$.webhookId': webhookId}}, {new: true},
-                        (err, user) => {
-                            if(err) throw err;
-                            //console.log('the user is supposed to have a webhookId', user)
-                            res.send(user.addresses);
-                        } 
-                    )
-        
-                        //     {$set: { addressesAddress : webhookId }}, {new: true},
-                        //     (err, user) => {
-                        //         if (err) throw err;
-                        //         console.log("user", user)
-                        // })
-        
-/*Person.update({'items.id': 2}, {'$set': {
-    'items.$.name': 'updated item2',
-    'items.$.value': 'two updated'
-}}, function(err) { ...*/
-
-
-
+        User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken, 'addresses.address': address},
+            {$set: {'addresses.$.webhookId': webhookId}}, {new: true},
+                (err, user) => {
+                    if(err) throw err;
+                    res.send(user.addresses);
+            } 
+        )
         
     });
 

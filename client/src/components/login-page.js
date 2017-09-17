@@ -18,7 +18,7 @@ export default function LoginPage() {
 		    	<p>Both random and specific addresses you decided to watch show up in the Watched Address List, along with the latest details
 		    		<img src="/screenshots/2savedAddresses.gif" />
 		    	</p>
-		    	<p>You can also subscribe for email alerts about an address - you'll receive an email when the address is used in a new trasaction and when that transaction is confirmed
+		    	<p>You can also subscribe for email updates about an address - you'll receive an email when the address is used in a  trasaction, namely when that trasaction is confirmed
 		    		<img src="/screenshots/emailMeWithForm.gif" />
 		    	</p>
 	    	</div>

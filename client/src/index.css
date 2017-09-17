@@ -129,6 +129,7 @@ div.clr{
 .address-list .addressObj span.unconfirmed_balance::before{ content: "Unconfirmed Balance: "; }
 
 .address-list .addressObj span.lastUpdated{ display: block; padding-bottom:0;}
+.address-list .addressObj span.lastUpdated button.refresh{margin-left: 1em;}
 .address-list .addressObj span.lastUpdated::before{ content: "Last Updated: "; }
 
 .address-list .addressObj span.random{font-style:italic;}
@@ -146,4 +147,4 @@ div.clr{
 
 .address-list .addressObj span.confidence{display: block;}
 
-.address-list .addressObj span.webhookId::before{ content: "Subscribed using webhookId: "; }
+.address-list .addressObj span.webhookId::before{ content: "Email updates set, webhookId: "; }

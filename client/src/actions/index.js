@@ -73,6 +73,12 @@ export const emailMeAboutThisAddressSuccess = addresses =>({
     addresses
 })
 
+export const REFRESH_THIS_ADDRESS_SUCCESS = 'REFRESH_THIS_ADDRESS_SUCCESS';
+export const refreshThisAddressSuccess = addresses =>({
+    type: REFRESH_THIS_ADDRESS_SUCCESS,
+    addresses
+})
+
 export const fetchLatestBlock = () => dispatch => {
     const url = `https://api.blockcypher.com/v1/btc/main`;
     axios(url)
@@ -119,6 +125,19 @@ export const saveAddress = (accessToken, address, randomFlag, note = "noNote") =
     })
     .then(res => {
         return dispatch(sendAddressToReducer(res.data));
+    })
+    .catch(err => console.log(err))
+}
+
+export const refreshThisAddress = (accessToken, address, recentTxn) => dispatch => {
+    axios(`/api/refreshaddress/${address}/${recentTxn}`, {
+        headers: {
+            'Authorization': `Bearer ${accessToken}`
+        }
+    })
+    .then(res => {
+        //console.log('refreshThisAddress res.data', res.data)
+        return dispatch(refreshThisAddressSuccess(res.data));
     })
     .catch(err => console.log(err))
 }
