@@ -174,7 +174,7 @@ app.get('/api/refreshaddress/:address/:recenttxn',
                 'addresses.$.unconfirmed_balance': unconfirmed_balance,
                 'addresses.$.lastUpdated': Date.now(),
                 'addresses.$.confirmed': undefined,
-                'addresses.$.confirmations': undefined,
+                'addresses.$.confirmations': -1,
             }
 
             const txReport = txRefreshFromAddrRes(req.params.recenttxn, addrRes);
