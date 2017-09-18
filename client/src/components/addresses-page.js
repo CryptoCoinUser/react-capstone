@@ -146,11 +146,11 @@ class AddressesPage extends React.Component {
         
 
         return (
-            <div id="addressesWrapper">
+           
                 <ul className="address-list">
                     {addresses}
                 </ul>
-            </div>
+            
         );
     }
 }

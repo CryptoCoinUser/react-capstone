@@ -16,7 +16,7 @@ const bcypher = require('blockcypher');
 var bcapi = new bcypher('btc','main', process.env.BLOCKCYPHERTOKEN);
 
 mongoose.Promise = global.Promise;
-const DATABASE_URL = process.env.DBURL || 'mongodb://localhost/reactCapstone';
+const { DATABASE_URL } = require('./config')
 
 //const secret = require('./secret');
 

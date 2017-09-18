@@ -11,6 +11,8 @@ a:hover{text-decoration: underline;}
 	text-align: center;
 }
 
+#notificationEmail{padding-top: 1em;}
+
 #loginWrapper #intro p{max-width: 60em; margin:0 auto 2em;}
 #loginWrapper #intro p img{height: 50%; width:50%; display: block; margin:0 auto;}
 
@@ -47,12 +49,14 @@ font-family: Courier, Monaco, monospace;}
 span#randomAddress{
 	font-weight: bold; font-size: 150%;
 }
-
+#apiLimits,
 #addAddressesWrapper{
 	padding-bottom: 1em;
 	border:1px solid #000;
 	border-radius: 10px;
 }
+
+#apiLimits{text-align: center;}
 
 #myAddressForm{	
 	text-align: center; 
@@ -77,6 +81,7 @@ div#addressesWrapper{
 	border: 1px solid #000; 
 	border-radius: 10px;
 	margin-bottom: 2em;
+	padding-bottom: 2em;
 }
 
 ul.address-list{
@@ -99,7 +104,7 @@ div.clr{
 	line-height: 180%;
 }
 
-.address-list .addressObj:last-child{border-bottom: none;}
+.address-list .addressObj:last-child{ }
 
 .address-list .addressObj button.delete{
 	display: block; 

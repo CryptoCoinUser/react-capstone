@@ -154,15 +154,15 @@ class App extends React.Component {
                 </div>
 
                 <h2>Address Watch List</h2>
-                <AddressesPage />
-
-
-                <div id="notificationEmail">
-                    <form>
-                        <input type ="email" size="50" placeholder={this.props.email} ref={ref => this.emailInput = ref} />
-                        <button id="saveOrUpdateEmail" onClick = {(e => this.saveOrUpdateEmail(e))}>Save / Update Email</button>
-                    </form>
-                
+                <div id="addressesWrapper">
+                    <AddressesPage />
+                    <div id="notificationEmail">
+                        <form>
+                            <input type ="email" size="50" placeholder={this.props.email} ref={ref => this.emailInput = ref} />
+                            <button id="saveOrUpdateEmail" onClick = {(e => this.saveOrUpdateEmail(e))}>Save / Update Email</button>
+                        </form>
+                    
+                   </div>
                </div>
 
                 {/*
@@ -175,14 +175,15 @@ class App extends React.Component {
                 </p>
                 */}
 
-          
-                <div id="apiCounter">
-                    <p>API Limitation: 200 requests per hour. {this.props.apiLeft.hits} of 200 left</p>
-                    <p>API Limitation: 200 hooks per hour. {this.props.apiLeft.hooks} of 200 left</p>
-                    <button id="refreshRemaining" onClick={(e => this.refreshApiLeft(e))}>Refresh Remaning API Calls</button>
+                <h2>API Limits</h2>
+                <div id="apiLimits">
+                    <p><strong>{this.props.apiRemaining.hits}</strong> of 200 requests/hour remaining</p>
+                    <p><strong>{this.props.apiRemaining.hooks}</strong> of 200 webhooks/hour (for email notications) remaining</p>
+                    <button id="refreshRemaining" onClick={(e => this.refreshApiLeft(e))}>Refresh Count</button>
+                    <p>BlockCypher's hourly limits renew at the top of each hour.<br /> Activity of other users of this app also counts towards the limit.<br />If limit is reached, app will stop responding until next hour.</p>
 
                 </div>
-                <p id="logout"><a href="#" onClick={(e => this.logout(e))}>logout</a></p>
+                <p id="logout"><button onClick={(e => this.logout(e))}>Logout</button></p>
             </div>
         )
     }
@@ -195,7 +196,7 @@ const mapStateToProps = (state, props) => ({
     randomAddress: state.randomAddress,
     randomAddressError: state.randomAddressError,
     email: state.email,
-    apiLeft: state.apiLeft 
+    apiRemaining: state.apiRemaining 
 })
 
 export default connect(mapStateToProps)(App);
