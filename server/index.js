@@ -349,10 +349,10 @@ app.post('/api/webhook/:address/:email', (req, res) => {
      text: `Req.body.hash: ${txRes.hash}`,
      html: 
 `<p>You subscribed to updates about the following Bitcoin address: ${theAddress}</p>
-<p>The address has a value of ${bitcoins} bitcoin and is used as an ${inputOrOutput} of transaction ${txRes.hash}</p>
+<p>You can find out more about the address via https://live.blockcypher.com/btc/address/${theAddress}</p>
+<p>The address is used as an ${inputOrOutput} of transaction ${txRes.hash}, and that ${inputOrOutput} has a value of ${bitcoins} bitcoin</p>
 <p>${txRes.confirmations} confirmations so far for this transaction</p>
-<p>You can find out more about this transaction via <br>
-https://live.blockcypher.com/btc/tx/${txRes.hash}</p>
+<p>You can find out more about this transaction via https://live.blockcypher.com/btc/tx/${txRes.hash}</p>
 <p>You can <strong>unsubscribe</strong> by logging into https://watch-my-address.herokuapp.com/ and deleting the address from your Address Watch List</p>
 <p>You will get an email like this every time a transaction that uses the address gets confirmed, for a total of 3 confirmations per transaction</p>
 <p>Note you might get email alerts about more than one transaction since the address might get re-used in additional transactions, such as for receiving and then for sending</p>`

@@ -113,13 +113,13 @@ class AddressesPage extends React.Component {
                     </span>
                 </div>
                  <div className="emailMe">
-                          {
-                            addressObj.webhookId ? <span className="webhookId"><a href={webhookIdBaseURL + addressObj.webhookId + token}>{addressObj.webhookId}</a></span>
-                            : <button className="emailMe" onClick={e => this.emailMeAboutThisAddress(e, addressObj)}>
-                            Email Me Updates about this Address
-                            </button>
-                             
-                        }
+                    {
+                        addressObj.webhookId ? <span className="webhookId"><a href={webhookIdBaseURL + addressObj.webhookId + token}>{addressObj.webhookId}</a></span>
+                        : <button className="emailMe" onClick={e => this.emailMeAboutThisAddress(e, addressObj)}>
+                        Email Me Updates about this Address
+                        </button>
+                         
+                    }
                 </div>
                 
                 
