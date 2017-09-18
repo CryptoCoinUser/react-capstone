@@ -112,8 +112,7 @@ class AddressesPage extends React.Component {
                         <button className="refresh" onClick={e => this.refreshThisAddress(e, addressObj)}>Refresh</button>
                     </span>
                 </div>
-                { addressObj.confirmed ? {/* No email-me option for confirmed tx */}
-                  : <div className="emailMe">
+                 <div className="emailMe">
                           {
                             addressObj.webhookId ? <span className="webhookId"><a href={webhookIdBaseURL + addressObj.webhookId + token}>{addressObj.webhookId}</a></span>
                             : <button className="emailMe" onClick={e => this.emailMeAboutThisAddress(e, addressObj)}>
@@ -121,8 +120,8 @@ class AddressesPage extends React.Component {
                             </button>
                              
                         }
-                    </div>
-                }
+                </div>
+                
                 
                 <div className="txnInfo">
                     <span className="txn"><a href={txBaseURL + addressObj.recentTxn}>{addressObj.recentTxn}</a></span>

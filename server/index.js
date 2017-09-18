@@ -1,5 +1,5 @@
-    require('dotenv').config();
-
+require('dotenv').config();
+//require("babel-polyfill");
 const path = require('path');
 const express = require('express');
 const passport = require('passport');
@@ -328,29 +328,76 @@ app.get('/api/saveorupdateemail/:email',
 //RESPOND TO WEBHOOK PING FROM BLOCKCYPHER
 app.post('/api/webhook/:address/:email', (req, res) => {
     //console.log('/api/webhook/:email req.body', req.body)
-    const txAddresses = req.body.addresses.join("<br>");
+    //const txAddresses = req.body.addresses.join("<br>");
     const theAddress = req.params.address;
+    const txRes = req.body;
+    const addrReport = getAddrValueFromTxRes(theAddress, txRes);
+    let inputOrOutput = undefined;
+    let bitcoins = -1;
+    if(addrReport.inInputs){
+        inputOrOutput = "input";
+        bitcoins = (addrReport.output_value) / 100000000;
+    }
+    if(addrReport.inOutputs){
+        inputOrOutput = "output";
+        bitcoins = (addrReport.value) / 100000000;
+    }
     const emailData = {
      from: "avram.thinkful@gmail.com",
      to: req.params.email,
      subject: `Update on ${theAddress} Bitcoin address you are watching on watch-my-address.herokuapp.com`,
-     text: `Req.body.hash: ${req.body.hash}`,
+     text: `Req.body.hash: ${txRes.hash}`,
      html: 
 `<p>You subscribed to updates about the following Bitcoin address: ${theAddress}</p>
+<p>The address has a value of ${bitcoins} bitcoin and is used as an ${inputOrOutput} of transaction ${txRes.hash}</p>
+<p>${txRes.confirmations} confirmations so far for this transaction</p>
+<p>You can find out more about this transaction via <br>
+https://live.blockcypher.com/btc/tx/${txRes.hash}</p>
 <p>You can <strong>unsubscribe</strong> by logging into https://watch-my-address.herokuapp.com/ and deleting the address from your Address Watch List</p>
 <p>You will get an email like this every time a transaction that uses the address gets confirmed, for a total of 3 confirmations per transaction</p>
-<p>Note you might get email alerts about more than one transaction since the address might get re-used in additional transactions, such as for receiving and then for sending</p>
-<p>${req.body.confirmations} confirmations so far for transaction ${req.body.hash}<br>
-<p>You can find out more about this transaction via <br>
-https://live.blockcypher.com/btc/tx/${req.body.hash}</p>`
+<p>Note you might get email alerts about more than one transaction since the address might get re-used in additional transactions, such as for receiving and then for sending</p>`
 }
-
     // import our mailer function
     sendEmail(emailData);
-
     //console.log("REQUEST body", req.body);
     res.send(req.body.id);
 })
+
+function getAddrValueFromTxRes(theAddress, txRes){
+    let addrReport = {
+        inInputs: undefined,
+        output_value: -1,
+        inOutputs: undefined,
+        value: -1
+    }
+    if(txRes.outputs){
+        for(var i = 0; i < txRes.outputs.length; i++){
+            if(txRes.outputs[i].addresses){
+                for(var k = 0; k < txRes.outputs[i].addresses.length; k++){
+                    if (txRes.outputs[i].addresses[k] == theAddress){
+                        addrReport.inOutputs = true;
+                        addrReport.value = txRes.outputs[i].value;
+                        return addrReport;
+                    }
+                }
+            }
+        }
+    }
+    if(txRes.inputs){
+        for(var i = 0;  i< txRes.inputs.length; i++){
+            if(txRes.inputs[i].addresses){
+                for(var k = 0; k < txRes.inputs[i].addresses.length; k++){
+                    if(txRes.inputs[i].addresses[k] == theAddress){
+                        addrReport.inInputs = true;
+                        addrReport.output_value = txRes.inputs[i].output_value;
+                        return addrReport
+                    }
+                }
+            }
+        }
+    }
+    return addrReport
+}
 
 // SETUP WEBHOOK
 app.get('/api/webhook/:address/:email',
@@ -404,15 +451,6 @@ app.get('/api/deleteaddress/:address/:optionalwebhookid',
         (req, res) => {
             const {address, optionalwebhookid} = req.params
             //console.log("/api/deleteaddress/:address, req.params.address:", address);
-
-            // if(optionalwebhookid){
-            //     console.log(`optionalwebhookid: ${optionalwebhookid}`);
-            //     app.delete(`https://api.blockcypher.com/v1/btc/main/hooks/${optionalwebhookid}?token=${process.env.BLOCKCYPHERTOKEN}`, (req, res) => {
-            //         console.log(`expect 204 response only, check if ${optionalwebhookid} was deleted from https://api.blockcypher.com/v1/btc/main/hooks?token=${process.env.BLOCKCYPHERTOKEN}`)
-            //     })
-                
-            // }
-
             User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken}, 
                 {$pull: {'addresses': {address}}},
                 (err, user) => {
