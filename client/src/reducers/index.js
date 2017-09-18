@@ -7,7 +7,8 @@ const initialState = {
 	randomAddressError: null,
 	deleteAddressError: null,
 	addresses: [],
-	email: 'Your email - if you want to set up notifications'
+	email: 'Your email - if you want to set up notifications',
+	apiLeft: { hits: 200, hooks: 200}
 };
 
 export const blockReducer = (state=initialState, action) => {
@@ -79,6 +80,13 @@ export const blockReducer = (state=initialState, action) => {
 			...state,
 			addresses: action.addresses
 		}
+	} else if (action.type === actions.UPDATE_API_LEFT_SUCCESS){
+		const hits = 200 - action.hitsObj["api/hour"];
+		const hooks = 200 - action.hitsObj["hooks/hour"];
+		return Object.assign({}, state, {apiLeft: {
+			hits,
+			hooks
+		}})
 	}
 
 	return state;

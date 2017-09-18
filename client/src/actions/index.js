@@ -79,6 +79,20 @@ export const refreshThisAddressSuccess = addresses =>({
     addresses
 })
 
+export const UPDATE_API_LEFT_SUCCESS = 'UPDATE_API_LEFT_SUCCESS';
+export const updateApiLeftSuccess = hitsObj =>({
+    type: UPDATE_API_LEFT_SUCCESS,
+    hitsObj
+})
+
+export const updateApiLeft = () => dispatch => {
+    const url = 'https://api.blockcypher.com/v1/tokens/03016274b5814976af645d94b4cdd1d0';
+    axios(url)
+        .then(res => {
+            return dispatch(updateApiLeftSuccess(res.data.hits));
+        })
+}
+
 export const fetchLatestBlock = () => dispatch => {
     const url = `https://api.blockcypher.com/v1/btc/main`;
     axios(url)

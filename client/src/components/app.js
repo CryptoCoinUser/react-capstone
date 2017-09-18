@@ -28,7 +28,17 @@ class App extends React.Component {
         this.props.dispatch(
             actions.fetchLatestBlock()
         )
+        this.props.dispatch(
+            actions.updateApiLeft()
+        )
 
+    }
+
+    refreshApiLeft(e) {
+        e.preventDefault();
+        this.props.dispatch(
+            actions.updateApiLeft()
+        )
     }
 
     logout(e) {
@@ -166,7 +176,12 @@ class App extends React.Component {
                 */}
 
           
-                
+                <div id="apiCounter">
+                    <p>API Limitation: 200 requests per hour. {this.props.apiLeft.hits} of 200 left</p>
+                    <p>API Limitation: 200 hooks per hour. {this.props.apiLeft.hooks} of 200 left</p>
+                    <button id="refreshRemaining" onClick={(e => this.refreshApiLeft(e))}>Refresh Remaning API Calls</button>
+
+                </div>
                 <p id="logout"><a href="#" onClick={(e => this.logout(e))}>logout</a></p>
             </div>
         )
@@ -179,7 +194,8 @@ const mapStateToProps = (state, props) => ({
     latestBlockHeight: state.latestBlockHeight,
     randomAddress: state.randomAddress,
     randomAddressError: state.randomAddressError,
-    email: state.email 
+    email: state.email,
+    apiLeft: state.apiLeft 
 })
 
 export default connect(mapStateToProps)(App);
