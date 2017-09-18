@@ -9,13 +9,13 @@ export default function LoginPage() {
 	    	<a href={'/api/auth/google'} id="loginLink">Login with Google</a>
 	    	<div id="intro">
 	    		<h2>Intro</h2>
-		    	<p>To see how the app works, hit "Get Random Address" to get a Bitcoin address from someone's recent transaction.
+		    	<p>To see how the app works, hit "Get Random Address" to get a Bitcoin address from someone's recent transaction, then this "Watch This Address"
 		    		<img src="/screenshots/getRandomAddress.gif" />
 		    	</p>
-		    	<p>Or you can paste a Bitcoin address you actually care about, say, an address from your wallet or a deposit address you just sent Bitcoin to.
+		    	<p>Or you can paste a Bitcoin address you actually care about, say, an address from your wallet or a deposit address you just sent Bitcoin to, and then hit "Watch My Address"
 		    		<img src="/screenshots/pasteYourAddress.gif" />
 		    	</p>
-		    	<p>Both random and specific addresses you decided to watch show up in the Watched Address List, along with the latest details
+		    	<p>Both random and specific addresses you watch show up in the Watched Address List, along with the latest details
 		    		<img src="/screenshots/2savedAddresses.gif" />
 		    	</p>
 		    	<p>You can also subscribe for email updates about an address - you'll receive an email when the address is used in a  trasaction, namely when that trasaction is confirmed

@@ -157,6 +157,7 @@ class App extends React.Component {
                 <div id="addressesWrapper">
                     <AddressesPage />
                     <div id="notificationEmail">
+                        <h4>Email for Notifications about an Address</h4>
                         <form>
                             <input type ="email" size="50" placeholder={this.props.email} ref={ref => this.emailInput = ref} />
                             <button id="saveOrUpdateEmail" onClick = {(e => this.saveOrUpdateEmail(e))}>Save / Update Email</button>

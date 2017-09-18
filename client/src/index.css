@@ -11,7 +11,7 @@ a:hover{text-decoration: underline;}
 	text-align: center;
 }
 
-#notificationEmail{padding-top: 1em;}
+#notificationEmail{ }
 
 #loginWrapper #intro p{max-width: 60em; margin:0 auto 2em;}
 #loginWrapper #intro p img{height: 50%; width:50%; display: block; margin:0 auto;}
@@ -99,12 +99,14 @@ div.clr{
 .address-list .addressObj{
 	clear:both; 
 	padding:1em 1em 1em 2em;
-	border-bottom: 1px solid #000; 
+	border-bottom: 1px dotted #000; 
 	margin-bottom: 1em;
 	line-height: 180%;
 }
 
-.address-list .addressObj:last-child{ }
+.address-list .addressObj:last-child{
+	border-bottom-style: solid
+}
 
 .address-list .addressObj button.delete{
 	display: block; 
