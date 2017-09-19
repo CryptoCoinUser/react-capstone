@@ -81,8 +81,16 @@ export const blockReducer = (state=initialState, action) => {
 			addresses: action.addresses
 		}
 	} else if (action.type === actions.UPDATE_API_LEFT_SUCCESS){
-		const hits = 200 - action.hitsObj["api/hour"] || 200;
-		const hooks = 200 - action.hitsObj["hooks/hour"] || 200;
+		let hits;
+		let hooks;
+		if(action.hitsObj == undefined){
+			hits = 200;
+			hooks = 200;
+		}else{
+			hits = 200 - action.hitsObj["api/hour"];
+			hooks = 200 - action.hitsObj["hooks/hour"];	
+		}
+		
 		return Object.assign({}, state, {apiRemaining: {
 			hits,
 			hooks
