@@ -32,12 +32,13 @@ export const blockReducer = (state=initialState, action) => {
 	} else if(action.type === actions.GET_UNCONFIRMED_ADDRESS_SUCCESS){
 		return {
 			...state,
-			randomAddress: action.data[0].outputs[0].addresses[0]
+			randomAddress: action.data[0].outputs[0].addresses[0],
+			randomAddressError: ''
 		}
 	} else if(action.type === actions.GET_UNCONFIRMED_ADDRESS_ERROR) {
 		return {
 			...state,
-			randomAddressError: 'Error, probably too many requests: BlockCypher API allows only 3 per second or 200 per hour. Quota freshes at the top of the hour'
+			randomAddressError: 'Error: Too many requests. BlockCypher API allows only 3 requests per second or 200 per hour. Hourly quota freshes at the top of the hour'
 		}
 	} else if(action.type === actions.SEND_ADDRESSES_TO_REDUCER) {
 		return {

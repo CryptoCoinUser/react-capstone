@@ -127,7 +127,7 @@ class App extends React.Component {
                             Get Random Address
                         </button>
                         <div id="randomAddressAndButton">
-                            <span id="randomAddress">{this.props.randomAddress}</span>
+                            <span id="randomAddress"> {this.props.randomAddress} </span>
                             {this.props.randomAddress ?
                                 <button id="watchRandomAddress"
                                     onClick={(e => this.saveRandomAddress(e))} 
@@ -165,17 +165,6 @@ class App extends React.Component {
                     
                    </div>
                </div>
-
-                {/*
-                <h4>Bitcoin network status:</h4>
-                <p><strong>{this.props.latestBlock ? this.props.latestBlock.height : ''}:</strong> Block height from http://api.blockcypher.com/v1/btc/main</p>
-                <p> 
-                    <a href={this.props.latestBlock ? this.props.latestBlock.latest_url : ''} target="_blank">
-                        Latest block url from http://api.blockcypher.com/v1/btc/main
-                    </a>
-                </p>
-                */}
-
                 <h2>API Limits</h2>
                 <div id="apiLimits">
                     <p><strong>{this.props.apiRemaining.hits}</strong> of 200 requests/hour remaining</p>

@@ -108,7 +108,7 @@ div.clr{
 }
 
 .address-list .addressObj:last-child{
-	border-bottom-style: solid
+	border-bottom: 1px solid #000;
 }
 
 .address-list .addressObj button.delete{
