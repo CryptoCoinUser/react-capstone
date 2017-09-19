@@ -29,7 +29,7 @@ class App extends React.Component {
             actions.fetchLatestBlock()
         )
         this.props.dispatch(
-            actions.updateApiLeft()
+            actions.updateApiRemaining()
         )
 
     }
@@ -37,7 +37,7 @@ class App extends React.Component {
     refreshApiLeft(e) {
         e.preventDefault();
         this.props.dispatch(
-            actions.updateApiLeft()
+            actions.updateApiRemaining()
         )
     }
 

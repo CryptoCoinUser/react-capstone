@@ -85,12 +85,16 @@ export const updateApiLeftSuccess = hitsObj =>({
     hitsObj
 })
 
-export const updateApiLeft = () => dispatch => {
+export const updateApiRemaining = () => dispatch => {
     const url = 'https://api.blockcypher.com/v1/tokens/03016274b5814976af645d94b4cdd1d0';
     axios(url)
         .then(res => {
-            return dispatch(updateApiLeftSuccess(res.data.hits));
+            if(res.data.hitsObj){
+               console.log('res.data.hits', res.data.hits)
+               return dispatch(updateApiLeftSuccess(res.data.hitsObj)); 
+            }
         })
+        .catch(err => console.log(err))
 }
 
 export const fetchLatestBlock = () => dispatch => {
@@ -98,7 +102,6 @@ export const fetchLatestBlock = () => dispatch => {
     axios(url)
     .then(res => {
         return dispatch(fetchLatestBlockSuccess(res.data))
-        
         }
     )
     .catch(error => {
