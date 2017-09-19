@@ -34,7 +34,7 @@ class App extends React.Component {
 
     }
 
-    refreshApiLeft(e) {
+    updateApiRemaining(e) {
         e.preventDefault();
         this.props.dispatch(
             actions.updateApiRemaining()
@@ -127,10 +127,10 @@ class App extends React.Component {
                             Get Random Address
                         </button>
                         <div id="randomAddressAndButton">
-                            <span id="randomAddress"><a href={addrLiveBaseURL + this.props.randomAddress}>{this.props.randomAddress}</a></span>
+                            <span id="randomAddress">{this.props.randomAddress}</span>
                             {this.props.randomAddress ?
                                 <button id="watchRandomAddress"
-                                    onClick = {(e => this.saveRandomAddress(e))} 
+                                    onClick={(e => this.saveRandomAddress(e))} 
                                     > Watch This Address
                                 </button>
                                 : ""
@@ -143,7 +143,7 @@ class App extends React.Component {
 
                     <form id="myAddressForm">
                         <h4>Add a specific address to watch list</h4>
-                        <input type="text" placeholder="Paste address" id="myAddress" size="40" 
+                        <input type="text" placeholder="Paste your address" id="myAddress" size="40" 
                         ref={ref => this.myAddressInput = ref} />
                         <input type="text" placeholder="Note" id="myAddressNote" size="20" 
                         ref={ref => this.myAddressNoteInput = ref} />
@@ -180,9 +180,8 @@ class App extends React.Component {
                 <div id="apiLimits">
                     <p><strong>{this.props.apiRemaining.hits}</strong> of 200 requests/hour remaining</p>
                     <p><strong>{this.props.apiRemaining.hooks}</strong> of 200 webhooks/hour (for email notications) remaining</p>
-                    <button id="refreshRemaining" onClick={(e => this.refreshApiLeft(e))}>Refresh Count</button>
+                    <button id="refreshRemaining" onClick={(e => this.updateApiRemaining(e))}>Refresh Count</button>
                     <p>BlockCypher's hourly limits renew at the top of each hour.<br /> Activity of other users of this app also counts towards the limit.<br />If limit is reached, app will stop responding until next hour.</p>
-
                 </div>
                 <p id="logout"><button onClick={(e => this.logout(e))}>Logout</button></p>
             </div>

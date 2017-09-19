@@ -64,7 +64,6 @@ export const blockReducer = (state=initialState, action) => {
 		}
 
 	} else if (action.type === actions.SAVE_OR_UPDATE_EMAIL_SUCCESS){
-		console.log('action', action)
 		return {
 			...state,
 			email: action.email
@@ -75,26 +74,29 @@ export const blockReducer = (state=initialState, action) => {
 			addresses: action.addresses
 		}
 	} else if (action.type === actions.REFRESH_THIS_ADDRESS_SUCCESS){
-		console.log('reducer REFRESH_THIS_ADDRESS_SUCCESS state', state)
 		return {
 			...state,
 			addresses: action.addresses
 		}
-	} else if (action.type === actions.UPDATE_API_LEFT_SUCCESS){
+	} else if (action.type === actions.UPDATE_API_REMAINING_SUCCESS){
 		let hits;
 		let hooks;
-		if(!action.hitsObj["api/hour"]){
+		if(!(action.hitsObj["api/hour"])){
 			hits = 200;
-		}else if(!action.hitsObj["hooks/hour"]){
-			hooks = 200;
 		}else{
 			hits = 200 - action.hitsObj["api/hour"];
+		}
+
+		if(!(action.hitsObj["hooks/hour"])){
+			hooks = 200;
+		}else{
 			hooks = 200 - action.hitsObj["hooks/hour"];	
 		}
 		return Object.assign({}, state, {apiRemaining: {
-			hits,
-			hooks
-		}})
+						hits,
+						hooks
+					}
+				})
 	}
 
 	return state;

@@ -79,9 +79,9 @@ export const refreshThisAddressSuccess = addresses =>({
     addresses
 })
 
-export const UPDATE_API_LEFT_SUCCESS = 'UPDATE_API_LEFT_SUCCESS';
-export const updateApiLeftSuccess = hitsObj =>({
-    type: UPDATE_API_LEFT_SUCCESS,
+export const UPDATE_API_REMAINING_SUCCESS = 'UPDATE_API_REMAINING_SUCCESS';
+export const updateApiRemainingSuccess = hitsObj =>({
+    type: UPDATE_API_REMAINING_SUCCESS,
     hitsObj
 })
 
@@ -89,9 +89,9 @@ export const updateApiRemaining = () => dispatch => {
     const url = 'https://api.blockcypher.com/v1/tokens/03016274b5814976af645d94b4cdd1d0';
     axios(url)
         .then(res => {
-            if(res.data.hitsObj){
+            if(res.data.hits){
                console.log('res.data.hits', res.data.hits)
-               return dispatch(updateApiLeftSuccess(res.data.hitsObj)); 
+               return dispatch(updateApiRemainingSuccess(res.data.hits)); 
             }
         })
         .catch(err => console.log(err))
