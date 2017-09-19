@@ -167,8 +167,8 @@ class App extends React.Component {
                </div>
                 <h2>API Limits</h2>
                 <div id="apiLimits">
-                    <p><strong>{this.props.apiRemaining.hits}</strong> of 200 requests/hour remaining</p>
-                    <p><strong>{this.props.apiRemaining.hooks}</strong> of 200 webhooks/hour (for email notications) remaining</p>
+                    <p><strong>{this.props.apiRemaining.hits}</strong> of 200 requests remaining this hour</p>
+                    <p><strong>{this.props.apiRemaining.hooks}</strong> of 200 webhooks (for email notications) remaining this hour</p>
                     <button id="refreshRemaining" onClick={(e => this.updateApiRemaining(e))}>Refresh Count</button>
                     <p>BlockCypher's hourly limits renew at the top of each hour.<br /> Activity of other users of this app also counts towards the limit.<br />If limit is reached, app will stop responding until next hour.</p>
                 </div>
