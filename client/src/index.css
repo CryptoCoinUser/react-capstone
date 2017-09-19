@@ -99,9 +99,12 @@ div.clr{
 .address-list .addressObj{
 	clear:both; 
 	padding:1em 1em 1em 2em;
-	border-bottom: 1px dotted #000; 
 	margin-bottom: 1em;
 	line-height: 180%;
+}
+
+.address-list .addressObj:nth-child(even){
+	background-color: #ddd;
 }
 
 .address-list .addressObj:last-child{

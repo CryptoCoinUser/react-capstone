@@ -85,6 +85,7 @@ export const blockReducer = (state=initialState, action) => {
 		let hooks;
 		if(action.hitsObj == undefined){
 			hits = 200;
+		}else if(action.hitsObj["hooks/hour"] == undefined){
 			hooks = 200;
 		}else{
 			hits = 200 - action.hitsObj["api/hour"];
