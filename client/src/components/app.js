@@ -43,7 +43,6 @@ class App extends React.Component {
 
     logout(e) {
         e.preventDefault();
-        console.log('logout')
         const accessToken = Cookies.get('accessToken');
         if(accessToken) {
             this.props.dispatch(
