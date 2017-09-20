@@ -18,7 +18,7 @@ describe('Users', function() {
   // there's a possibility of a race condition where our tests start
   // running before our server has started.
   before(function() {
-      //console.log('NODE_ENV', process.env.NODE_ENV);
+      console.log('NODE_ENV', process.env.NODE_ENV);
     return runServer();
   });
 
