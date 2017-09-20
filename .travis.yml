@@ -1,2 +1,11 @@
 language: node_js
 node_js: node
+services:
+- mongodb
+deploy:
+  provider: heroku
+  api_key:
+    secure: 
+  app: watch-my-address
+  on:
+    repo: CryptoCoinUser/react-capstone
