@@ -90,7 +90,6 @@ export const updateApiRemaining = () => dispatch => {
     axios(url)
         .then(res => {
             if(res.data.hits){
-               console.log('res.data.hits', res.data.hits)
                return dispatch(updateApiRemainingSuccess(res.data.hits)); 
             }
         })

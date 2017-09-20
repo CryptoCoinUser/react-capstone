@@ -18,6 +18,8 @@ var bcapi = new bcypher('btc','main', process.env.BLOCKCYPHERTOKEN);
 mongoose.Promise = global.Promise;
 const { DATABASE_URL } = require('./config')
 
+const { txRefreshFromAddrRes } = require('./helpers')
+
 //const secret = require('./secret');
 
 const app = express();
@@ -72,10 +74,7 @@ passport.use(
 passport.use(
     new BearerStrategy(
         (token, cb) => {
-            //console.log('token, cb', token, cb)
             User.findOne({'auth.googleAccessToken': token}, (err, user) => {
-
-                //console.log('passport.use new BearerStrategy err', + err)
                 if(err) return cb(null, false);
                 return cb(null, user);
             })
@@ -113,40 +112,7 @@ app.get('/api/auth/logout',
 
 
 
-function txRefreshFromAddrRes(tx, addrRes){
-    const txReport = {
-        'preference': undefined,
-        'confirmed' : undefined,
-        'confirmations': -1,
-        'internalMemo': ''
-    }
 
-    if(tx == -1){
-        txReport.internalMemo += 'warning: tx was -1';
-        tx = chooseRecentTx(addrRes);
-    }
-
-    if(addrRes.unconfirmed_txrefs){
-        for (i = 0; i < addrRes.unconfirmed_txrefs.length; i++){
-            if(addrRes.unconfirmed_txrefs[i].tx_hash == tx){
-                txReport.preference = addrRes.unconfirmed_txrefs[i].preference;
-                txReport.confirmed = false;
-                return txReport;
-            }
-        }
-    } 
-    if(addrRes.txrefs){
-        for (i = 0; i < addrRes.txrefs.length; i++){
-           if(addrRes.txrefs[i].tx_hash == tx){
-                txReport.confirmations = addrRes.txrefs[i].confirmations;
-                txReport.confirmed = true;
-                return txReport;
-            }
-        }
-    }
-
-    return txReport;  
-}
 
 function chooseRecentTx(addrRes){
     let tx;
@@ -413,15 +379,6 @@ app.get('/api/webhook/:address/:email',
         address,
         url: `https://watch-my-address.herokuapp.com/api/webhook/${address}/${email}`,
         confirmations: 3
-        
-        /* from websocket attempt 
-        event: "tx-confirmation", 
-        address: '1F92vHB8ZL9thL2bzjmAFkYF21gqeD9suD', 
-        token: '03016274b5814976af645d94b4cdd1d0',
-        url: `https://watch-my-address.herokuapp.com/api/webhook/socketExperiment`
-        confidence: 0.1, 
-        confirmations: 10
-        */
     };
     bcapi.createHook(webhook, 
     
@@ -457,17 +414,16 @@ app.get('/api/deleteaddress/:address/:optionalwebhookid',
                     if (err) throw err;
                     res.send(address)
             })
-/**/       // .then(someRes => {
-                if(optionalwebhookid){
-                    //console.log(`optionalwebhookid line 350: ${optionalwebhookid}`);
-                    const deleteString = `https://api.blockcypher.com/v1/btc/main/hooks/${optionalwebhookid}?token=${process.env.BLOCKCYPHERTOKEN}`;
-                    //console.log('deleteString', deleteString)
-                    request.delete(deleteString, (req, res) => {
-                        //console.log(`expect 204 response only, check if ${optionalwebhookid} was deleted from https://api.blockcypher.com/v1/btc/main/hooks?token=${process.env.BLOCKCYPHERTOKEN}`)
-                    })
-                    
-                }
-           // })
+            if(optionalwebhookid){
+                //console.log(`optionalwebhookid line 350: ${optionalwebhookid}`);
+                const deleteString = `https://api.blockcypher.com/v1/btc/main/hooks/${optionalwebhookid}?token=${process.env.BLOCKCYPHERTOKEN}`;
+                //console.log('deleteString', deleteString)
+                request.delete(deleteString, (req, res) => {
+                 
+                })
+                
+            }
+          
 });
 
 
@@ -493,6 +449,7 @@ app.get(/^(?!\/api(\/|$))/, (req, res) => {
 let server;
 function runServer(port=3001) {
     return new Promise((resolve, reject) => {
+        console.log('DBURL:', DATABASE_URL);
         mongoose.connect(DATABASE_URL, error => {
             if(error) reject();
             server = app.listen(port, () => {

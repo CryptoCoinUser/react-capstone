@@ -20,6 +20,7 @@ class App extends React.Component {
     componentDidMount() {
 
         const accessToken = Cookies.get('accessToken');
+        console.log('accessToken', accessToken)
         if(accessToken) {
             this.props.dispatch(
                 actions.isUserLoggedIn(accessToken)
