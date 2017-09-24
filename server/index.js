@@ -18,9 +18,7 @@ var bcapi = new bcypher('btc','main', process.env.BLOCKCYPHERTOKEN);
 mongoose.Promise = global.Promise;
 const { DATABASE_URL } = require('./config')
 
-const { txRefreshFromAddrRes } = require('./helpers')
-
-//const secret = require('./secret');
+const { txRefreshFromAddrRes, getAddrValueFromTxRes, chooseRecentTx } = require('./helpers')
 
 const app = express();
 app.use(BodyParser.json());
@@ -44,8 +42,6 @@ passport.use(
 
     },
     (accessToken, refreshToken, profile, cb) => {
-        //console.log('google profile',  profile)
-        // create user
         User.findOne({'auth.googleId': profile.id}, (err, user) => {
             if (err) return cb(err);
 
@@ -110,22 +106,6 @@ app.get('/api/auth/logout',
                         })
 });
 
-
-
-
-
-function chooseRecentTx(addrRes){
-    let tx;
-    if(addrRes.unconfirmed-txrefs){
-        return addrRes.unconfirmed-txrefs[0].tx_hash;
-    }else if(addrRes.txrefs){
-        return addrRes.txrefs[0].tx_hash;
-    } else {
-        return 'warning: addrRes has neither unconfirmed-txrefs nor txrefs';
-    }
-}
-
-
 app.get('/api/refreshaddress/:address/:recenttxn',
     passport.authenticate('bearer', {session: false}),
     (req, res) => {
@@ -144,20 +124,16 @@ app.get('/api/refreshaddress/:address/:recenttxn',
             }
 
             const txReport = txRefreshFromAddrRes(req.params.recenttxn, addrRes);
-            console.log('txReport', txReport)
 
             if(txReport.confirmed == true){
                 toUpdate['addresses.$.confirmed'] = true;
                 toUpdate['addresses.$.confirmations'] = txReport.confirmations;
             }
-
-            console.log('toUpdate', toUpdate);
             
             User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken, 'addresses.address': address},
                 {$set: toUpdate}, {new: true},
                     (err, user) => {
                         if(err) throw err;
-                        console.log("refreshaddress user", user)
                         res.send(user.addresses);
                 } 
             )
@@ -171,24 +147,20 @@ app.get('/api/saveaddress/:address/:randomflag/:note',
       (req, res) => {
         request(`https://api.blockcypher.com/v1/btc/main/addrs/${req.params.address}?token=${process.env.BLOCKCYPHERTOKEN}`, (err, data) => {
             const addrRes = JSON.parse(data.body);
+            const recentTxn = chooseRecentTx(addrRes);
+            const txReport = txRefreshFromAddrRes(recentTxn, addrRes);
             // build object that is being pushed in
             const addressObj = {
                 address: addrRes.address,
                 balance: addrRes.balance,
                 unconfirmed_balance: addrRes.unconfirmed_balance,
-                recentTxn: -1,               
+                recentTxn: recentTxn,               
                 random: `${req.params.randomflag}`,
                 note: `${req.params.note}`,
+                preference: txReport.preference,
+                confirmations: txReport.confirmations,
+                confirmed: txReport.confirmed,
                 lastUpdated: Date.now()
-            }
-            // assume "the" txn is the first one in unconfirmed_txrefs, or if there aren't any unconfirmed_txrefs, the first one in txrefs.
-            if(addrRes.unconfirmed_txrefs){
-                addressObj.recentTxn  = addrRes.unconfirmed_txrefs[0].tx_hash;
-                addressObj.preference = addrRes.unconfirmed_txrefs[0].preference;
-            } else if (addrRes.txrefs){
-               addressObj.recentTxn = addrRes.txrefs[0].tx_hash;
-               addressObj.confirmations = addrRes.txrefs[0].confirmations;
-               addressObj.confirmed = true;
             }
 
             User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken}, 
@@ -217,48 +189,25 @@ app.get('/api/addresses',
                         return new Promise(resolve => {
                             request(`https://api.blockcypher.com/v1/btc/main/addrs/${addressObj.address}?token=${process.env.BLOCKCYPHERTOKEN}`, (err, data) => {
                                 const addrRes = JSON.parse(data.body);
-                                //console.log('/api/addresses addrRes', addrRes);
                                 if(addrRes.error) {
                                     resolve(addressObj);
                                 }else{
-                                    /* find recentTxn in either unconfirmed_txrefs or txrefs; 
-                                          if it's in unconfirmed_txrefs, get miner preference (high/low/medium)
-                                          XOR if it's in txrefs, get the number of confirmations
-                                    */
-                                    if(addrRes.unconfirmed_n_tx){
+                                    if(addressObj.recentTxn == -1){
+                                        addressObj.recentTxn = chooseRecentTx(addrRes);
+                                    }
+                                    const txReport = txRefreshFromAddrRes(addressObj.recentTxn, addrRes);
+                                    addressObj.preference = txReport.preference;
+                                    addressObj.confirmations = txReport.confirmations;
+                                    addressObj.confirmed = txReport.preference;
                                        
-                                        for (i = 0; i < addrRes.unconfirmed_n_tx; i++){
-                                            if(addrRes.unconfirmed_txrefs[i].tx_hash == addressObj.recentTxn){
-                                                addressObj.preference = addrRes.unconfirmed_txrefs[i].preference;
-                                                break
-                                            }
-                                        }
-                                    }
-                                    if(addrRes.txrefs){
-                                        if(addressObj.recentTxn == -1){
-                                           addressObj.recentTxn = addrRes.txrefs[0].tx_hash;
-                                           addressObj.confirmations = addrRes.txrefs[0].confirmations;
-                                           addressObj.confirmed = true;
-                                        } else {
-                                            for (i = 0; i < addrRes.txrefs.length; i++){
-                                                //console.log('/api/addresses addrRes.txrefs[i]', addrRes.txrefs[i]);
-                                                if(addrRes.txrefs[i].tx_hash == addressObj.recentTxn){
-                                                    addressObj.confirmations = addrRes.txrefs[i].confirmations;
-                                                    addressObj.confirmed = true;
-                                                    break
-                                                }
-                                            }
-                                        }
-                                    }
-
                                     addressObj.balance = addrRes.balance;
                                     addressObj.unconfirmed_balance = addrRes.unconfirmed_balance;
                                     addressObj.lastUpdated = Date.now();
                                     resolve(addressObj);
-                                }
-                            })
-                        })
-                    })
+                                }//else
+                            })//request
+                        })//return
+                    })//promises
 
                     Promise.all(promises).then(allAddressesData => {
                         User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken},
@@ -325,54 +274,15 @@ app.post('/api/webhook/:address/:email', (req, res) => {
 }
     // import our mailer function
     sendEmail(emailData);
-    //console.log("REQUEST body", req.body);
     res.send(req.body.id);
 })
-
-function getAddrValueFromTxRes(theAddress, txRes){
-    let addrReport = {
-        inInputs: undefined,
-        output_value: -1,
-        inOutputs: undefined,
-        value: -1
-    }
-    if(txRes.outputs){
-        for(var i = 0; i < txRes.outputs.length; i++){
-            if(txRes.outputs[i].addresses){
-                for(var k = 0; k < txRes.outputs[i].addresses.length; k++){
-                    if (txRes.outputs[i].addresses[k] == theAddress){
-                        addrReport.inOutputs = true;
-                        addrReport.value = txRes.outputs[i].value;
-                        return addrReport;
-                    }
-                }
-            }
-        }
-    }
-    if(txRes.inputs){
-        for(var i = 0;  i< txRes.inputs.length; i++){
-            if(txRes.inputs[i].addresses){
-                for(var k = 0; k < txRes.inputs[i].addresses.length; k++){
-                    if(txRes.inputs[i].addresses[k] == theAddress){
-                        addrReport.inInputs = true;
-                        addrReport.output_value = txRes.inputs[i].output_value;
-                        return addrReport
-                    }
-                }
-            }
-        }
-    }
-    return addrReport
-}
 
 // SETUP WEBHOOK
 app.get('/api/webhook/:address/:email',
     passport.authenticate('bearer', {session: false}),
     (req, res) => {
-    //console.log('/api/webhook/:address/:email', req.params)
     const {email, address} = req.params;
     const webhook = {
-        /**/
         //event: "confirmed-tx", /*seems to email only for 1st conf, still emails about multiple txns*/
         event: "tx-confirmation",
         //event: "unconfirmed-tx",
@@ -383,13 +293,7 @@ app.get('/api/webhook/:address/:email',
     bcapi.createHook(webhook, 
     
         (err, data) => {
-        //console.log("bcapi.createHook data", data);
         const webhookId = data.id
-        /*
-            find in this user's addresses[] one with address from req.params, 
-            and set its webhookId to data.id
-            else can't delete webhook from blockcypher while deleting address
-        */
         User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken, 'addresses.address': address},
             {$set: {'addresses.$.webhookId': webhookId}}, {new: true},
                 (err, user) => {
@@ -400,14 +304,12 @@ app.get('/api/webhook/:address/:email',
         
     });
 
-
 })
 
 app.get('/api/deleteaddress/:address/:optionalwebhookid',
     passport.authenticate('bearer', {session: false}),
         (req, res) => {
             const {address, optionalwebhookid} = req.params
-            //console.log("/api/deleteaddress/:address, req.params.address:", address);
             User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken}, 
                 {$pull: {'addresses': {address}}},
                 (err, user) => {
@@ -415,15 +317,12 @@ app.get('/api/deleteaddress/:address/:optionalwebhookid',
                     res.send(address)
             })
             if(optionalwebhookid){
-                //console.log(`optionalwebhookid line 350: ${optionalwebhookid}`);
                 const deleteString = `https://api.blockcypher.com/v1/btc/main/hooks/${optionalwebhookid}?token=${process.env.BLOCKCYPHERTOKEN}`;
-                //console.log('deleteString', deleteString)
                 request.delete(deleteString, (req, res) => {
                  
                 })
                 
             }
-          
 });
 
 
@@ -449,7 +348,6 @@ app.get(/^(?!\/api(\/|$))/, (req, res) => {
 let server;
 function runServer(port=3001) {
     return new Promise((resolve, reject) => {
-        console.log('DBURL:', DATABASE_URL);
         mongoose.connect(DATABASE_URL, error => {
             if(error) reject();
             server = app.listen(port, () => {
