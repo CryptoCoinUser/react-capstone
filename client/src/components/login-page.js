@@ -9,7 +9,7 @@ export default function LoginPage() {
 	    	<a href={'/api/auth/google'} id="loginLink">Login with Google</a>
 	    	<div id="intro">
 	    		<h2>Intro</h2>
-		    	<p>To see how the app works, hit "Get Random Address" to get a Bitcoin address from someone's recent transaction, then this "Watch This Address"
+		    	<p>To see how the app works, hit "Get Random Address" to get a Bitcoin address from someone's recent transaction, then hit "Watch This Address"
 		    		<img src="/screenshots/getRandomAddress.gif" />
 		    	</p>
 		    	<p>Or you can paste a Bitcoin address you actually care about, say, an address from your wallet or a deposit address you just sent Bitcoin to, and then hit "Watch My Address"
