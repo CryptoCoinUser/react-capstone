@@ -8,10 +8,12 @@ const {app, runServer, closeServer} = require('../index');
 const User = require('../models/user');
 // import chai and declare a variable for should
 const should = chai.should();
-let accessToken;
+const expect = chai.expect;
 chai.use(chaiHttp);
 
 describe('Users', function() {
+  
+  let accessToken;
   // Before our tests run, we activate the server. Our `runServer`
   // function returns a promise, and we return the promise by
   // doing `return runServer`. If we didn't return a promise here,
@@ -44,7 +46,7 @@ describe('Users', function() {
         })
       })
 
-  });
+  });//before
 
   // Close server after these tests run in case
   // we have other test modules that need to 
@@ -55,7 +57,10 @@ describe('Users', function() {
       console.log('collection removed') 
     });
     return closeServer();
-  });
+  }); //after
+
+
+
   // `chai.request.get` is an asynchronous operation. When
   // using Mocha with async operations, we need to either
   // return an ES6 promise or else pass a `done` callback to the
@@ -77,14 +82,64 @@ describe('Users', function() {
   //     });
   // });
 
+
+
+
   it('should test saveaddress to db', function(){
-    //app.get('/api/saveaddress/:address/:randomflag/:note',
     return chai.request(app)
       .get('/api/saveaddress/:address/:randomflag/:note')
       .set('Authorization', `Bearer ${accessToken}`)
       .then(function(res) {
-        console.log('saveaddress res.body', res.body);
+        //console.log('saveaddress res.body should be addressObj', res.body);
+        res.should.have.status(200);
+        expect(res.body).to.be.a('Object');
+        expect(res.body.address).to.equal(':address');
+        expect(res.body.recentTxn).to.equal('warning: addrRes has neither unconfirmed_txrefs nor txrefs');
+        expect(res.body.random).to.equal(':randomflag');
+        expect(res.body.note).to.equal(':note');
+        expect(res.body.confirmations).to.equal(-1);
+        expect(res.body.lastUpdated).to.be.a('Number');
       })
 
+  })//saveaddress
+
+
+
+  it('should test refreshaddress', function(){
+  return chai.request(app)
+    .get('/api/refreshaddress/:address/:recenttxn')
+    .set('Authorization', `Bearer ${accessToken}`)
+    .then(function(res) {
+      //console.log('refreshaddress res.body should be an array of addressObjs', res.body);
+      res.should.have.status(200);
+      expect(res.body).to.be.a('Array');
+      expect(res.body).length.to.be.at.least(1);
+      expect(res.body[0]).to.be.a('Object');
+      expect(res.body[0].address).to.equal(':address');
+      expect(res.body[0].note).to.equal(':note');
+      expect(res.body[0].random).to.equal(true);
+      expect(res.body[0].recentTxn).to.equal('warning: addrRes has neither unconfirmed_txrefs nor txrefs');
+      expect(res.body[0].confirmed).to.equal(false);
+      expect(res.body[0].balance).to.equal(-21000000);
+      expect(res.body[0].unconfirmed_balance).to.equal(-21000000);
+      expect(res.body[0].savedOn).to.be.a('String');
+      expect(res.body[0].lastUpdated).to.be.a('String');
+    })
+
+  })//refreshaddress
+
+
+
+  it('should test [refresh all] addresses', function(){
+    return chai.request(app)
+      .get('/api/addresses/')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .then(function(res) {
+      console.log('addresses res.body should be an array of addressObjs', res.body);
+      res.should.have.status(200);
+
   })
-});
+
+  })//refreshaddress
+
+});//describe

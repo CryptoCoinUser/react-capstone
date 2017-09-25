@@ -116,8 +116,8 @@ app.get('/api/refreshaddress/:address/:recenttxn',
             const {balance, unconfirmed_balance} = addrRes;
 
             const toUpdate = {
-                'addresses.$.balance': balance,
-                'addresses.$.unconfirmed_balance': unconfirmed_balance,
+                'addresses.$.balance': balance || -21000000,
+                'addresses.$.unconfirmed_balance': unconfirmed_balance || -21000000,
                 'addresses.$.lastUpdated': Date.now(),
                 'addresses.$.confirmed': undefined,
                 'addresses.$.confirmations': -1,
@@ -151,7 +151,7 @@ app.get('/api/saveaddress/:address/:randomflag/:note',
             const txReport = txRefreshFromAddrRes(recentTxn, addrRes);
             // build object that is being pushed in
             const addressObj = {
-                address: addrRes.address,
+                address: addrRes.address || `${req.params.address}`,
                 balance: addrRes.balance,
                 unconfirmed_balance: addrRes.unconfirmed_balance,
                 recentTxn: recentTxn,               
