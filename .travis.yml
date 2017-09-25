@@ -1,11 +1,11 @@
 language: node_js
 node_js: node
 services:
-  - mongodb
+- mongodb
 deploy:
   provider: heroku
   api_key:
-    secure: 
+    secure: k0VwfRBLOi732mRM/U4OCwAnk1wOKOXTv1Fqw7PqgFXfSXjReCvhk5UdMV8vBwO58BMC91fIe67duGj0/5uXAo8tXhhOOumlKJ91wr3tO7lRb3KcscFhNMX7OPhdX9/uKzWUYHqCzpvx+C6H+Fzuhl+kCfOp4A54M+GSVPAsXqmKbAfse+bUHum8S+eNaHeDrjg49jCdGC2+3lmOQk1gSNTBCEot89dXJc+SthLoyFLcNgl7IG//A9K1/AirwktIQUE4vhihEM/Py/shlqASlaC/jrYD8RvZQxsbC9goS9mpywkId21jHIeO/DmmOorqQbzvbMiDYMCKORKwltWKHfIyYE0zA6ni5P/gcPBNOuvWn+WU6FxxWz7ggrM44VSCCFWprYBbSYPdv2GDsxbz2nWbAdhEnUcg5PNXXjVJ2lW3Uf6yqoG3bKUIh0EB0vdSo8ipcLWhDt8Q0muPcVNkve0fVgRIrcw38btzUJtqaJbN2P/GToHlELMV93F6MDdL59YcEzGskdwNoNoYY3Hmj6Z6+AdQRniMgAwBxK0OGLSIXFwUsTs3K9A+mTR6pOOuBAKNwhKrYReAc/aq6yxk/LH5sx1znVfdZpNqdLc8sR6iq+i0nDIxBL6Sw4VQCdo1/q6OeYGwHwMrxWbuwIhSgCVZ/QqlMgt1jZHAYMt23sA=
   app: watch-my-address
   on:
     repo: CryptoCoinUser/react-capstone

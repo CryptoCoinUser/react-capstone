@@ -314,12 +314,12 @@ app.get('/api/deleteaddress/:address/:optionalwebhookid',
                 {$pull: {'addresses': {address}}},
                 (err, user) => {
                     if (err) throw err;
+                    console.log('deleteaddress address', address)
                     res.send(address)
             })
             if(optionalwebhookid){
                 const deleteString = `https://api.blockcypher.com/v1/btc/main/hooks/${optionalwebhookid}?token=${process.env.BLOCKCYPHERTOKEN}`;
                 request.delete(deleteString, (req, res) => {
-                 
                 })
                 
             }

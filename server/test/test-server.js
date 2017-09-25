@@ -99,8 +99,7 @@ describe('Users', function() {
         expect(res.body.note).to.equal(':note');
         expect(res.body.confirmations).to.equal(-1);
         expect(res.body.lastUpdated).to.be.a('Number');
-      })
-
+      })//return
   })//saveaddress
 
 
@@ -124,7 +123,7 @@ describe('Users', function() {
       expect(res.body[0].unconfirmed_balance).to.equal(-21000000);
       expect(res.body[0].savedOn).to.be.a('String');
       expect(res.body[0].lastUpdated).to.be.a('String');
-    })
+    }) //return
 
   })//refreshaddress
 
@@ -135,11 +134,33 @@ describe('Users', function() {
       .get('/api/addresses/')
       .set('Authorization', `Bearer ${accessToken}`)
       .then(function(res) {
-      console.log('addresses res.body should be an array of addressObjs', res.body);
+      //console.log('addresses res.body.addressesInfo should be an array of addressObjs', res.body);
       res.should.have.status(200);
+      expect(res.body).to.be.a('Object');
+      expect(res.body.addressesInfo).to.be.a('Array');
+      expect(res.body.addressesInfo).length.to.be.at.least(1);
+      expect(res.body.addressesInfo[0]).to.be.a('Object');
+      expect(res.body.addressesInfo[0].address).to.equal(':address');
+      expect(res.body.addressesInfo[0].note).to.equal(':note');
+      expect(res.body.addressesInfo[0].random).to.equal(true);
+      expect(res.body.addressesInfo[0].recentTxn).to.equal('warning: addrRes has neither unconfirmed_txrefs nor txrefs');
+      expect(res.body.addressesInfo[0].confirmed).to.equal(false);
+      expect(res.body.addressesInfo[0].balance).to.equal(-21000000);
+      expect(res.body.addressesInfo[0].unconfirmed_balance).to.equal(-21000000);
+      expect(res.body.addressesInfo[0].savedOn).to.be.a('String');
+      expect(res.body.addressesInfo[0].lastUpdated).to.be.a('String');
+    })//return
+  })//addresses
 
-  })
-
-  })//refreshaddress
+  // it('should test deleteaddress ', function(){
+  //   return chai.request(app)
+  //     .get('/api/deleteaddress/:address/:optionalwebhookid')
+  //     .set('Authorization', `Bearer ${accessToken}`)
+  //     .then(function(res) {
+  //       console.log('deleteaddress res.body should be the address', res.body);
+  //       res.should.have.status(200);
+  //       expect(res.body.address).to.equal(':address');
+  //     })//return
+  // })//deleteaddress
 
 });//describe
