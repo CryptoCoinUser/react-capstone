@@ -152,15 +152,15 @@ describe('Users', function() {
     })//return
   })//addresses
 
-  // it('should test deleteaddress ', function(){
-  //   return chai.request(app)
-  //     .get('/api/deleteaddress/:address/:optionalwebhookid')
-  //     .set('Authorization', `Bearer ${accessToken}`)
-  //     .then(function(res) {
-  //       console.log('deleteaddress res.body should be the address', res.body);
-  //       res.should.have.status(200);
-  //       expect(res.body.address).to.equal(':address');
-  //     })//return
-  // })//deleteaddress
+  it('should test deleteaddress ', function(){
+    return chai.request(app)
+      .get('/api/deleteaddress/:address/:optionalwebhookid')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .then(function(res) {
+        console.log('deleteaddress res.body should be the address', res.body);
+        res.should.have.status(200);
+        expect(res.body.address).to.equal(':address');
+      })//return
+  })//deleteaddress
 
 });//describe

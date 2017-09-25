@@ -310,12 +310,15 @@ app.get('/api/deleteaddress/:address/:optionalwebhookid',
     passport.authenticate('bearer', {session: false}),
         (req, res) => {
             const {address, optionalwebhookid} = req.params
+
+            console.log("deleteaddress req.params.address", req.params.address)
+
             User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken}, 
                 {$pull: {'addresses': {address}}},
                 (err, user) => {
                     if (err) throw err;
                     console.log('deleteaddress address', address)
-                    res.send(address)
+                    res.send({address})
             })
             if(optionalwebhookid){
                 const deleteString = `https://api.blockcypher.com/v1/btc/main/hooks/${optionalwebhookid}?token=${process.env.BLOCKCYPHERTOKEN}`;

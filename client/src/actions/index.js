@@ -49,7 +49,7 @@ export const sendAddressToReducer = address => ({
 })
 
 export const DELETE_ADDRESS_SUCCESS = 'DELETE_ADDRESS_SUCCESS';
-export const deleteAddressSuccess = (address) => ({
+export const deleteAddressSuccess = address => ({
     type: DELETE_ADDRESS_SUCCESS,
     address
 })
@@ -112,13 +112,13 @@ export const fetchLatestBlock = () => dispatch => {
 
 export const getUnconfirmedAddress = () => dispatch => {
     const url = 'https://api.blockcypher.com/v1/btc/main/txs';
-    axios(url)
-    .then(res => {
-        return dispatch(getUnconfirmedAddressSuccess(res.data))
-    })
-    .catch(error => {
-        return dispatch(getUnconfirmedAddressError())
-    })
+    return axios(url)
+        .then(res => {
+            return dispatch(getUnconfirmedAddressSuccess(res.data))
+        })
+        .catch(error => {
+            return dispatch(getUnconfirmedAddressError())
+        })
 };
 
 
@@ -195,7 +195,7 @@ export const deleteAddress = (accessToken, address, optinalWebHookId = null) => 
         }
     })
     .then(res => {
-        return dispatch(deleteAddressSuccess(res.data));
+        return dispatch(deleteAddressSuccess(res.data.address));
     })
     .catch(err => {
         return dispatch(deleteAddressError(err))

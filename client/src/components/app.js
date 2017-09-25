@@ -9,7 +9,7 @@ import * as actions from '../actions/index';
 import moment from 'moment';
 
 
-class App extends React.Component {
+export class App extends React.Component {
     constructor(props) {
         super(props);
         this.logout = this.logout.bind(this);
