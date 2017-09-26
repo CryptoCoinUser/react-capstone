@@ -20,7 +20,7 @@ export class App extends React.Component {
     componentDidMount() {
 
         const accessToken = Cookies.get('accessToken');
-        console.log('accessToken', accessToken)
+        console.log('addresses', this.props.addresses);
         if(accessToken) {
             this.props.dispatch(
                 actions.isUserLoggedIn(accessToken)
@@ -101,8 +101,6 @@ export class App extends React.Component {
             )
         }
         this.emailInput.value = "";
-        console.log('this.props', this.props);
-
     }
 
 
@@ -153,25 +151,32 @@ export class App extends React.Component {
                     </form>
                 </div>
 
-                <h2>Address Watch List</h2>
-                <div id="addressesWrapper">
-                    <AddressesPage />
-                    <div id="notificationEmail">
-                        <h4>Email for Notifications about an Address</h4>
-                        <form>
-                            <input type ="email" size="50" placeholder={this.props.email} ref={ref => this.emailInput = ref} />
-                            <button id="saveOrUpdateEmail" className="btn btn-success"  onClick = {(e => this.saveOrUpdateEmail(e))}>Save / Update Email</button>
-                        </form>
-                    
+                    <div className="wrapper">
+                        <h2>Address Watch List</h2>
+                        <div id="addressesWrapper">
+                            <AddressesPage />
+                            <div id="notificationEmail">
+                                <h4>Email for Notifications about an Address</h4>
+                                <form>
+                                    <input type ="email" size="50" placeholder={this.props.email} ref={ref => this.emailInput = ref} />
+                                    <button id="saveOrUpdateEmail" className="btn btn-success"  onClick = {(e => this.saveOrUpdateEmail(e))}>Save / Update Email</button>
+                                </form>
+                            
+                           </div>
+                       </div>
                    </div>
-               </div>
-                <h2>API Limits</h2>
-                <div id="apiLimits">
-                    <p><strong>{this.props.apiRemaining.hits}</strong> of 200 requests remaining this hour</p>
-                    <p><strong>{this.props.apiRemaining.hooks}</strong> of 200 webhooks (for email notications) remaining this hour</p>
-                    <button id="refreshRemaining" className="btn btn-info"  onClick={(e => this.updateApiRemaining(e))}>Refresh Count</button>
-                    <p>BlockCypher's hourly limits renew at the top of each hour.<br /> Activity of other users of this app also counts towards the limit.<br />If limit is reached, app will stop responding until next hour.</p>
-                </div>
+
+               {(this.props.apiRemaining.hits) < 150 ? 
+                   <div className="wrapper">
+                        <h2>API Limits</h2>
+                        <div id="apiLimits">
+                            <p><strong>{this.props.apiRemaining.hits}</strong> of 200 requests remaining this hour</p>
+                            <p><strong>{this.props.apiRemaining.hooks}</strong> of 200 webhooks (for email notications) remaining this hour</p>
+                            <button id="refreshRemaining" className="btn btn-info"  onClick={(e => this.updateApiRemaining(e))}>Refresh Count</button>
+                            <p>BlockCypher's hourly limits renew at the top of each hour.<br /> Activity of other users of this app also counts towards the limit.<br />If limit is reached, app will stop responding until next hour.</p>
+                        </div>
+                    </div>
+                : ""}
                 <p id="logout"><button onClick={(e => this.logout(e))}>Logout</button></p>
             </div>
         )
@@ -185,7 +190,7 @@ const mapStateToProps = (state, props) => ({
     randomAddress: state.randomAddress,
     randomAddressError: state.randomAddressError,
     email: state.email,
-    apiRemaining: state.apiRemaining 
+    apiRemaining: state.apiRemaining,
 })
 
 export default connect(mapStateToProps)(App);

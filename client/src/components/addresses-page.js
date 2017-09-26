@@ -60,20 +60,6 @@ class AddressesPage extends React.Component {
                 actions.refreshThisAddress(accessToken, addressObj.address, addressObj.recentTxn)
             )
         }
-
-        // server API call res => updateAddress
-        /* want to update
-            - confirmed T/F? => helper function
-            - balance
-            - uncofirmed balance
-            - last updated
-           want to NOT update
-           - date created 
-           - random T/F
-           - note
-           - transactions associated with
-        */
-
     }
 
     render() {
