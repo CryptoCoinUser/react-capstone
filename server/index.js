@@ -33,7 +33,6 @@ app.use(function(req, res, next) {
   next();
 });
 
-
 passport.use(
     new GoogleStrategy({
         clientID:  '956789487424-b1hntk8in8rj8j3tn36ji41m919i21oc.apps.googleusercontent.com',
