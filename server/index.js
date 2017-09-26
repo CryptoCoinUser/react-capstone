@@ -310,9 +310,6 @@ app.get('/api/deleteaddress/:address/:optionalwebhookid',
     passport.authenticate('bearer', {session: false}),
         (req, res) => {
             const {address, optionalwebhookid} = req.params
-
-            console.log("deleteaddress req.params.address", req.params.address)
-
             User.findOneAndUpdate({'auth.googleAccessToken': req.user.auth.googleAccessToken}, 
                 {$pull: {'addresses': {address}}},
                 (err, user) => {
