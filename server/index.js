@@ -314,7 +314,6 @@ app.get('/api/deleteaddress/:address/:optionalwebhookid',
                 {$pull: {'addresses': {address}}},
                 (err, user) => {
                     if (err) throw err;
-                    console.log('deleteaddress address', address)
                     res.send({address})
             })
             if(optionalwebhookid){
