@@ -121,7 +121,7 @@ export class App extends React.Component {
                     <div id="randomAddressWrapper">
                         <h4>Add a random address (from some recent transaction) to watch list</h4>
                         
-                        <button id="getRandomAddress"
+                        <button id="getRandomAddress"  className="btn btn-info" 
                             onClick={(e => this.getUnconfirmedAddress(e))}
                          >
                             Get Random Address
@@ -129,7 +129,7 @@ export class App extends React.Component {
                         <div id="randomAddressAndButton">
                             <span id="randomAddress"> {this.props.randomAddress} </span>
                             {this.props.randomAddress ?
-                                <button id="watchRandomAddress"
+                                <button id="watchRandomAddress" className="btn btn-success" 
                                     onClick={(e => this.saveRandomAddress(e))} 
                                     > Watch This Address
                                 </button>
@@ -147,7 +147,7 @@ export class App extends React.Component {
                         ref={ref => this.myAddressInput = ref} />
                         <input type="text" placeholder="Note" id="myAddressNote" size="20" 
                         ref={ref => this.myAddressNoteInput = ref} />
-                        <button id="watchMyAddress" 
+                        <button id="watchMyAddress" className="btn btn-success" 
                             onClick={this.saveMyAddress}
                         >Watch My Address</button>
                     </form>
@@ -160,7 +160,7 @@ export class App extends React.Component {
                         <h4>Email for Notifications about an Address</h4>
                         <form>
                             <input type ="email" size="50" placeholder={this.props.email} ref={ref => this.emailInput = ref} />
-                            <button id="saveOrUpdateEmail" onClick = {(e => this.saveOrUpdateEmail(e))}>Save / Update Email</button>
+                            <button id="saveOrUpdateEmail" className="btn btn-success"  onClick = {(e => this.saveOrUpdateEmail(e))}>Save / Update Email</button>
                         </form>
                     
                    </div>
@@ -169,7 +169,7 @@ export class App extends React.Component {
                 <div id="apiLimits">
                     <p><strong>{this.props.apiRemaining.hits}</strong> of 200 requests remaining this hour</p>
                     <p><strong>{this.props.apiRemaining.hooks}</strong> of 200 webhooks (for email notications) remaining this hour</p>
-                    <button id="refreshRemaining" onClick={(e => this.updateApiRemaining(e))}>Refresh Count</button>
+                    <button id="refreshRemaining" className="btn btn-info"  onClick={(e => this.updateApiRemaining(e))}>Refresh Count</button>
                     <p>BlockCypher's hourly limits renew at the top of each hour.<br /> Activity of other users of this app also counts towards the limit.<br />If limit is reached, app will stop responding until next hour.</p>
                 </div>
                 <p id="logout"><button onClick={(e => this.logout(e))}>Logout</button></p>

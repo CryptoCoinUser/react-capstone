@@ -86,36 +86,37 @@ class AddressesPage extends React.Component {
 
         console.log('this.props.addresses', this.props.addresses);
 
-        const addresses = this.props.addresses.map((addressObj, index) =>
+        const addresses = this.props.addresses.reverse().map((addressObj, index) =>
 
-            <li className="addressObj" key={index}>
-                <span className="address"><a href={addrLiveBaseURL + addressObj.address}>{addressObj.address}</a>
-                   <button className="delete"
-                    onClick={e => this.deleteAddress(e, addressObj)}
-                    >
-                    Delete from List <span>X</span>
-                </button>
-                </span> 
-                {/*<span className="random">{addressObj.random.toString()}</span>*/}
-                
-                <span className="note">
-                    { 
-                        (!(addressObj.random) || (addressObj.random == "false")) ?  addressObj.note  
-                        : "Random Address Saved On " + moment(addressObj.savedOn).format("YYYY-MM-DD, HH:mm") 
-                    }
-                </span> 
+            <section className="addressObj" key={index}>
+                <header>
+                    <span className="address"><a href={addrLiveBaseURL + addressObj.address}>{addressObj.address}</a>
+                       <button className="delete btn btn-danger"
+                        onClick={e => this.deleteAddress(e, addressObj)}
+                        >
+                        Delete from List <span>X</span>
+                    </button>
+                    </span> 
+                    {/*<span className="random">{addressObj.random.toString()}</span>*/}
+                    <span className="note">
+                        { 
+                            (!(addressObj.random) || (addressObj.random == "false")) ?  addressObj.note  
+                            : "Random Address Saved On " + moment(addressObj.savedOn).format("YYYY-MM-DD, HH:mm") 
+                        }
+                    </span>
+                </header>
                 <div className="balancesInfo"> 
                     <span className="balance">{addressObj.balance / 100000000}</span> 
                     <span className="unconfirmed_balance">{addressObj.unconfirmed_balance / 100000000}</span>
                     <span className="lastUpdated">
                         {moment(addressObj.lastUpdated).format("YYYY-MM-DD, HH:mm")} 
-                        <button className="refresh" onClick={e => this.refreshThisAddress(e, addressObj)}>Refresh</button>
+                        <button className="refresh btn btn-info" onClick={e => this.refreshThisAddress(e, addressObj)}>Refresh</button>
                     </span>
                 </div>
                  <div className="emailMe">
                     {
                         addressObj.webhookId ? <span className="webhookId"><a href={webhookIdBaseURL + addressObj.webhookId + token}>{addressObj.webhookId}</a></span>
-                        : <button className="emailMe" onClick={e => this.emailMeAboutThisAddress(e, addressObj)}>
+                        : <button className="emailMe btn btn-success" onClick={e => this.emailMeAboutThisAddress(e, addressObj)}>
                         Email Me Updates about this Address
                         </button>
                          
@@ -141,15 +142,15 @@ class AddressesPage extends React.Component {
                 </div>
                 <div className="clr"></div>
 
-            </li>
+            </section>
         );
         
 
         return (
            
-                <ul className="address-list">
+                <div className="address-list">
                     {addresses}
-                </ul>
+                </div>
             
         );
     }

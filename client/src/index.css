@@ -1,10 +1,15 @@
 body {
   margin: 0;
   padding: 0.5em;
-  font-family: Courier, Monaco, monospace;
+  font-family: "HelveticaNeue", "Helvetica", Arial, sans-serif;
 }
 a{text-decoration: none}
 a:hover{text-decoration: underline;}
+
+#loginWrapper section:nth-child(even){
+	background-color: #ddd;
+	padding-bottom: 3em;
+}
 
 #loginWrapper,
 #notificationEmail{
@@ -14,7 +19,7 @@ a:hover{text-decoration: underline;}
 #notificationEmail{ }
 
 #loginWrapper #intro p{max-width: 60em; margin:0 auto 2em;}
-#loginWrapper #intro p img{height: 50%; width:50%; display: block; margin:0 auto;}
+#loginWrapper #intro p img{height: 50%; width:50%; display: block; margin:1em auto;}
 
 #loginWrapper a#loginLink{font-size: 3em; text-decoration: none;}
 #loginWrapper a#loginLink:hover{text-decoration: underline;}
@@ -42,12 +47,37 @@ p#logout a{display: block; background: #eee; line-height: 2em; border-radius: 5p
 button{font-size:1.1em; padding:0.5em; margin-bottom:0.5em;}
 input,
 button{border-radius: 5px;
-font-family: Courier, Monaco, monospace;}
+}
+
+.btn{
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+
+.btn:hover{background-image: none;}
+
+.btn-info{
+	background-color: #029acf;
+	background-image: linear-gradient(to bottom, #029acf 0%, #016d92 100%);
+	color:#fff;
+}
+
+.btn-success{
+	background-color: #469408;
+	color:#fff;
+	background-image: linear-gradient(to bottom, #469408 0%, #2b5a05 100%);
+}
+
+.btn-danger{
+	background-color: #d9831f;
+	color: #fff;
+	background-image: linear-gradient(to bottom, #d9831f 0%, #a36317 100%)
+}
 
 #randomAddressAndButton{padding:0 0 0 0;  }
 
 span#randomAddress{
 	font-weight: bold; font-size: 150%;
+	font-family: Courier, Monaco, monospace;
 }
 #apiLimits,
 #addAddressesWrapper{
@@ -99,9 +129,20 @@ div.clr{
 .address-list .addressObj{
 	clear:both; 
 	padding:1em 1em 1em 2em;
-	margin-bottom: 1em;
+	margin-bottom: 0;
 	line-height: 180%;
 }
+
+.address-list .addressObj header{
+	background: #029acf;
+	margin:-1em -1em 1em -2em;
+	padding:1em 1em 1em 2em;
+	color: #fff;
+}
+
+.address-list .addressObj header a{color: #fff;}
+
+.address-list .addressObj:first-child header{border-radius: 10px 10px 0 0}
 
 .address-list .addressObj:nth-child(even){
 	background-color: #ddd;
@@ -116,7 +157,7 @@ div.clr{
 	float: right;
 	margin:0 0 1em 1em;
 }
-.address-list .addressObj button.delete span{color:#f00; font-weight: 700; padding:0 0 0 1em;}
+.address-list .addressObj button.delete span{color: #fff; font-weight: 700; padding:0 0 0 1em;}
 
 .address-list .addressObj .emailMe button{float:none; margin:1em 0;}
 
@@ -124,8 +165,9 @@ div.clr{
 	padding:0 1em 1em 0;
 }
 
-.address-list .addressObj .address{font-weight: bold;
+.address-list .addressObj .address{font-weight: normal;
 	display: block;
+	font-family: Courier, Monaco, monospace;
 }
 .address-list .addressObj .address a{font-size: 1.5em;}
 
@@ -145,7 +187,7 @@ div.clr{
 .address-list .addressObj span.random{font-style:italic;}
 .address-list .addressObj span.random::before{ content: "Random? "; }
 
-.address-list .addressObj span.note{ color:#000; font-weight: bold;}
+.address-list .addressObj span.note{ font-weight: bold;}
 .address-list .addressObj span.note::before{ }
 
 .address-list .addressObj span.confirmations{display: block;}
