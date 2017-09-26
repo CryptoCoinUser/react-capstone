@@ -2,6 +2,7 @@ import React from 'react';
 import * as Cookies from 'js-cookie';
 import LoginPage from './login-page';
 import AddressesPage from './addresses-page';
+import Navigation from './navigation';
 import axios from 'axios';
 
 import {connect} from 'react-redux';
@@ -20,7 +21,7 @@ export class App extends React.Component {
     componentDidMount() {
 
         const accessToken = Cookies.get('accessToken');
-        console.log('addresses', this.props.addresses);
+        
         if(accessToken) {
             this.props.dispatch(
                 actions.isUserLoggedIn(accessToken)
@@ -113,7 +114,8 @@ export class App extends React.Component {
         const addrLiveBaseURL = 'https:\//live.blockcypher.com/btc/address/'
         return (
             
-            <div id="main">            
+            <div id="main">
+                <Navigation />            
                 <h2>Add Bitcoin Address</h2>
                 <div id="addAddressesWrapper">
                     <div id="randomAddressWrapper">
@@ -180,6 +182,7 @@ export class App extends React.Component {
                 <p id="logout"><button onClick={(e => this.logout(e))}>Logout</button></p>
             </div>
         )
+
     }
 }
 

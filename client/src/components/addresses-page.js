@@ -21,7 +21,6 @@ class AddressesPage extends React.Component {
     }
 
     deleteAddress(e, addressObj){
-        console.log('----addressObj', addressObj)
         e.preventDefault();
         const accessToken = Cookies.get('accessToken');
         this.props.dispatch(
@@ -70,7 +69,7 @@ class AddressesPage extends React.Component {
         const webhookIdBaseURL = 'https:\//api.blockcypher.com/v1/btc/main/hooks/';
         const token = '?token=03016274b5814976af645d94b4cdd1d0';
 
-        console.log('this.props.addresses', this.props.addresses);
+        //console.log('this.props.addresses', this.props.addresses);
 
         const addresses = this.props.addresses.reverse().map((addressObj, index) =>
 
@@ -112,7 +111,7 @@ class AddressesPage extends React.Component {
                 
                 <div className="txnInfo">
                     <span className="txn"><a href={txBaseURL + addressObj.recentTxn}>{addressObj.recentTxn}</a></span>
-                    {   
+                    {  
                         addressObj.confirmed ? <span className="confirmations">{addressObj.confirmations}</span> 
                         : <div className ="unconfirmed">
                               <span className="preference">{addressObj.preference}</span>
