@@ -123,12 +123,14 @@ export const getUnconfirmedAddress = () => dispatch => {
 
 
 export const getWatchedAddresses = accessToken => dispatch => {
+    console.log('getWatchedAddresses action')
     axios('/api/addresses', {
         headers: {
             'Authorization': `Bearer ${accessToken}`
         }
     })
     .then(res => {
+        console.log('res.data', res.data)
         return dispatch(sendAddressesToReducer(res.data));
     })
 }

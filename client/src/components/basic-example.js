@@ -9,34 +9,68 @@ import {
 
 import LoginPage from './login-page';
 import App from './app';
+import Demo from './demo';
+import Navigation from './navigation';
 
 
-const BasicExample = () => (
-  <Router>
-    <div className="nav-and-content-wrapper">
-      <nav>
-        <ul>
-          <li className="login-demo"><Link to="/login-demo">Login / Demo</Link></li>
-          <li className="app"><Link to="/app">App</Link></li>
-          <li className="login-logout">
-               <button onClick={(e => this.logout(e))}>Logout</button>    
-               <form action="/api/auth/google">
-                      <button className="btn btn-success" type="submit">Login with Google</button>
-               </form> 
-                              
-          </li>
-        </ul>
-      </nav>
+import * as Cookies from 'js-cookie';
+import * as actions from '../actions/index';
 
-      <Route exact path="/login-demo" component={LoginPage}/>
-      <Route path="/app" component={App}/>
-    </div>
-  </Router>
-)
+export class BasicExample extends React.Component {
+
+    constructor(props) {
+        super(props);
+    }
 
 
-const mapStateToProps = state => ({
-   currentUser: state.currentUser 
+    componentDidMount() {
+        console.log('this.props.addresses', this.props.addresses);
+        const accessToken = Cookies.get('accessToken');
+        
+        if(accessToken) {
+           console.log('accessToken');
+            this.props.dispatch(
+                actions.isUserLoggedIn(accessToken)
+            )
+            this.props.dispatch(
+                actions.getWatchedAddresses(accessToken)
+            )
+        }
+        this.props.dispatch(
+            actions.fetchLatestBlock(),
+            actions.updateApiRemaining()
+        )
+    }
+
+
+
+  render() {
+      
+
+      return (
+        <Router>
+          <div className="nav-and-content-wrapper">
+            <Route path="/" component={Navigation}/>            
+
+            <Route exact path="/" component={LoginPage}/>
+            <Route path="/app" component={App}/>
+            <Route path="/demo" component={Demo}/>
+          </div>
+        </Router>
+    ) // return
+  } // render
+} // class
+
+
+const mapStateToProps = (state, props) => ({
+    currentUser: state.currentUser,
+    latestBlock: state.latestBlock,
+    latestBlockHeight: state.latestBlockHeight,
+    randomAddress: state.randomAddress,
+    randomAddressError: state.randomAddressError,
+    email: state.email,
+    apiRemaining: state.apiRemaining,
+    addresses: state.addresses
 })
 
 export default connect(mapStateToProps)(BasicExample) 

@@ -1,16 +1,26 @@
 import React from 'react';
 import Demo from './demo';
+import {connect} from 'react-redux';
+import {Redirect} from 'react-router-dom';
 
-export default function LoginPage() {
+
+const LoginPage = props => {
+    console.log('props', props);
+    if(props.currentUser){
+        return <Redirect to='/app' />
+    }
+
     return (
-        	<div id="main">
-                <section className="welcome">
-                    <h2>Welcome to Watch My Bitcoin Address App</h2>
-        	    	<h4>Info about a Bitcoin address and the transaction(s) it was used in</h4>
-                </section>
+
 
     	    	<Demo /> 
 
-        	</div>
+      
     	)
 }
+
+const mapStateToProps = state => ({
+    currentUser: state.currentUser
+}) 
+
+export default connect(mapStateToProps)(LoginPage)

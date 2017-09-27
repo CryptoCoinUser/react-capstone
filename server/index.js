@@ -82,12 +82,12 @@ app.get('/api/auth/google',
 
 app.get('/api/auth/google/callback',
     passport.authenticate('google', {
-        failureRedirect: '/login-demo',
+        failureRedirect: '/',
         session: false
     }),
     (req, res) => {
         res.cookie('accessToken', req.user.auth.googleAccessToken, {expires: 0});
-        res.redirect('/app');
+        res.redirect('/');
     }
 );
 
@@ -101,7 +101,7 @@ app.get('/api/auth/logout',
                                 if (err) throw err;
                                 req.logout();
                                 res.clearCookie('accessToken');
-                                res.redirect('/login-demo');
+                                res.redirect('/');
                         })
 });
 

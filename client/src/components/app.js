@@ -13,26 +13,25 @@ import AddressesPage from './addresses-page';
 export class App extends React.Component {
     constructor(props) {
         super(props);
-        this.logout = this.logout.bind(this);
         this.saveMyAddress = this.saveMyAddress.bind(this);
         this.saveOrUpdateEmail = this.saveOrUpdateEmail.bind(this);
     }
 
-    componentDidMount() {
+    // componentDidMount() {
 
-        const accessToken = Cookies.get('accessToken');
+    //     const accessToken = Cookies.get('accessToken');
         
-        if(accessToken) {
-            this.props.dispatch(
-                actions.isUserLoggedIn(accessToken),
-                actions.getWatchedAddresses(accessToken)
-            )
-        }
-        this.props.dispatch(
-            actions.fetchLatestBlock(),
-            actions.updateApiRemaining()
-        )
-    }
+    //     if(accessToken) {
+    //         this.props.dispatch(
+    //             actions.isUserLoggedIn(accessToken),
+    //             actions.getWatchedAddresses(accessToken)
+    //         )
+    //     }
+    //     this.props.dispatch(
+    //         actions.fetchLatestBlock(),
+    //         actions.updateApiRemaining()
+    //     )
+    // }
 
     updateApiRemaining(e) {
         e.preventDefault();
@@ -41,15 +40,7 @@ export class App extends React.Component {
         )
     }
 
-    logout(e) {
-        e.preventDefault();
-        const accessToken = Cookies.get('accessToken');
-        if(accessToken) {
-            this.props.dispatch(
-                actions.logoutCurrentUser(accessToken)
-            )
-        }
-    }
+
 
     getUnconfirmedAddress(e){
         e.preventDefault();

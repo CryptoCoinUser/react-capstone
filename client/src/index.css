@@ -4,10 +4,25 @@ body {
   font-family: "HelveticaNeue", "Helvetica", Arial, sans-serif;
   background: #eee;
 }
+
+
+
 a{text-decoration: none}
 a:hover{text-decoration: underline;}
 
 nav {background: #ccc;}
+
+nav span.logo{float: left;
+	line-height: 2em;
+	font-size: 2em;
+	padding:0 1em;
+}
+
+nav span.login-logout{
+	float: left;
+	padding:1em 1em 0 1em;
+}
+
 nav .clr{clear:both;}
 nav ul{margin:0;
 padding:0;
@@ -17,9 +32,13 @@ nav ul li {float:left; display: inline;
 margin:0;
 padding: 0;}
 nav ul li.button{padding-top: 2em;}
-nav ul li a{font-size: 2em;
+nav ul li a{font-size: 1.5em;
 display: block;
 padding:1em 3em;}
+
+nav .selected{
+	background: #eee;
+}
 
 #demo section:nth-child(even){
 	background-color: #ddd;

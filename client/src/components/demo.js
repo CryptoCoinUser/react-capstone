@@ -1,7 +1,13 @@
 import React from 'react';
 
 export default function Demo() {
-    return (
+    return ( 
+
+    	<div id="main">
+	        <section className="welcome">
+	            <h2>Watch My Bitcoin Address Demo</h2>
+		    	<h4>Info about a Bitcoin address and the transaction(s) it was used in</h4>
+	        </section>
 	    	<div id="demo">
 		    	<div id="intro">
 		    		<h1>Intro</h1>
@@ -38,5 +44,6 @@ export default function Demo() {
 					</video>
 				*/}
     		</div>
+    	</div>
     	)
 }

@@ -1,58 +1,56 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
 import * as Cookies from 'js-cookie';
 import * as actions from '../actions/index';
 
-class Navigation extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+const Navigation = props => {
 
-    componentWillMount() {
-        // if(accessToken) {
-        //     this.props.dispatch(
-        //         actions.getWatchedAddresses(accessToken)
-        //     )
-        // }
-    }
-
-    logout(e) {
+    const logout = e => {
         e.preventDefault();
         const accessToken = Cookies.get('accessToken');
         if(accessToken) {
-            this.props.dispatch(
+            props.dispatch(
                 actions.logoutCurrentUser(accessToken)
             )
         }
     }
 
-    render() {
+    console.log("props", props)
+    
+    const buildLinks = [{route: '/demo', text: "Demo"}, {route: '/app', text: 'App'}].map((link, i) => {
+        const selected = link.route == props.location.pathname
+            ? 'selected'
+            : ""
+        return <li key={i} className={selected}><Link to={link.route}>{link.text}</Link></li> 
+    })
 
-        return (
-         
-                <nav>
-                    <ul>
-                        <li><a>Demo</a></li>
-                        <li><a>App</a></li>
-                        <li className='button'>{this.props.currentUser ? 
-                            <button onClick={(e => this.logout(e))}>Logout</button>    
-                            : <form action="/api/auth/google">
-                                    <button className="btn btn-success" type="submit">Login with Google</button>
-                                </form> 
-                            }
-                        </li>
-                    </ul>
-                    <div className="clr"></div>
-                </nav>
-            
-        );
-    }
+
+
+    let buttons
+       props.currentUser
+        ? buttons = <button onClick={(e => logout(e))}>Logout</button>
+        : buttons = <form action="/api/auth/google">
+                            <button className="btn btn-success" type="submit">Login with Google</button>
+                    </form>
+    let links;
+       props.currentUser
+        ? links = <ul>{buildLinks}</ul>
+        : links = ""
+
+    return (
+        <nav>
+            <span className="logo">Watch My Address</span>
+            {links}
+            <span className="login-logout">{buttons}</span>
+            <div className="clr"></div>
+        </nav>
+    )
 }
 
-// connect this component to the store
 const mapStateToProps = state => ({
-   currentUser: state.currentUser 
-})
+    currentUser: state.currentUser
+}) 
 
 export default connect(mapStateToProps)(Navigation)
 
