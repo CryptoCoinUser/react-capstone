@@ -31,7 +31,10 @@ padding:1em 3em;}
 	text-align: center;
 }
 
-#notificationEmail{ }
+#notificationEmail{ background: #ccc;
+
+	padding:1em 0 2em;
+}
 
 #demo #intro p{max-width: 60em; margin:0 auto 2em;}
 #demo #intro p img{height: 50%; width:50%; display: block; margin:1em auto;}
@@ -129,7 +132,7 @@ div#addressesWrapper{
 	border: 1px solid #000; 
 	border-radius: 10px;
 	margin-bottom: 2em;
-	padding-bottom: 2em;
+	padding-bottom: 0;
 	background: #fff;
 }
 
@@ -139,7 +142,7 @@ ul.address-list{
 	padding:0;
 }
 
-ul.address-list li{margin:0 0 1em 0;}
+ul.address-list li{margin:0 0 0 0;}
 
 div.clr{
 	clear:both;

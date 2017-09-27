@@ -17,7 +17,7 @@ const BasicExample = () => (
       <nav>
         <ul>
           <li className="login-demo"><Link to="/login-demo">Login / Demo</Link></li>
-          <li className="app"><Link to="/">App</Link></li>
+          <li className="app"><Link to="/app">App</Link></li>
           <li className="login-logout">
                <button onClick={(e => this.logout(e))}>Logout</button>    
                <form action="/api/auth/google">
@@ -31,7 +31,7 @@ const BasicExample = () => (
       <hr/>
 
       <Route exact path="/login-demo" component={LoginPage}/>
-      <Route path="/" component={App}/>
+      <Route path="/app" component={App}/>
     </div>
   </Router>
 )
