@@ -29,7 +29,7 @@ const Navigation = props => {
 
     let buttons
        props.currentUser
-        ? buttons = <button onClick={(e => logout(e))}>Logout</button>
+        ? buttons = <button onClick={(e => logout(e))} className="btn btn-default">Logout</button>
         : buttons = <form action="/api/auth/google">
                             <button className="btn btn-success" type="submit">Login with Google</button>
                     </form>

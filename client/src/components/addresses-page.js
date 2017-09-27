@@ -33,7 +33,7 @@ class AddressesPage extends React.Component {
         //const myEmailAddress = this.myEmailAddress.value;
         const accessToken = Cookies.get('accessToken');
         if(this.props.email.includes('Your email - if you want to set up notifications')){
-            alert('please set up email first');
+            alert('Please first setup your email for notifications. The form is at the bottom of the Address Watch List');
             return
         }
         if(accessToken) {

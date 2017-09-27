@@ -143,7 +143,7 @@ export class App extends React.Component {
                         >Watch My Address</button>
                     </form>
                 </div>
-                {(this.props.addresses.length) > 0 ? "" : ""}
+                {(this.props.addresses.length) > 0 ? 
                     <div className="wrapper">
                         <h2>Address Watch List</h2>
                         <div id="addressesWrapper">
@@ -158,7 +158,7 @@ export class App extends React.Component {
                            </div>
                        </div>
                    </div>
-                
+                : ""}
                {(this.props.apiRemaining.hits) < 150 ? 
                    <div className="wrapper">
                         <h2>API Limits</h2>
@@ -170,7 +170,6 @@ export class App extends React.Component {
                         </div>
                     </div>
                 : ""}
-                <p id="logout"><button onClick={(e => this.logout(e))}>Logout</button></p>
             </div>
         )
 
