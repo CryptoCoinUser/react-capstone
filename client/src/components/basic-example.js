@@ -28,8 +28,6 @@ const BasicExample = () => (
         </ul>
       </nav>
 
-      <hr/>
-
       <Route exact path="/login-demo" component={LoginPage}/>
       <Route path="/app" component={App}/>
     </div>
