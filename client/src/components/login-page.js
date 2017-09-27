@@ -1,18 +1,16 @@
 import React from 'react';
-import Navigation from './navigation';
 import Demo from './demo';
 
 export default function LoginPage() {
     return (
-    	<div id="main">
-    	<Navigation />  
-    	 
+        	<div id="main">
+                <section className="welcome">
+                    <h2>Welcome to Watch My Bitcoin Address App</h2>
+        	    	<h4>Info about a Bitcoin address and the transaction(s) it was used in</h4>
+                </section>
 
-	    	<h2>Watch My Bitcoin Address App</h2>
-	    	<h4>Info about a Bitcoin address and the transaction(s) it was used in</h4>
-	    	
-		<Demo />  	
+    	    	<Demo /> 
 
-    	</div>
+        	</div>
     	)
 }

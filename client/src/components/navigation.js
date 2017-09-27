@@ -3,9 +3,6 @@ import {connect} from 'react-redux';
 import * as Cookies from 'js-cookie';
 import * as actions from '../actions/index';
 
-
-
-
 class Navigation extends React.Component {
     constructor(props) {
         super(props);

@@ -11,14 +11,7 @@ class AddressesPage extends React.Component {
         super(props);
     }
 
-    componentWillMount() {
-        const accessToken = Cookies.get('accessToken');
-        if(accessToken) {
-            this.props.dispatch(
-                actions.getWatchedAddresses(accessToken)
-            )
-        }
-    }
+    componentWillMount() {  }
 
     deleteAddress(e, addressObj){
         e.preventDefault();

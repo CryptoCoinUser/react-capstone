@@ -1,13 +1,13 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import * as Cookies from 'js-cookie';
+
+import axios from 'axios';
+import moment from 'moment';
+
+import * as actions from '../actions/index';
 import LoginPage from './login-page';
 import AddressesPage from './addresses-page';
-import Navigation from './navigation';
-import axios from 'axios';
-
-import {connect} from 'react-redux';
-import * as actions from '../actions/index';
-import moment from 'moment';
 
 
 export class App extends React.Component {
@@ -24,16 +24,14 @@ export class App extends React.Component {
         
         if(accessToken) {
             this.props.dispatch(
-                actions.isUserLoggedIn(accessToken)
+                actions.isUserLoggedIn(accessToken),
+                actions.getWatchedAddresses(accessToken)
             )
         }
         this.props.dispatch(
-            actions.fetchLatestBlock()
-        )
-        this.props.dispatch(
+            actions.fetchLatestBlock(),
             actions.updateApiRemaining()
         )
-
     }
 
     updateApiRemaining(e) {
@@ -108,14 +106,16 @@ export class App extends React.Component {
     render() {
 
         if(!this.props.currentUser){
-            return <LoginPage />;
+            return <LoginPage />
         }
+    
         const addrBaseUrl = 'http:\//api.blockcypher.com/v1/btc/main/addrs/';
-        const addrLiveBaseURL = 'https:\//live.blockcypher.com/btc/address/'
+        const addrLiveBaseURL = 'https:\//live.blockcypher.com/btc/address/';
+
         return (
             
             <div id="main">
-                <Navigation />            
+                            
                 <h2>Add Bitcoin Address</h2>
                 <div id="addAddressesWrapper">
                     <div id="randomAddressWrapper">
@@ -152,7 +152,7 @@ export class App extends React.Component {
                         >Watch My Address</button>
                     </form>
                 </div>
-
+                {(this.props.addresses.length) > 0 ? 
                     <div className="wrapper">
                         <h2>Address Watch List</h2>
                         <div id="addressesWrapper">
@@ -167,7 +167,7 @@ export class App extends React.Component {
                            </div>
                        </div>
                    </div>
-
+                : ""}
                {(this.props.apiRemaining.hits) < 150 ? 
                    <div className="wrapper">
                         <h2>API Limits</h2>
@@ -194,6 +194,7 @@ const mapStateToProps = (state, props) => ({
     randomAddressError: state.randomAddressError,
     email: state.email,
     apiRemaining: state.apiRemaining,
+    addresses: state.addresses
 })
 
 export default connect(mapStateToProps)(App);

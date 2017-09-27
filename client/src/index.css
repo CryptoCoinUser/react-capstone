@@ -123,6 +123,8 @@ h2{clear:both; padding-top: 0.5em; margin-top: 0.5em;
 text-align: center;}
 h4{clear:both; font-size: 100%}
 
+section h4{text-align: center;}
+
 div#addressesWrapper{
 	border: 1px solid #000; 
 	border-radius: 10px;
