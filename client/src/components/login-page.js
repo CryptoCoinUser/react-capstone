@@ -10,12 +10,8 @@ const LoginPage = props => {
         return <Redirect to='/app' />
     }
 
-    return (
-
-
-    	    	<Demo /> 
-
-      
+    return ( 
+            <Demo /> 
     	)
 }
 

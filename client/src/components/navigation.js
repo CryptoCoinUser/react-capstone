@@ -15,8 +15,6 @@ const Navigation = props => {
             )
         }
     }
-
-    console.log("props", props)
     
     const buildLinks = [{route: '/demo', text: "Demo"}, {route: '/app', text: 'App'}].map((link, i) => {
         const selected = link.route == props.location.pathname
@@ -40,7 +38,7 @@ const Navigation = props => {
 
     return (
         <nav>
-            <span className="logo">Watch My Address</span>
+            <span className="logo"><a href="/">Watch My Address</a></span>
             {links}
             <span className="login-logout">{buttons}</span>
             <div className="clr"></div>

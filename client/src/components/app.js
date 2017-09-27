@@ -65,6 +65,13 @@ export class App extends React.Component {
 
         const myAddress     = this.myAddressInput.value;
         let myAddressNote = this.myAddressNoteInput.value;
+
+        // if(myAddress.includes('Paste your address')){
+        //     alert('Please first paste a bitcoin address');
+        //     return
+        // }
+
+
         if(!myAddressNote){
             myAddressNote = "Address saved on " + moment(Date.now()).format("YYYY-MM-DD, HH:mm")
         }
