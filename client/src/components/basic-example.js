@@ -37,7 +37,9 @@ export class BasicExample extends React.Component {
             )
         }
         this.props.dispatch(
-            actions.fetchLatestBlock(),
+            actions.fetchLatestBlock()
+        )
+        this.props.dispatch(
             actions.updateApiRemaining()
         )
     }

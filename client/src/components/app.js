@@ -17,22 +17,6 @@ export class App extends React.Component {
         this.saveOrUpdateEmail = this.saveOrUpdateEmail.bind(this);
     }
 
-    // componentDidMount() {
-
-    //     const accessToken = Cookies.get('accessToken');
-        
-    //     if(accessToken) {
-    //         this.props.dispatch(
-    //             actions.isUserLoggedIn(accessToken),
-    //             actions.getWatchedAddresses(accessToken)
-    //         )
-    //     }
-    //     this.props.dispatch(
-    //         actions.fetchLatestBlock(),
-    //         actions.updateApiRemaining()
-    //     )
-    // }
-
     updateApiRemaining(e) {
         e.preventDefault();
         this.props.dispatch(
@@ -66,10 +50,10 @@ export class App extends React.Component {
         const myAddress     = this.myAddressInput.value;
         let myAddressNote = this.myAddressNoteInput.value;
 
-        // if(myAddress.includes('Paste your address')){
-        //     alert('Please first paste a bitcoin address');
-        //     return
-        // }
+        if(myAddress == ''){
+            alert('Please first paste a bitcoin address');
+            return
+        }
 
 
         if(!myAddressNote){
@@ -166,7 +150,7 @@ export class App extends React.Component {
                        </div>
                    </div>
                 : ""}
-               {(this.props.apiRemaining.hits) < 150 ? 
+               {(this.props.apiRemaining.hits) < 165 ?  
                    <div className="wrapper">
                         <h2>API Limits</h2>
                         <div id="apiLimits">

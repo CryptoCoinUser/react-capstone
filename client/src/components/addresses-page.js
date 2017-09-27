@@ -62,8 +62,7 @@ class AddressesPage extends React.Component {
         const webhookIdBaseURL = 'https:\//api.blockcypher.com/v1/btc/main/hooks/';
         const token = '?token=03016274b5814976af645d94b4cdd1d0';
 
-        //console.log('this.props.addresses', this.props.addresses);
-
+      
         const addresses = this.props.addresses.reverse().map((addressObj, index) =>
 
             <section className="addressObj" key={index}>
@@ -75,7 +74,6 @@ class AddressesPage extends React.Component {
                         Delete from List <span>X</span>
                     </button>
                     </span> 
-                    {/*<span className="random">{addressObj.random.toString()}</span>*/}
                     <span className="note">
                         { 
                             (!(addressObj.random) || (addressObj.random == "false")) ?  addressObj.note  
@@ -113,8 +111,6 @@ class AddressesPage extends React.Component {
                                 View BlockCypher confidence in this transaction
                                 </a>
                               </span>
-
-                              {/*<button onClick={e => this.tryWebSockets(e,addressObj)}>tryWebSockets</button>*/}
                           </div>
                     }
                 </div>
