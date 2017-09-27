@@ -10,7 +10,8 @@ body {
 a{text-decoration: none}
 a:hover{text-decoration: underline;}
 
-nav {background: #ccc;}
+nav {background: #ccc;
+padding:0.5em 0.5em 0;}
 
 nav span.logo{float: left;
 	line-height: 2em;
@@ -67,6 +68,7 @@ nav .selected{
 p#logout{text-align: center; font-size: 1em;}
 p#logout a{display: block; background: #eee; line-height: 2em; border-radius: 5px;}
 
+nav,
 #main{
 	width:90%;
 	min-width: 40em; 
