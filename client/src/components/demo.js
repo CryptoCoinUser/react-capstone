@@ -52,14 +52,7 @@ Because of the decentralized nature of Bitcoin, it does happen that the latest b
 				    	</p>
 			    	</section>
 		    	</div>
-		    	{/*
-			    	<h4>30-second demo video:</h4>
-			    	<video controls autoPlay preload="auto" width='640' height='821' poster='/videoPoster.png'>
-						<source src='/demo30sec.mp4' type='video/mp4' />
-						Your browser does not support the HTML5 'video' tag
-					</video>
-				*/}
-    		
+		
     	</div>
     	)
 }
