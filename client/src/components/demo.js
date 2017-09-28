@@ -41,13 +41,13 @@ Because of the decentralized nature of Bitcoin, it does happen that the latest b
 			    	</section>
 			    	<section>
 				    	<h2>3</h2>
-				    	<p>Both random and specific addresses you watch show up in the Watched Address List, along with the latest details
+				    	<p>Both random and specific addresses you watch show up in the Watched Address List, along with balances and recent transaction info.
 				    		<img src="/screenshots/2savedAddresses.gif" />
 				    	</p>
 			    	</section>
 			    	<section>
 				    	<h2>4</h2>
-				    	<p>You can also subscribe for email updates about an address - you'll receive an email when the address is used in a  trasaction, namely when that trasaction is confirmed
+				    	<p>You can also subscribe to email updates about an address - you'll receive an email when the address is used in a transaction and when that transaction is confirmed.
 				    		<img src="/screenshots/emailMeWithForm.gif" />
 				    	</p>
 			    	</section>
