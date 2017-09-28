@@ -11,7 +11,7 @@ const LoginPage = props => {
     }
 
     return ( 
-            <Demo /> 
+          <Demo /> 
     	)
 }
 

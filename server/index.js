@@ -115,16 +115,18 @@ app.get('/api/refreshaddress/:address/:recenttxn',
             const {balance, unconfirmed_balance} = addrRes;
 
             const toUpdate = {
-                'addresses.$.balance': balance || -21000000,
-                'addresses.$.unconfirmed_balance': unconfirmed_balance || -21000000,
+                // 'addresses.$.balance': balance || -21000000,
+                // 'addresses.$.unconfirmed_balance': unconfirmed_balance || -21000000,
                 'addresses.$.lastUpdated': Date.now(),
-                'addresses.$.confirmed': undefined,
-                'addresses.$.confirmations': -1,
+                // 'addresses.$.confirmed': undefined,
+                // 'addresses.$.confirmations': -1,
             }
 
             const txReport = txRefreshFromAddrRes(req.params.recenttxn, addrRes);
 
             if(txReport.confirmed == true){
+                toUpdate['addresses.$.balance'] = balance;
+                toUpdate['addresses.$.unconfirmed_balance'] = unconfirmed_balance;
                 toUpdate['addresses.$.confirmed'] = true;
                 toUpdate['addresses.$.confirmations'] = txReport.confirmations;
             }

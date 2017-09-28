@@ -50,15 +50,16 @@ export class BasicExample extends React.Component {
       
 
       return (
-        <Router>
           <div className="nav-and-content-wrapper">
-            <Route path="/" component={Navigation}/>            
-
-            <Route exact path="/" component={LoginPage}/>
-            <Route path="/app" component={App}/>
-            <Route path="/demo" component={Demo}/>
+            <Router>
+                <div className="router-wrapper">
+                    <Route path="/" component={Navigation}/>            
+                    <Route exact path="/" component={LoginPage}/>
+                    <Route path="/app" component={App}/>
+                    <Route path="/demo" component={Demo}/>
+                </div>
+            </Router>
           </div>
-        </Router>
     ) // return
   } // render
 } // class

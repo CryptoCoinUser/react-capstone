@@ -33,7 +33,7 @@ class AddressesPage extends React.Component {
         //const myEmailAddress = this.myEmailAddress.value;
         const accessToken = Cookies.get('accessToken');
         if(this.props.email.includes('Your email - if you want to set up notifications')){
-            alert('Please first setup your email for notifications. The form is at the bottom of the Address Watch List');
+            alert('Please first setup your email for notifications. The email setup form is at the bottom of the Address Watch List');
             return
         }
         if(accessToken) {
@@ -85,7 +85,7 @@ class AddressesPage extends React.Component {
                     <span className="balance">{addressObj.balance / 100000000}</span> 
                     <span className="unconfirmed_balance">{addressObj.unconfirmed_balance / 100000000}</span>
                     <span className="lastUpdated">
-                        {moment(addressObj.lastUpdated).format("YYYY-MM-DD, HH:mm")} 
+                        {moment(addressObj.lastUpdated).format("YYYY-MM-DD, HH:mm:ss")} 
                         <button className="refresh btn btn-info" onClick={e => this.refreshThisAddress(e, addressObj)}>Refresh</button>
                     </span>
                 </div>

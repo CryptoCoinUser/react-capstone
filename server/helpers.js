@@ -1,6 +1,3 @@
-
-
-
 exports.chooseRecentTx = (addrRes) => {
     let tx;
     if(addrRes.unconfirmed_txrefs){
@@ -15,9 +12,9 @@ exports.chooseRecentTx = (addrRes) => {
 
 exports.txRefreshFromAddrRes = (tx, addrRes) => {
     const txReport = {
-        'preference': undefined,
-        'confirmed' : undefined,
-        'confirmations': -1,
+        // 'preference': undefined,
+        // 'confirmed' : undefined,
+        // 'confirmations': -1,
         'internalMemo': ''
     }
 
