@@ -51,12 +51,12 @@ nav .selected{
 	background: #eee;
 }
 
-#demo section:nth-child(even){
+.demo #screenshots section:nth-child(even){
 	background-color: #ddd;
 	padding-bottom: 3em;
 }
 
-#demo,
+.demo #screenshots,
 #notificationEmail{
 	text-align: center;
 }
@@ -68,12 +68,9 @@ nav .selected{
 
 #notificationEmail:first-child{border-radius: 10px;}
 
-#demo #intro p{max-width: 60em; margin:0 auto 2em;}
-#demo #intro p img{height: 50%; width:50%; display: block; margin:1em auto;}
+.demo #screenshots p{max-width: 60em; margin:0 auto 2em;}
+.demo #screenshots p img{height: 50%; width:50%; display: block; margin:1em auto;}
 
-#demo video{
-	border: 1px dotted #000;
-}
 
 p#logout{text-align: center; font-size: 1em;}
 p#logout a{display: block; background: #eee; line-height: 2em; border-radius: 5px;}
@@ -166,6 +163,9 @@ text-align: center;}
 h4{clear:both; font-size: 100%}
 
 section h4{text-align: center;}
+
+.crashCourse{max-width:40em; margin-left: auto; margin-right: auto;
+line-height: 150%; font-size: 140%; }
 
 div#addressesWrapper{
 	border: 1px solid #000; 

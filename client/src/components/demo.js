@@ -3,15 +3,28 @@ import React from 'react';
 export default function Demo() {
     return ( 
 
-    	<div id="main">
-	        <section className="welcome">
-	            <h2>Watch My Bitcoin Address Demo</h2>
-		    	<h4>Info about a Bitcoin address and the transaction(s) it was used in</h4>
+    	<div id="main" className="demo">
+	        <section className="crashCourse"><h2>A crash couse on Bitcoin</h2>
+	        	<h4>and where this app comes in</h4>
+	        	<p>Watching a Bitcoin <em>address</em> lets you see a tiny fraction of the activity on the Bitcoin network. There are millions of wallets out there on the Bitcoin network. 
+Each wallet uses Bitcoin addresses to send and receive bitcoin, the token. The number of possible Bitcoin addresses is virtually unlimited, so many wallets use an address only once, and generate new addresses for each transaction.
+</p><p>
+A previously-used Bitcoin address can be traced to a Bitcoin <em>transaction</em>. 
+A Bitcoin transaction transfers Bitcoin from one or more address to one or more addresses.</p><p>
+Bitcoin transactions are broadcast to the network in seconds, but usually take minutes to be <em>confirmed</em> a.k.a  included into the latest block of the Bitcoin blockchain. The transaction confirmation process requires Bitcoin miners to verify that the sending addresses are not trying to double-spend their bitcoin, and then the transaction has to wait until it’s included in a block. Storage space in a Bitcoin block is limited, so transactions that offer higher fees (relative to how much data they carry) are usually prioritized.
+Because of the decentralized nature of Bitcoin, it does happen that the latest block (or two) is abandoned by the network in favor of another block from a competing miner. That’s why many merchants and businesses that accept Bitcoin have a policy of waiting for not one but several <em>confirmations</em> before they treat a transaction as irreversible.
+</p><p>This app lets you</p>
+<ul>
+	<li>Track a Bitcoin address and its confirmed and pending balance of bitcoin</li>
+	<li>See the latest transaction the address was used it in (“latest” at the time you started tracking the address), along with the miner preference to confirm that transaction, or how many confirmations it already received.
+</li>
+	<li>If you give your email, you can subscribe to email notifications about an address. You will be emailed every time that address is used in a new transaction and/or that transaction gets confirmed up, to 3 confirmations per  transaction.</li>
+</ul> 
+
 	        </section>
-	    	<div id="demo">
-		    	<div id="intro">
-		    		<h1>Intro</h1>
-		    		<section>
+	    	<div id="screenshots">
+
+		    	   <section>
 			    		<h2>1</h2>
 				    	<p>To see how the app works, hit "Get Random Address" to get a Bitcoin address from someone's recent transaction, then hit "Watch This Address"
 				    		<img src="/screenshots/getRandomAddress.gif" />
@@ -43,7 +56,7 @@ export default function Demo() {
 						Your browser does not support the HTML5 'video' tag
 					</video>
 				*/}
-    		</div>
+    		
     	</div>
     	)
 }
