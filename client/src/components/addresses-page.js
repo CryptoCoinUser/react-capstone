@@ -6,7 +6,7 @@ import * as actions from '../actions/index';
 import moment from 'moment';
 
 
-class AddressesPage extends React.Component {
+export class AddressesPage extends React.Component {
     constructor(props) {
         super(props);
     }

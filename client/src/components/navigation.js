@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import * as Cookies from 'js-cookie';
 import * as actions from '../actions/index';
 
-const Navigation = props => {
+export const Navigation = props => {
 
     const logout = e => {
         e.preventDefault();

@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 
 
-const LoginPage = props => {
+export const LoginPage = props => {
     console.log('props', props);
     if(props.currentUser){
         return <Redirect to='/app' />
