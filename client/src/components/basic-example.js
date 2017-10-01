@@ -8,6 +8,7 @@ import {
 
 
 import LoginPage from './login-page';
+import AboutBitcoin from './about-bitcoin';
 import App from './app';
 import Demo from './demo';
 import Navigation from './navigation';
@@ -57,6 +58,7 @@ export class BasicExample extends React.Component {
                     <Route exact path="/" component={LoginPage}/>
                     <Route path="/app" component={App}/>
                     <Route path="/demo" component={Demo}/>
+                    <Route path="/about-bitcoin" component={AboutBitcoin}/>
                 </div>
             </Router>
           </div>

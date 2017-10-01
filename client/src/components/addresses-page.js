@@ -86,7 +86,7 @@ export class AddressesPage extends React.Component {
                     <span className="unconfirmed_balance">{addressObj.unconfirmed_balance / 100000000}</span>
                     <span className="lastUpdated">
                         {moment(addressObj.lastUpdated).format("YYYY-MM-DD, HH:mm:ss")} 
-                        <button className="refresh btn btn-info" onClick={e => this.refreshThisAddress(e, addressObj)}>Refresh</button>
+                        <button className="refresh btn btn-default" onClick={e => this.refreshThisAddress(e, addressObj)}>Refresh</button>
                     </span>
                 </div>
                  <div className="emailMe">

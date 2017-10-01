@@ -115,15 +115,15 @@ button{border-radius: 5px;
 }
 
 .btn-danger{
-	background-color: #d9831f;
+	background-color: #d9534f;
 	color: #fff;
-	background-image: linear-gradient(to bottom, #d9831f 0%, #a36317 100%)
+	background-image: linear-gradient(to bottom, #d9534f 0%, #c9433f 100%)
 }
 
 .btn-default{
-	background-color: #474949;
-	color:#fff;
-	background-image: linear-gradient(to bottom, #474949 0%, #292a2a 100%);
+	background-color: #fff;
+	color:#000;
+	background-image: linear-gradient(to bottom, #fff 0%, #ddd 100%);
 }
 
 #randomAddressAndButton{padding:0 0 0 0;  }

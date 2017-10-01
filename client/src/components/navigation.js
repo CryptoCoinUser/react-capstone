@@ -4,6 +4,8 @@ import {Link} from 'react-router-dom';
 import * as Cookies from 'js-cookie';
 import * as actions from '../actions/index';
 
+import { slide as Menu } from 'react-burger-menu'
+
 export const Navigation = props => {
 
     const logout = e => {
@@ -16,7 +18,11 @@ export const Navigation = props => {
         }
     }
     
-    const buildLinks = [{route: '/demo', text: "Demo"}, {route: '/app', text: 'App'}].map((link, i) => {
+    const buildLinks = [
+            {route: '/demo', text: "How to"}, 
+            {route: '/about-bitcoin', text: "About Bitcoin"}, 
+            {route: '/app', text: 'Try it!'}
+        ].map((link, i) => {
         const selected = link.route == props.location.pathname
             ? 'selected'
             : ""
@@ -29,12 +35,12 @@ export const Navigation = props => {
        props.currentUser
         ? buttons = <button onClick={(e => logout(e))} className="btn btn-default">Logout</button>
         : buttons = <form action="/api/auth/google">
-                            <button className="btn btn-success" type="submit">Login with Google</button>
+                            <button className="btn btn-success" type="submit">Try it - Login with Google</button>
                     </form>
     let links;
        props.currentUser
         ? links = <ul>{buildLinks}</ul>
-        : links = ""
+        : links = <ul>{buildLinks.slice(0,2)}</ul>
 
     return (
         <nav>
