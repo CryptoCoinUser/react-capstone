@@ -71,29 +71,29 @@ export class AddressesPage extends React.Component {
                        <button className="delete btn btn-danger"
                         onClick={e => this.deleteAddress(e, addressObj)}
                         >
-                        Delete from List <span>X</span>
+                        Delete from List <i className="fa fa-times" aria-hidden="true"></i>
                     </button>
                     </span> 
                     <span className="note">
-                        { 
+                        <i className="fa fa-sticky-note-o" aria-hidden="true"></i> { 
                             (!(addressObj.random) || (addressObj.random == "false")) ?  addressObj.note  
                             : "Random Address Saved On " + moment(addressObj.savedOn).format("YYYY-MM-DD, HH:mm") 
                         }
                     </span>
                 </header>
                 <div className="balancesInfo"> 
-                    <span className="balance">{addressObj.balance / 100000000}</span> 
-                    <span className="unconfirmed_balance">{addressObj.unconfirmed_balance / 100000000}</span>
+                    <span className="balance">{addressObj.balance / 100000000} <i className="fa fa-btc" aria-hidden="true"></i></span> 
+                    <span className="unconfirmed_balance">{addressObj.unconfirmed_balance / 100000000} <i className="fa fa-btc" aria-hidden="true"></i></span>
                     <span className="lastUpdated">
                         {moment(addressObj.lastUpdated).format("YYYY-MM-DD, HH:mm:ss")} 
-                        <button className="refresh btn btn-default" onClick={e => this.refreshThisAddress(e, addressObj)}>Refresh</button>
+                        <button className="refresh btn btn-default" onClick={e => this.refreshThisAddress(e, addressObj)}><i className="fa fa-refresh" aria-hidden="true"></i> Refresh</button>
                     </span>
                 </div>
                  <div className="emailMe">
                     {
                         addressObj.webhookId ? <span className="webhookId"><a href={webhookIdBaseURL + addressObj.webhookId + token}>{addressObj.webhookId}</a></span>
-                        : <button className="emailMe btn btn-success" onClick={e => this.emailMeAboutThisAddress(e, addressObj)}>
-                        Email Me Updates about this Address
+                        : <button className="emailMe btn btn-default" onClick={e => this.emailMeAboutThisAddress(e, addressObj)}>
+                        <i className="fa fa-envelope-o" aria-hidden="true"></i> Email Me Updates about this Address
                         </button>
                          
                     }

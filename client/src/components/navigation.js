@@ -21,7 +21,7 @@ export const Navigation = props => {
     const buildLinks = [
             {route: '/demo', text: "How to"}, 
             {route: '/about-bitcoin', text: "About Bitcoin"}, 
-            {route: '/app', text: 'Try it!'}
+            {route: '/app', text: 'Try it'}
         ].map((link, i) => {
         const selected = link.route == props.location.pathname
             ? 'selected'
@@ -33,9 +33,9 @@ export const Navigation = props => {
 
     let buttons
        props.currentUser
-        ? buttons = <button onClick={(e => logout(e))} className="btn btn-default">Logout</button>
+        ? buttons = <button onClick={(e => logout(e))} className="btn btn-default"><i className="fa fa-sign-out" aria-hidden="true"></i> Logout</button>
         : buttons = <form action="/api/auth/google">
-                            <button className="btn btn-success" type="submit">Try it - Login with Google</button>
+                            <button className="btn btn-success" type="submit"><i className="fa fa-sign-in" aria-hidden="true"></i> Try it - Login with Google</button>
                     </form>
     let links;
        props.currentUser
@@ -44,9 +44,10 @@ export const Navigation = props => {
 
     return (
         <nav>
-            <span className="logo"><a href="/">Watch My Address</a></span>
-            {links}
+            <span className="logo"><a href="/"><i className="fa fa-binoculars" aria-hidden="true"></i> Watch My Address</a></span>
             <span className="login-logout">{buttons}</span>
+            {links}
+            
             <div className="clr"></div>
         </nav>
     )

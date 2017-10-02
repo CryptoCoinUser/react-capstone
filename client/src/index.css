@@ -231,7 +231,8 @@ div.clr{
 }
 .address-list .addressObj .address a{font-size: 1.5em;}
 
-.address-list .addressObj span.txn{}
+
+
 .address-list .addressObj span.txn::before{content: "This address is in at least one transaction, such as: ";}
 
 .address-list .addressObj span.balance{color:#0a0; white-space: nowrap;}
@@ -247,7 +248,7 @@ div.clr{
 .address-list .addressObj span.random{font-style:italic;}
 .address-list .addressObj span.random::before{ content: "Random? "; }
 
-.address-list .addressObj span.note{ font-weight: bold;}
+.address-list .addressObj span.note{ font-weight: normal;}
 .address-list .addressObj span.note::before{ }
 
 .address-list .addressObj span.confirmations{display: block;}
