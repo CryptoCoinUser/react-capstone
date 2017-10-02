@@ -50,6 +50,11 @@ nav .selected{
 	background: #eee;
 }
 
+@media only screen and (max-width: 640px) {
+	nav ul{width:100%;}
+	nav ul li{width:100%;}
+} /* @media */
+
 .demo #screenshots section:nth-child(even){
 	background-color: #ddd;
 	padding-bottom: 3em;
@@ -160,6 +165,7 @@ span#randomAddress{
 }
 h2{clear:both; padding-top: 0.5em; margin-top: 0.5em;
  font-size: 200%;
+ line-height: normal;
 text-align: center;}
 h4{clear:both; font-size: 100%}
 
@@ -234,7 +240,7 @@ div.clr{
 .address-list .addressObj .address a{font-size: 1.5em;}
 
 
-
+.address-list .addressObj span.txn{text-overflow: ellipsis;}
 .address-list .addressObj span.txn::before{content: "This address is in at least one transaction, such as: ";}
 
 .address-list .addressObj span.balance{color:#0a0; white-space: nowrap;}
