@@ -51,6 +51,7 @@ nav .selected{
 }
 
 @media only screen and (max-width: 640px) {
+
 	nav ul{width:100%;}
 	nav ul li{width:100%;}
 } /* @media */
@@ -84,7 +85,7 @@ p#logout a{display: block; background: #eee; line-height: 2em; border-radius: 5p
 nav,
 #main{
 	width:90%;
-	min-width: 40em; 
+	/*min-width: 40em; */
 	margin:0 auto;
 }
 
@@ -109,6 +110,11 @@ button{border-radius: 5px;
 
 .btn:hover{background-image: none;}
 
+.btn[disabled]{
+	background-color: #bbb;
+	background-image:linear-gradient(to bottom, #bbbbbb 0%, #9c9c9c 100%)
+}
+
 .btn-info{
 	background-color: #029acf;
 	background-image: linear-gradient(to bottom, #029acf 0%, #016d92 100%);
@@ -120,6 +126,7 @@ button{border-radius: 5px;
 	color:#fff;
 	background-image: linear-gradient(to bottom, #469408 0%, #2b5a05 100%);
 }
+
 
 .btn-danger{
 	background-color: #d9534f;
@@ -145,6 +152,7 @@ span#randomAddress{
 	border:1px solid #000;
 	border-radius: 10px;
 	background: #fff;
+
 }
 
 #apiLimits{text-align: center;}
@@ -180,6 +188,7 @@ div#addressesWrapper{
 	margin-bottom: 2em;
 	padding-bottom: 0;
 	background: #fff;
+		text-overflow: ellipsis;
 }
 
 ul.address-list{
@@ -264,7 +273,7 @@ div.clr{
 .address-list .addressObj span.confirmations::after{ content: " Confirmation(s)"; }
 
 .address-list .addressObj span.preference{}
-.address-list .addressObj span.preference::before{ content: "This transaction is UNconfrimed and the preference of miners for confirming it is: "; }
+.address-list .addressObj span.preference::before{ content: "This transaction is UNconfirmed and the preference of miners for confirming it is: "; }
 
 .address-list .addressObj span.confidence{display: block;}
 

@@ -5,16 +5,23 @@ import * as Cookies from 'js-cookie';
 import axios from 'axios';
 import moment from 'moment';
 
+import { Redirect } from 'react-router-dom'
+
 import * as actions from '../actions/index';
 import LoginPage from './login-page';
 import AddressesPage from './addresses-page';
-
-
+import {validate} from 'bitcoin-address';
+ 
 export class App extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            saveMyAddressButtonDisabled : true,
+            validAddress: ''
+        }
         this.saveMyAddress = this.saveMyAddress.bind(this);
         this.saveOrUpdateEmail = this.saveOrUpdateEmail.bind(this);
+        this.myAddressChanged = this.myAddressChanged.bind(this);
     }
 
     updateApiRemaining(e) {
@@ -44,10 +51,27 @@ export class App extends React.Component {
         // error handling if no access token
     }
 
+    myAddressChanged(){
+        this.setState({
+           saveMyAddressButtonDisabled : !this.myAddressInput.value,
+           validAddress: ''
+        })
+    }
+
     saveMyAddress(e) {
         e.preventDefault();
 
+
+
         const myAddress     = this.myAddressInput.value;
+
+        if(!validate(myAddress)){
+            this.setState({
+               validAddress: `Error: ${myAddress} is not a valid address` 
+            })
+            return
+        }
+
         let myAddressNote = this.myAddressNoteInput.value;
 
         if(myAddress == ''){
@@ -68,6 +92,9 @@ export class App extends React.Component {
                 actions.saveAddress(accessToken, myAddress, false, myAddressNote)
             )
         }
+         this.setState({
+            saveMyAddressButtonDisabled : true
+         });
          this.myAddressInput.value = "";
          this.myAddressNoteInput.value = "";
     }
@@ -88,7 +115,7 @@ export class App extends React.Component {
     render() {
 
         if(!this.props.currentUser){
-            return <LoginPage />
+            return <Redirect to="/" />
         }
     
         const addrBaseUrl = 'http:\//api.blockcypher.com/v1/btc/main/addrs/';
@@ -126,12 +153,15 @@ export class App extends React.Component {
                     <form id="myAddressForm">
                         <h4>Add your address to watch list</h4>
                         <input type="text" placeholder="Paste address" id="myAddress" size="40" 
+                        onChange={this.myAddressChanged}
                         ref={ref => this.myAddressInput = ref} />
                         <input type="text" placeholder="Note" id="myAddressNote" size="20" 
                         ref={ref => this.myAddressNoteInput = ref} />
-                        <button id="watchMyAddress" className="btn btn-success" 
+                        <button id="watchMyAddress" className="btn btn-success"
+                            disabled={this.state.saveMyAddressButtonDisabled}  
                             onClick={this.saveMyAddress}
                         ><i className="fa fa-binoculars" aria-hidden="true"></i> Watch My Address</button>
+                        <p id="addressInvalid">{this.state.validAddress}</p>
                     </form>
                 </div>
                 {(this.props.addresses.length) > 0 ? 

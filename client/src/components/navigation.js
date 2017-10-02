@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import * as Cookies from 'js-cookie';
 import * as actions from '../actions/index';
 
-import { slide as Menu } from 'react-burger-menu'
+import { Redirect } from 'react-router-dom'
 
 export const Navigation = props => {
 
@@ -16,6 +16,8 @@ export const Navigation = props => {
                 actions.logoutCurrentUser(accessToken)
             )
         }
+        props.history.push("/")
+        console.log("PROPS", props)
     }
     
     const buildLinks = [
@@ -41,6 +43,8 @@ export const Navigation = props => {
        props.currentUser
         ? links = <ul>{buildLinks}</ul>
         : links = <ul>{buildLinks.slice(0,2)}</ul>
+
+
 
     return (
         <nav>
