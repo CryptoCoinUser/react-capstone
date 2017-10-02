@@ -75,7 +75,12 @@ export class AddressesPage extends React.Component {
                     </button>
                     </span> 
                     <span className="note">
-                        <i className="fa fa-sticky-note-o" aria-hidden="true"></i> { 
+                        { 
+                            (!(addressObj.random) || (addressObj.random == "false")) ?  <i className="fa fa-sticky-note-o" aria-hidden="true"></i> 
+                            : <i className="fa fa-random" aria-hidden="true"></i> 
+                        }
+                        <span></span>
+                        { 
                             (!(addressObj.random) || (addressObj.random == "false")) ?  addressObj.note  
                             : "Random Address Saved On " + moment(addressObj.savedOn).format("YYYY-MM-DD, HH:mm") 
                         }

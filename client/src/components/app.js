@@ -57,7 +57,7 @@ export class App extends React.Component {
 
 
         if(!myAddressNote){
-            myAddressNote = "Address saved on " + moment(Date.now()).format("YYYY-MM-DD, HH:mm")
+            myAddressNote = "My address saved on " + moment(Date.now()).format("YYYY-MM-DD, HH:mm")
         }
 
         const accessToken = Cookies.get('accessToken');
@@ -101,7 +101,7 @@ export class App extends React.Component {
                 <h2>Add Bitcoin Address</h2>
                 <div id="addAddressesWrapper">
                     <div id="randomAddressWrapper">
-                        <h4>Add a random address (from some recent transaction) to watch list</h4>
+                        <h4>Add a random address to watch list</h4>
                         
                         <button id="getRandomAddress"  className="btn btn-info" 
                             onClick={(e => this.getUnconfirmedAddress(e))}
@@ -113,7 +113,7 @@ export class App extends React.Component {
                             {this.props.randomAddress ?
                                 <button id="watchRandomAddress" className="btn btn-success" 
                                     onClick={(e => this.saveRandomAddress(e))} 
-                                    > <i className="fa fa-binoculars" aria-hidden="true"></i> Watch This Address
+                                    > <i className="fa fa-binoculars" aria-hidden="true"></i> Watch Random Address
                                 </button>
                                 : ""
 
@@ -124,8 +124,8 @@ export class App extends React.Component {
 
 
                     <form id="myAddressForm">
-                        <h4>Add a specific address to watch list</h4>
-                        <input type="text" placeholder="Paste your address" id="myAddress" size="40" 
+                        <h4>Add your address to watch list</h4>
+                        <input type="text" placeholder="Paste address" id="myAddress" size="40" 
                         ref={ref => this.myAddressInput = ref} />
                         <input type="text" placeholder="Note" id="myAddressNote" size="20" 
                         ref={ref => this.myAddressNoteInput = ref} />
