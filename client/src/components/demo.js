@@ -7,7 +7,7 @@ export default function Demo() {
 	    	<div id="screenshots">
 		    	   <section>
 			    		<h2>1</h2>
-				    	<p>To see how the app works, hit "Get Random Address" to get a Bitcoin address from someone's recent transaction, then hit "Watch This Address"
+				    	<p>To see how the app works, hit "Get Random Address" to get a Bitcoin address from someone's recent transaction, then hit "Watch Random Address"
 				    		<img src="/screenshots/getRandomAddress.gif" />
 				    	</p>
 			    	</section>

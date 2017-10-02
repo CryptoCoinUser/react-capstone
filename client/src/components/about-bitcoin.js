@@ -15,7 +15,6 @@ Bitcoin transction IDs are about 60 (seemingly) random characters, such as 63374
 Bitcoin transactions are broadcast to the network in seconds, but usually take minutes to be <em>confirmed</em> or included into the latest block of the Bitcoin blockchain. The transaction confirmation process requires Bitcoin miners to verify that the sending addresses are not trying to double-spend their bitcoin, and then the transaction has to wait until it’s included in a block. Storage space in a Bitcoin block is limited, so transactions that offer higher fees (relative to how much data they carry) are usually prioritized.
 Because of the decentralized nature of Bitcoin, it does happen that the latest block (or two) is abandoned by the network in favor of another block from a competing miner. That’s why many merchants and businesses that accept Bitcoin have a policy of waiting for not one but several <em>confirmations</em> before they treat a transaction as irreversible.
 </p>
-<p><a href="/">What this app can do</a></p>
 	        	<p><a href="/demo">See a screenshot how-to demo</a></p>
 
 	        </section>

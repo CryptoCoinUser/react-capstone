@@ -44,7 +44,7 @@ border-radius: 10px 10px 0 0;}
 nav ul li.button{padding-top: 2em;}
 nav ul li a{font-size: 1.5em;
 display: block;
-padding:1em 3em;}
+padding:1em 2em;}
 
 nav .selected{
 	background: #eee;
@@ -69,6 +69,8 @@ nav .selected{
 
 .demo #screenshots p{max-width: 60em; margin:0 auto 2em;}
 .demo #screenshots p img{height: 50%; width:50%; display: block; margin:1em auto;}
+
+img.right{float:right; margin:0 0 1em 1em; width:40%; height: 40%;}
 
 
 p#logout{text-align: center; font-size: 1em;}
