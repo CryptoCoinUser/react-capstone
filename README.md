@@ -27,7 +27,7 @@ Open [`localhost:8080`]
 ### Testing
 ```
 >   npm test
-```
+
 ## Technology Used
 ```
 <ul>
@@ -43,6 +43,7 @@ Open [`localhost:8080`]
 	<li>MongoDB, hosted on mLab</li>
 </ul>
 
-## Screenshot
 
+## Screenshot
+```
 <img src="/client/public/screenshots/default.gif" alt="Screenshot of Watch my Bitcoin Address App" />
