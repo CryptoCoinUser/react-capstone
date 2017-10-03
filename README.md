@@ -27,7 +27,7 @@ Open [`localhost:8080`]
 ### Testing
 ```
 >   npm test
-
+```
 ## Technology Used
 ```
 <ul>
