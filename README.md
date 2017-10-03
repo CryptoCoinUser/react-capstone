@@ -24,7 +24,7 @@ Please see https://watch-my-address.herokuapp.com/
 >   npm run dev
 ```
 Open [`localhost:8080`]
-### Testing
+### Testing (both server and React)
 ```
 >   npm test
 ```
@@ -32,15 +32,16 @@ Open [`localhost:8080`]
 ## Technology Used
 
 <ul>
-	<li>Bitcoin network API courtesy of BlockCypher.com</li>
+	<li>Bitcoin API courtesy of <a href="https://www.blockcypher.com/dev/bitcoin/">BlockCypher</a></li>
 	<li>Node and React, including the following packages:
 		<ul>
-			<li>bitcoin-address</li>
-			<li>blockcypher</li>
-			<li>moment</li>
-			<li>react-router-dom</li>
+			<li><a href="https://www.npmjs.com/package/bitcoin-address">bitcoin-address</a></li>
+			<li><a href="https://www.npmjs.com/package/blockcypher">blockcypher</a></li>
+			<li><a href="https://www.npmjs.com/package/moment">moment</a></li>
+			<li><a href="https://www.npmjs.com/package/react-router-dom">react-router-dom</a></li>
 		</ul>
 	</li>
+	<li>Email notifications via Gmail and Google's SMTP</li>
 	<li>MongoDB, hosted on mLab</li>
 </ul>
 
