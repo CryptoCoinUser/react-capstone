@@ -2,9 +2,15 @@ import React from 'react';
 
 export default function Demo() {
     return ( 
-
+    	
     	<div id="main" className="demo">
+    	<h2>How to use this App</h2>	
 	    	<div id="screenshots">
+	    			<section>
+	    				<h2>0</h2>
+		    	   		<p>Login with a Google account. You will be redirected to the App / Try It page.</p>
+		    	   		<img src="/screenshots/login.gif" />
+	    			</section>
 		    	   <section>
 			    		<h2>1</h2>
 				    	<p>To see how the app works, hit "Get Random Address" to get a Bitcoin address from someone's recent transaction, then hit "Watch Random Address"

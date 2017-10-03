@@ -76,7 +76,7 @@ nav .selected{
 .demo #screenshots p{max-width: 60em; margin:0 auto 2em;}
 .demo #screenshots p img{height: 50%; width:50%; display: block; margin:1em auto;}
 
-img.right{float:right; margin:0 0 1em 1em; width:40%; height: 40%;}
+img.right{float:right; margin:0 0 7em 1em; width:50%; height: 50%;}
 
 
 p#logout{text-align: center; font-size: 1em;}
@@ -175,7 +175,7 @@ h2{clear:both; padding-top: 0.5em; margin-top: 0.5em;
  font-size: 200%;
  line-height: normal;
 text-align: center;}
-h4{clear:both; font-size: 100%}
+h4{ font-size: 100%}
 
 section h4{text-align: center;}
 
