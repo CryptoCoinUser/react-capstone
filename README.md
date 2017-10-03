@@ -27,9 +27,10 @@ Open [`localhost:8080`]
 ### Testing
 ```
 >   npm test
+```
 
 ## Technology Used
-```
+
 <ul>
 	<li>Bitcoin network API courtesy of BlockCypher.com</li>
 	<li>Node and React, including the following packages:
@@ -45,5 +46,5 @@ Open [`localhost:8080`]
 
 
 ## Screenshot
-```
+
 <img src="/client/public/screenshots/default.gif" alt="Screenshot of Watch my Bitcoin Address App" />
