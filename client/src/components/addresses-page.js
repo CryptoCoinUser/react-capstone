@@ -91,8 +91,7 @@ export class AddressesPage extends React.Component {
                     {
                         addressObj.webhookId ? <span className="webhookId"><a href={webhookIdBaseURL + addressObj.webhookId + token}>{addressObj.webhookId}</a></span>
                         : <button className="emailMe btn btn-default" onClick={e => this.emailMeAboutThisAddress(e, addressObj)}>
-                        <i className="fa fa-envelope-o" aria-hidden="true"></i> Email Me Updates about this Address
-                        </button>
+                        <i className="fa fa-envelope-o" aria-hidden="true"></i> Email Me Updates</button>
                          
                     }
                 </div>

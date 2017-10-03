@@ -174,8 +174,6 @@ export const saveOrUpdateEmail = (accessToken, email) => dispatch => {
 
 
 export const emailMeAboutThisAddress = (accessToken, address, email) => dispatch => {
-    console.log('emailMeAboutThisAddress', address);
-    console.log('accessToken', accessToken)
     axios.get(`/api/webhook/${address}/${email}`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`
