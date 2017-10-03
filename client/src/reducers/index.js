@@ -18,7 +18,6 @@ export const blockReducer = (state=initialState, action) => {
 			latestBlock: action.response
 		}
 	}else if(action.type === actions.IS_USER_LOGGED_IN_SUCCESS){
-		console.log('action.user', action.user)
 		return {
 			...state,
 			currentUser: action.user.googleId,
@@ -60,7 +59,7 @@ export const blockReducer = (state=initialState, action) => {
 		return {
 			...state,
 			addresses: state.addresses.filter(addressObj => {
-				return addressObj.address != action.address;
+				return addressObj.address !== action.address;
 			})
 		}
 

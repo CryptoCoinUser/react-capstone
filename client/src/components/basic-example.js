@@ -2,8 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux';
 import {
   BrowserRouter as Router,
-  Route,
-  Link
+  Route
 } from 'react-router-dom'
 
 
@@ -19,17 +18,10 @@ import * as actions from '../actions/index';
 
 export class BasicExample extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
-
-
     componentDidMount() {
-        console.log('this.props.addresses', this.props.addresses);
         const accessToken = Cookies.get('accessToken');
         
         if(accessToken) {
-           console.log('accessToken');
             this.props.dispatch(
                 actions.isUserLoggedIn(accessToken)
             )
@@ -61,6 +53,12 @@ export class BasicExample extends React.Component {
                     <Route path="/about-bitcoin" component={AboutBitcoin}/>
                 </div>
             </Router>
+            <div id="github">
+                <p><i className="fa fa-github" aria-hidden="true"></i>
+                    <span> </span>
+                    <a href="https://github.com/CryptoCoinUser/react-capstone">Fork Me on GitHub</a>
+                </p>
+            </div>
           </div>
     ) // return
   } // render

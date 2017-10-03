@@ -1,17 +1,11 @@
 import React from 'react';
 import * as Cookies from 'js-cookie';
-import axios from 'axios';
 import {connect} from 'react-redux';
 import * as actions from '../actions/index';
 import moment from 'moment';
 
 
 export class AddressesPage extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    componentWillMount() {  }
 
     deleteAddress(e, addressObj){
         e.preventDefault();
@@ -55,11 +49,10 @@ export class AddressesPage extends React.Component {
     }
 
     render() {
-        const confideceBaseURL = 'https:\//live.blockcypher.com/btc/tx/';
-        const txBaseURL = 'https:\//api.blockcypher.com/v1/btc/main/txs/';
-        const addrBaseUrl = 'http:\//api.blockcypher.com/v1/btc/main/addrs/';
-        const addrLiveBaseURL = 'https:\//live.blockcypher.com/btc/address/';
-        const webhookIdBaseURL = 'https:\//api.blockcypher.com/v1/btc/main/hooks/';
+        const confideceBaseURL = 'https://live.blockcypher.com/btc/tx/';
+        const txBaseURL = 'https://api.blockcypher.com/v1/btc/main/txs/';
+        const addrLiveBaseURL = 'https://live.blockcypher.com/btc/address/';
+        const webhookIdBaseURL = 'https://api.blockcypher.com/v1/btc/main/hooks/';
         const token = '?token=03016274b5814976af645d94b4cdd1d0';
 
       
@@ -76,12 +69,12 @@ export class AddressesPage extends React.Component {
                     </span> 
                     <span className="note">
                         { 
-                            (!(addressObj.random) || (addressObj.random == "false")) ?  <i className="fa fa-sticky-note-o" aria-hidden="true"></i> 
+                            (!(addressObj.random) || (addressObj.random === "false")) ?  <i className="fa fa-sticky-note-o" aria-hidden="true"></i> 
                             : <i className="fa fa-random" aria-hidden="true"></i> 
                         }
                         <span></span>
                         { 
-                            (!(addressObj.random) || (addressObj.random == "false")) ?  addressObj.note  
+                            (!(addressObj.random) || (addressObj.random === "false")) ?  addressObj.note  
                             : "Random Address Saved On " + moment(addressObj.savedOn).format("YYYY-MM-DD, HH:mm") 
                         }
                     </span>
@@ -109,7 +102,7 @@ export class AddressesPage extends React.Component {
                     <span className="txn"><a href={txBaseURL + addressObj.recentTxn}>{addressObj.recentTxn}</a></span>
                     {  
                         addressObj.confirmed ? <span className="confirmations">{addressObj.confirmations}</span> 
-                        : <div className ="unconfirmed">
+                        : <div className="unconfirmed">
                               <span className="preference">{addressObj.preference}</span>
                               <span className="confidence">
                                 <a href={confideceBaseURL + addressObj.recentTxn} target='_blank' title="View BlockCypher's confidence that this transaction will confirm; opens in new tab">

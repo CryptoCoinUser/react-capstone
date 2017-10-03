@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import * as Cookies from 'js-cookie';
 import * as actions from '../actions/index';
 
-import { Redirect } from 'react-router-dom'
+//import { Redirect } from 'react-router-dom'
 
 export const Navigation = props => {
 
@@ -25,7 +25,7 @@ export const Navigation = props => {
             {route: '/about-bitcoin', text: "About Bitcoin"}, 
             {route: '/app', text: 'Try it'}
         ].map((link, i) => {
-        const selected = link.route == props.location.pathname
+        const selected = link.route === props.location.pathname
             ? 'selected'
             : ""
         return <li key={i} className={selected}><Link to={link.route}>{link.text}</Link></li> 

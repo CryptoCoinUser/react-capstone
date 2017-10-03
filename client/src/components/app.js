@@ -2,13 +2,11 @@ import React from 'react';
 import {connect} from 'react-redux';
 import * as Cookies from 'js-cookie';
 
-import axios from 'axios';
 import moment from 'moment';
 
 import { Redirect } from 'react-router-dom'
 
 import * as actions from '../actions/index';
-import LoginPage from './login-page';
 import AddressesPage from './addresses-page';
 import {validate} from 'bitcoin-address';
  
@@ -74,7 +72,7 @@ export class App extends React.Component {
 
         let myAddressNote = this.myAddressNoteInput.value;
 
-        if(myAddress == ''){
+        if(myAddress === ''){
             alert('Please first paste a bitcoin address');
             return
         }
@@ -118,9 +116,6 @@ export class App extends React.Component {
             return <Redirect to="/" />
         }
     
-        const addrBaseUrl = 'http:\//api.blockcypher.com/v1/btc/main/addrs/';
-        const addrLiveBaseURL = 'https:\//live.blockcypher.com/btc/address/';
-
         return (
             
             <div id="main">
@@ -172,8 +167,8 @@ export class App extends React.Component {
                             <div id="notificationEmail">
                                 <h4>Email for Notifications about an Address</h4>
                                 <form>
-                                    <input type ="email" id="email" placeholder={this.props.email} ref={ref => this.emailInput = ref} />
-                                    <button id="saveOrUpdateEmail" className="btn btn-success"  onClick = {(e => this.saveOrUpdateEmail(e))}>
+                                    <input type="email" id="email" placeholder={this.props.email} ref={ref => this.emailInput = ref} />
+                                    <button id="saveOrUpdateEmail" className="btn btn-success"  onClick={(e => this.saveOrUpdateEmail(e))}>
                                         <i className="fa fa-floppy-o" aria-hidden="true"></i> Save / Update Email
                                     </button>
                                 </form>

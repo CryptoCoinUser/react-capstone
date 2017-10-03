@@ -200,7 +200,7 @@ div#addressesWrapper{
 	margin-bottom: 2em;
 	padding-bottom: 0;
 	background: #fff;
-	
+
 	text-overflow: ellipsis;
 }
 
@@ -287,3 +287,8 @@ div.clr{
 .address-list .addressObj span.confidence{display: block;}
 
 .address-list .addressObj span.webhookId::before{ content: "Email notifications are now set up for this address via webhook ID: "; }
+
+
+#github{text-align: center;	}
+#github p{padding-top:0; margin-top: 0;}
+
