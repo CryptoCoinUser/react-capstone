@@ -27,3 +27,21 @@ Open [`localhost:8080`]
 ### Testing
 ```
 >   npm test
+
+## Technology Used
+<ul>
+	<li>Bitcoin network API courtesy of BlockCypher.com</li>
+	<li>Node and React, including the following packages:
+		<ul>
+			<li>bitcoin-address</li>
+			<li>blockcypher</li>
+			<li>moment</li>
+			<li>react-router-dom</li>
+		</ul>
+	</li>
+	<li>MongoDB, hosted on mLab</li>
+</ul>
+
+## Screenshot
+
+<img src="/client/public/screenshots/default.gif" alt="Screenshot of Watch my Bitcoin Address App" />

@@ -200,6 +200,7 @@ div#addressesWrapper{
 	margin-bottom: 2em;
 	padding-bottom: 0;
 	background: #fff;
+	
 	text-overflow: ellipsis;
 }
 
