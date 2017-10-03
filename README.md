@@ -29,6 +29,7 @@ Open [`localhost:8080`]
 >   npm test
 
 ## Technology Used
+```
 <ul>
 	<li>Bitcoin network API courtesy of BlockCypher.com</li>
 	<li>Node and React, including the following packages:
