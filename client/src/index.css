@@ -50,6 +50,17 @@ nav .selected{
 	background: #eee;
 }
 
+@media only screen and (min-width: 640px) {
+
+	input#myAddress,
+	input#email{width:30em;}
+
+	.address-list .addressObj button.delete{ 
+		float: right;
+		margin:0 0 1em 1em;
+	}
+} /* @media */
+
 @media only screen and (max-width: 640px) {
 
 	nav ul{width:100%;}
@@ -85,8 +96,9 @@ p#logout a{display: block; background: #eee; line-height: 2em; border-radius: 5p
 nav,
 #main{
 	width:90%;
-	/*min-width: 40em; */
 	margin:0 auto;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 #randomAddressWrapper{
@@ -188,7 +200,7 @@ div#addressesWrapper{
 	margin-bottom: 2em;
 	padding-bottom: 0;
 	background: #fff;
-		text-overflow: ellipsis;
+	text-overflow: ellipsis;
 }
 
 ul.address-list{
@@ -229,11 +241,7 @@ div.clr{
 	border-bottom: 1px solid #000;
 }
 
-.address-list .addressObj button.delete{
-	display: block; 
-	float: right;
-	margin:0 0 1em 1em;
-}
+
 .address-list .addressObj button.delete span{color: #fff; font-weight: 700; padding:0 0 0 1em;}
 
 .address-list .addressObj .emailMe button{float:none; margin:1em 0;}
@@ -252,7 +260,7 @@ div.clr{
 .address-list .addressObj span.txn{text-overflow: ellipsis;}
 .address-list .addressObj span.txn::before{content: "This address is in at least one transaction, such as: ";}
 
-.address-list .addressObj span.balance{color:#0a0; white-space: nowrap;}
+.address-list .addressObj span.balance{color:#0a0;}
 .address-list .addressObj span.balance::before{ content: "Confirmed Balance: "; }
 
 .address-list .addressObj span.unconfirmed_balance{color:#a00; white-space: nowrap; }

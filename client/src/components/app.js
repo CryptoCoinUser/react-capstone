@@ -152,10 +152,10 @@ export class App extends React.Component {
 
                     <form id="myAddressForm">
                         <h4>Add your address to watch list</h4>
-                        <input type="text" placeholder="Paste address" id="myAddress" size="40" 
+                        <input type="text" placeholder="Paste address" id="myAddress" 
                         onChange={this.myAddressChanged}
                         ref={ref => this.myAddressInput = ref} />
-                        <input type="text" placeholder="Note" id="myAddressNote" size="20" 
+                        <input type="text" placeholder="Note" id="myAddressNote"  
                         ref={ref => this.myAddressNoteInput = ref} />
                         <button id="watchMyAddress" className="btn btn-success"
                             disabled={this.state.saveMyAddressButtonDisabled}  
@@ -172,7 +172,7 @@ export class App extends React.Component {
                             <div id="notificationEmail">
                                 <h4>Email for Notifications about an Address</h4>
                                 <form>
-                                    <input type ="email" size="50" placeholder={this.props.email} ref={ref => this.emailInput = ref} />
+                                    <input type ="email" id="email" placeholder={this.props.email} ref={ref => this.emailInput = ref} />
                                     <button id="saveOrUpdateEmail" className="btn btn-success"  onClick = {(e => this.saveOrUpdateEmail(e))}>
                                         <i className="fa fa-floppy-o" aria-hidden="true"></i> Save / Update Email
                                     </button>
