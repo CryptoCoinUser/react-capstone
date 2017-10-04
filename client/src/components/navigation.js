@@ -38,6 +38,10 @@ export const Navigation = props => {
         ? buttons = <button onClick={(e => logout(e))} className="btn btn-default"><i className="fa fa-sign-out" aria-hidden="true"></i> Logout</button>
         : buttons = <form action="/api/auth/google">
                             <button className="btn btn-success" type="submit"><i className="fa fa-sign-in" aria-hidden="true"></i> Try it - Login with Google</button>
+                            <div id="demoLogin">
+                                <p>Demo Email: avram.thinkful@gmail.com</p>
+                                <p>Demo Password: iThinkT4iAm</p>
+                            </div>
                     </form>
     let links;
        props.currentUser
