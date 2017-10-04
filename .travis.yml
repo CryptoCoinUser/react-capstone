@@ -1,7 +1,10 @@
 language: node_js
 node_js: node
+branches:
+  only:
+  - master
 services:
-- mongodb
+  - mongodb
 deploy:
   provider: heroku
   api_key:
@@ -9,3 +12,4 @@ deploy:
   app: watch-my-address
   on:
     repo: CryptoCoinUser/react-capstone
+
