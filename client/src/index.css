@@ -119,6 +119,7 @@ border: 1px solid #999;
   text-shadow: 0 1px #FFF;
   margin: 0 -10px;
 }
+.tabrow li:first-child{margin-left: 0;}
 nav ul li.button{padding-top: 2em;}
 nav ul li a{font-size: 1.5em;
 display: block;
@@ -156,6 +157,7 @@ nav ul li.selected a{
 
 	nav ul{width:100%;}
 	nav ul li{width:100%;}
+	nav ul.tabrow li{margin-left: 0; margin-right: 0;}
 } /* @media */
 
 .demo #screenshots section:nth-child(even){
