@@ -41,8 +41,8 @@ export const Navigation = props => {
                     </form>
     let links;
        props.currentUser
-        ? links = <ul>{buildLinks}</ul>
-        : links = <ul>{buildLinks.slice(0,2)}</ul>
+        ? links = <ul className="tabrow">{buildLinks}</ul>
+        : links = <ul className="tabrow">{buildLinks.slice(0,2)}</ul>
 
     let demoLogin
         props.currentUser
