@@ -38,26 +38,33 @@ export const Navigation = props => {
         ? buttons = <button onClick={(e => logout(e))} className="btn btn-default"><i className="fa fa-sign-out" aria-hidden="true"></i> Logout</button>
         : buttons = <form action="/api/auth/google">
                             <button className="btn btn-success" type="submit"><i className="fa fa-sign-in" aria-hidden="true"></i> Try it - Login with Google</button>
-                            <div id="demoLogin">
-                                <p>Demo Email: avram.thinkful@gmail.com</p>
-                                <p>Demo Password: iThinkT4iAm</p>
-                            </div>
                     </form>
     let links;
        props.currentUser
         ? links = <ul>{buildLinks}</ul>
         : links = <ul>{buildLinks.slice(0,2)}</ul>
 
+    let demoLogin
+        props.currentUser
+        ? demoLogin = ''
+        : demoLogin = <div id="demoLogin">
+                        <p>Demo Email: avram.thinkful@gmail.com</p>
+                        <p>Demo Password: iThinkT4iAm</p>
+                      </div>      
+
 
 
     return (
-        <nav>
-            <span className="logo"><a href="/"><i className="fa fa-binoculars" aria-hidden="true"></i> Watch My Address</a></span>
-            <span className="login-logout">{buttons}</span>
-            {links}
-            
-            <div className="clr"></div>
-        </nav>
+        <div className="navWrapper">
+            <nav>
+                <span className="logo"><a href="/"><i className="fa fa-binoculars" aria-hidden="true"></i> Watch My Address</a></span>
+                <span className="login-logout">{buttons}</span>
+                {links}
+                
+                <div className="clr"></div>
+            </nav>
+            {demoLogin}
+        </div>
     )
 }
 
