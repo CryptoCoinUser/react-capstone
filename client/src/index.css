@@ -10,20 +10,26 @@ body {
 a{text-decoration: none}
 a:hover{text-decoration: underline;}
 
-nav {background: #ccc;
+nav {/*background: #ccc;*/
 padding:0.5em 0.5em 0;
-border-radius: 10px;}
+/*border-radius: 10px;*/
+margin-bottom: 2em;
+}
 
 nav span.logo{float: left;
 	line-height: 1.5em;
 	font-size: 2em;
-	padding:0.2em 1em 0.5em 0.5em;
+	padding:0.2em 2em 0.5em 0.5em;
+
 }
 
-nav span.logo a{color:#000;
+nav span.logo a{color:#029acf;
 	text-decoration: none;
 	display: block;
 }
+
+h2:first-child{color:#029acf;}
+h2{font-weight: normal;}
 
 nav span.login-logout{
 	float: right;
@@ -40,6 +46,7 @@ float:left;}
 .tabrow {
   position: relative;
 }
+/*
 .tabrow:after {
   position: absolute;
   content: "";
@@ -53,16 +60,22 @@ float:left;}
 .tabrow:before {
   z-index: 1;
 }
+*/
 .tabrow li {
     position: relative;
   z-index: 0;
 }
-nav ul.tabrow li.selected {
+nav ul.tabrow li.selected,
+nav ul.tabrow li.selected:hover {
   z-index: 2;
-  border-bottom-color: #eee;
+  /*border-bottom-color: #eee;*/
+  border-bottom: 5px solid #029acf;
+}
+nav ul.tabrow li:hover{
+	border-bottom: 5px solid #999;
 }
 
-
+/*
 .tabrow li:before,
 .tabrow li:after {
   position: absolute;
@@ -102,7 +115,7 @@ nav ul.tabrow li.selected {
 .tabrow li.selected:after {
   box-shadow: -2px 2px 0 #eee;
 }
-
+*/
 
 .tabrow li {
 	/*float:left;
@@ -110,20 +123,20 @@ nav ul.tabrow li.selected {
     display: inline-block;
 margin:0 10px 0 0;
 padding: 0;
-border-top-left-radius: 10px;
+/*border-top-left-radius: 10px;
 border-top-right-radius: 10px;
 border: 1px solid #999;
-/*background: #aaa;*/
+background: #aaa;
   background: linear-gradient(to bottom, #ECECEC 50%, #aaa 100%);
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.4), inset 0 1px 0 #FFF;
   text-shadow: 0 1px #FFF;
-  margin: 0 -10px;
+  margin: 0 -10px;*/
 }
 .tabrow li:first-child{margin-left: 0;}
 nav ul li.button{padding-top: 2em;}
-nav ul li a{font-size: 1.5em;
+nav ul li a{font-size: 1.2em;
 display: block;
-padding:1em 2em;
+padding:1em 1.5em;
 text-decoration: none;
 color: #333;
 }
@@ -160,7 +173,10 @@ nav ul li.selected a{
 	nav ul.tabrow li{margin-left: 0; margin-right: 0;}
 } /* @media */
 
-.demo #screenshots section:nth-child(even){
+
+.demo #screenshots section{padding-top: 1.5em; margin-bottom: 2em;}
+
+.demo #screenshots section:nth-child(odd){
 	background-color: #ddd;
 	padding-bottom: 3em;
 }
@@ -285,7 +301,9 @@ h4{ font-size: 100%}
 section h4{text-align: center;}
 
 .crashCourse{max-width:40em; margin-left: auto; margin-right: auto;
-line-height: 150%; font-size: 140%; }
+ }
+
+.crashCourse p{line-height: 150%; font-size: 140%;}
 
 div#addressesWrapper{
 	border: 1px solid #000; 
