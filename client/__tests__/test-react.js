@@ -60,7 +60,7 @@ it('renders without crashing', () => {
 
 
   const result = renderer.getRenderOutput();
-  console.log(result)
+ 
 
 });
 
@@ -102,11 +102,15 @@ describe('Navigation component', function() {
         const result = renderer.getRenderOutput();
         console.log('Navigation', result);
 
-        result.type.should.equal('nav');
+        result.type.should.equal('div');
+        result.props.className.should.equal('navWrapper')
 
         const nav = result.props.children[0];
-        nav.type.should.equal('span');
-        result.props.children[0].props.className.should.equal('logo');
+      
+        nav.type.should.equal('nav');
+ 
+        nav.props.children[0].type.should.equal('span');
+        nav.props.children[0].props.className.should.equal('logo');
 
     });
 });
@@ -135,7 +139,7 @@ describe('App component', function() {
         const renderer = new ShallowRenderer();
         renderer.render(<App />);
         const result = renderer.getRenderOutput();
-        console.log('App', result);
+    
 
         // result.type.should.equal('nav');
 
@@ -156,13 +160,13 @@ describe('AddressesPage component', function() {
         const renderer = new ShallowRenderer();
         renderer.render(<AddressesPage addresses={addresses} />);
         const result = renderer.getRenderOutput();
-        console.log('AddressesPage', result);
+      
 
          result.type.should.equal('div');
          result.props.className.should.equal('address-list');
 
          const childrenAddresses = result.props.children[0];
-         console.log('childrenAddresses', childrenAddresses)	
+ 	
          //childrenAddresses.type.should.equal('Object');
         // result.props.children[0].props.className.should.equal('logo');
 
